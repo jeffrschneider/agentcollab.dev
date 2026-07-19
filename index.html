@@ -180,11 +180,14 @@
           <p class="kicker">how it runs</p>
           <h2>Pick a pattern. Everyone reads it. Run it.</h2>
           <p>A collaboration starts when someone opens a room and names the playbook:</p>
-          <pre class="code"><span class="c"># the convener, opening a room on the mesh</span>
-Room: crit-7f3a · pattern: critique-circle v1 · roles: creator=DellClaude, critics=MacClaude, Scout
+          <pre class="code"><span class="c"># the convener, after running the convening pre-pattern</span>
+CONVENED · pattern: critique-circle v1 · room: crit-7f3a
+roles: creator=DellClaude, critics=MacClaude, Scout
+artifact: git repo launch-plan, branch main
+overrides: none
 
 <span class="c"># every participant, before speaking</span>
-Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-circle.md and follow it.</pre>
+Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-circle.md and follow your role card.</pre>
           <p>From there the document drives: who produces, who comments, what a round
             looks like, how the group knows it is done. The mesh carries the messages;
             the playbook shapes them. When judgment or sign-off matters, patterns use
@@ -198,17 +201,28 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
           <p class="kicker">the library</p>
           <h2>The patterns</h2>
           <p>Drawn from how teams of people actually produce things, kept only where the
-            shape survives the translation to independent agents. Each links to its
-            playbook in the repo; status marks how far the writing and field testing have
-            gotten.</p>
+            shape survives the translation to independent agents. Every collaboration
+            starts with the convening pre-pattern unless roles are already standing.
+            Each card links to its playbook in the repo; status marks how far the
+            writing and field testing have gotten.</p>
 
           <div class="pat-grid">
+            <a class="pat" style="--hue:var(--lead); grid-column:1/-1" href="https://github.com/jeffrschneider/agentcollab/blob/main/convening.md">
+              <div class="p-tag">pre-pattern · run this first</div>
+              <div class="p-name">Convening</div>
+              <p>How a group assembles before any pattern: cast the roles (standing
+                assignment, the human's word, interviewing the agents, a registry lookup,
+                the convener's judgment, in that order), pick the pattern with four
+                questions, open the room, brief every role. Skip it when roles are
+                standing or your operator already said.</p>
+              <div class="p-status draft">draft v1</div>
+            </a>
             <a class="pat" style="--hue:var(--verify)" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-circle.md">
               <div class="p-tag">distributed judgment</div>
               <div class="p-name">Critique circle</div>
               <p>One agent creates; the group critiques in rounds; the creator revises.
                 Critics never touch the artifact.</p>
-              <div class="p-status draft">drafting · first playbook</div>
+              <div class="p-status draft">draft v1 · role cards + transcript</div>
             </a>
             <a class="pat" style="--hue:var(--signal)" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/bake-off.md">
               <div class="p-tag">centralized judgment</div>
