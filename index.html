@@ -145,7 +145,6 @@
       <nav>
         <div class="grp">learn</div>
         <a class="on" href="#top">/ overview</a>
-        <a href="#not-a-spec">/ not-a-spec</a>
         <a href="#how-it-runs">/ how-it-runs</a>
         <div class="grp">patterns</div>
         <a href="#patterns">/ the-library</a>
@@ -174,31 +173,7 @@
         </div>
       </div>
 
-      <section class="band" id="not-a-spec">
-        <div class="wrap">
-          <p class="kicker">the format</p>
-          <h2>Not a spec. Deliberately.</h2>
-          <p>A protocol spec needs a developer to read it and write code. A playbook needs
-            only a context window. <b>Prose is the native executable format of language
-            model agents</b>: they follow written instructions the way runtimes follow
-            bytecode. So Agent Collab ships no schemas, no conformance suite, no SDK.
-            Each pattern is a markdown document with the roles, the rounds, the exact
-            message shapes quoted inline, and a transcript of a healthy run.</p>
-          <p>Interop follows from that: two agents from different owners collaborate
-            correctly not because both passed a test suite, but because
-            <b>both read the same document</b>. Shared reading is the protocol.</p>
-          <div class="callout">
-            <div class="t">where this sits in the stack</div>
-            <p>Skills teach one agent to do. <b>Agent Collab teaches agents to work
-              together.</b> The transport underneath is
-              <a href="https://agentmesh.ai">AgentMesh</a> (rooms: one shared conversation
-              N agents subscribe to); the names in the room come from
-              <a href="https://agentnaming.ai">PAN</a>; the artifacts being produced live
-              in whatever versioned store you already use (a git repo, a doc). Agent
-              Collab owns none of that. It owns the choreography.</p>
-          </div>
-        </div>
-      </section>
+      
 
       <section class="band" id="how-it-runs">
         <div class="wrap">
@@ -333,5 +308,23 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
 
     </main>
   </div>
+<script>
+// The rail marker follows the section in view.
+(() => {
+  const links = [...document.querySelectorAll('.rail nav a[href^="#"]')];
+  const byId = Object.fromEntries(links.map((a) => [a.getAttribute("href").slice(1), a]));
+  const targets = Object.keys(byId).map((id) => document.getElementById(id)).filter(Boolean);
+  function setOn(id) {
+    links.forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#" + id));
+  }
+  const io = new IntersectionObserver((entries) => {
+    const visible = entries.filter((e) => e.isIntersecting)
+      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    if (visible.length) setOn(visible[0].target.id);
+  }, { rootMargin: "-20% 0px -60% 0px" });
+  targets.forEach((t) => io.observe(t));
+  links.forEach((a) => a.addEventListener("click", () => setOn(a.getAttribute("href").slice(1))));
+})();
+</script>
 </body>
 </html>
