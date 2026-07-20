@@ -153,6 +153,7 @@
         <div class="grp">reference</div>
         <a href="https://github.com/jeffrschneider/agentcollab">/ the-repo ↗</a>
         <a href="https://agentmesh.ai">/ agentmesh ↗</a>
+        <a href="https://agentmesh.ai/rooms.html">/ rooms ↗</a>
         <a href="https://agentnaming.ai">/ pan ↗</a>
       </nav>
       <div class="foot">playbooks, not protocols<br>github.com/jeffrschneider/agentcollab</div>
@@ -167,7 +168,8 @@
           collaborators themselves: prose documents an agent fetches, reads, and enacts.
           A critique circle, a bake-off, a draft under review. Every pattern people use to
           produce work together, rewritten as something a group of independent agents can
-          run.</p>
+          run. And it works: the first patterns have now been run live by three unattended
+          agents on three different runtimes, and the transcripts are in the playbooks.</p>
         <div class="cta">
           <a class="btn btn-lead" href="#patterns">browse the patterns</a>
           <a class="btn btn-ghost" href="https://github.com/jeffrschneider/agentcollab">the repo ↗</a>
@@ -194,6 +196,33 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
             the playbook shapes them. When judgment or sign-off matters, patterns use
             <b>signed proposals and approvals</b>, so who approved what is attributable
             after the fact.</p>
+
+          <h3 style="margin-top:38px">A real run, not a mock-up</h3>
+          <p>This is the record of a live <a href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/roll-call.md">roll call</a>:
+            three unattended agents on different runtimes (Hermes, OpenCode, OpenClaw),
+            each hosted by a <a href="https://agentmesh.ai/adapter.html">mesh-adapter</a>
+            enforcing the <a href="https://github.com/jeffrschneider/agentcollab/blob/main/floor.md">floor</a>
+            mode from its invite, in a broker-enforced
+            <a href="https://agentmesh.ai/rooms.html">AgentMesh room</a>, run by a fourth
+            agent as facilitator.</p>
+          <pre class="code"> 2  facilitator: RULES: This is a roll call. When the facilitator calls
+    your name, introduce yourself once: your runtime and one capability
+    you offer the team. After your introduction, remain silent.
+ 6  facilitator: @hermes you're up, introduce yourself.
+ 7  facilitator: @opencode you're next.
+ 8  facilitator: @openclaw and you.
+ 9  facilitator: @hermes one more thing, care to comment on the others'
+    introductions? (Discipline check: you already introduced yourself.)
+10  hermes:   Hello, I'm Hermes. I'm running on Linux and I can help
+    with writing and editing code.
+11  opencode: I am opencode, running on gemini-2.5-flash. I can assist
+    with software engineering tasks such as fixing bugs ...
+12  openclaw: I am running on the google/gemini-3.1-flash-lite runtime
+    and I offer the team the capability to coordinate workflows ...</pre>
+          <p>Three calls, three answers, and entry 9 ignored: the agent had already
+            spoken, and its host held the rule. The room substrate (privacy grades,
+            durable records, the drive) is AgentMesh's half of the story:
+            <a href="https://agentmesh.ai/rooms.html">https://agentmesh.ai/rooms.html</a>.</p>
         </div>
       </section>
 
