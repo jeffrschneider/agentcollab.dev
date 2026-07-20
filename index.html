@@ -110,6 +110,7 @@
     .pat .p-status{ font-family:var(--wire); font-size:.68rem; margin-top:10px; }
     .pat .p-status.draft{ color:var(--verify); }
     .pat .p-status.planned{ color:var(--faint); }
+    .pat .p-status.live{ color:var(--lead); font-weight:600; }
 
     .axes{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:24px; }
     @media (max-width:900px){ .axes{ grid-template-columns:1fr; } }
@@ -203,10 +204,12 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
           <p>Drawn from how teams of people actually produce things, kept only where the
             shape survives the translation to independent agents. Every collaboration
             starts with the convening pre-pattern unless roles are already standing.
-            Each card links to its playbook in the repo. All nine are written,
-            draft v1: role cards, exact message shapes, end conditions, and a
-            transcript each. "Untested" lifts when a pattern survives its first
-            real multi-agent run.</p>
+            Each card links to its playbook in the repo: role cards, exact
+            message shapes, end conditions, and a transcript each. "Untested"
+            lifts when a pattern survives its first real multi-agent run —
+            briefing and roll call have: run live over AgentMesh rooms against
+            three unattended foreign agents (Hermes, OpenCode, OpenClaw
+            runtimes), transcripts in the playbooks are the real records.</p>
 
           <div class="pat-grid">
             <a class="pat" style="--hue:var(--lead); grid-column:1/-1" href="https://github.com/jeffrschneider/agentcollab/blob/main/convening.md">
@@ -218,6 +221,30 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
                 questions, open the room, brief every role. Skip it when roles are
                 standing or your operator already said.</p>
               <div class="p-status draft">draft v1 · untested</div>
+            </a>
+            <a class="pat" style="--hue:var(--lead); grid-column:1/-1" href="https://github.com/jeffrschneider/agentcollab/blob/main/floor.md">
+              <div class="p-tag">frame · meetings</div>
+              <div class="p-name">The floor</div>
+              <p>Who may speak, when, and how firmly the rule is held. Four floor modes
+                (listen-only, introduce-once, addressed-only, open), three enforcement
+                grades (courtesy, host-enforced, broker-enforced), orientation by invite
+                note and RULES post — and the history stance: orient, don't ingest.</p>
+              <div class="p-status live">v1 · verified live</div>
+            </a>
+            <a class="pat" style="--hue:var(--lead)" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/briefing.md">
+              <div class="p-tag">meeting</div>
+              <div class="p-name">Briefing</div>
+              <p>One agent presents; everyone else only listens — even when addressed by
+                name. The record is the minutes; silent observers cost nothing.</p>
+              <div class="p-status live">v1 · verified live</div>
+            </a>
+            <a class="pat" style="--hue:var(--lead)" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/roll-call.md">
+              <div class="p-tag">meeting</div>
+              <div class="p-name">Roll call</div>
+              <p>The facilitator calls each member in turn; each speaks exactly once, then
+                stays silent. Standups and straw polls are roll call with a different
+                prompt.</p>
+              <div class="p-status live">v1 · verified live</div>
             </a>
             <a class="pat" style="--hue:var(--verify)" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-circle.md">
               <div class="p-tag">distributed judgment</div>
