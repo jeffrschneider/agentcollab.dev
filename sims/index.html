@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watch the patterns run · Agent Collab</title>
+  <meta name="description" content="Small visual simulations of every Agent Collab pattern: who speaks, who holds the pen, what message goes on the wire, and when the artifact changes.">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sim.css">
+  <style>
+    :root{
+      --ink:#0A1417; --panel:#0F1D22; --line:#1C2E33;
+      --paper:#E7EFEC; --dim:#7C918C; --faint:#4A5D5A;
+      --signal:#F2A93B; --verify:#43D6A6; --address:#6BA8FF; --broadcast:#B69CFF;
+      --lead:var(--broadcast);
+      --disp:'Space Grotesk', sans-serif;
+      --body:'IBM Plex Sans', system-ui, sans-serif;
+      --wire:'IBM Plex Mono', ui-monospace, monospace;
+    }
+    *{ box-sizing:border-box; }
+    html,body{ margin:0; }
+    html{ scroll-behavior:smooth; }
+    body{ background:var(--ink); color:var(--paper); font-family:var(--body);
+      font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size:64px 64px, 64px 64px; background-position:-1px -1px; }
+    body::before{ content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+      background:
+        radial-gradient(80% 45% at 30% 0%, rgba(182,156,255,.10), transparent 60%),
+        radial-gradient(70% 50% at 100% 10%, rgba(67,214,166,.08), transparent 55%),
+        linear-gradient(180deg, rgba(10,20,23,.72), var(--ink) 62%); }
+    a{ color:inherit; }
+
+    .layout{ position:relative; z-index:1; display:grid; grid-template-columns:248px 1fr; min-height:100vh; }
+    .rail{ border-right:1px solid var(--line); padding:26px 22px; position:sticky; top:0;
+      align-self:start; height:100vh; overflow-y:auto; scrollbar-width:thin; }
+    .brand{ font-family:var(--wire); font-weight:600; font-size:.82rem; letter-spacing:.02em;
+      display:flex; align-items:center; gap:9px; color:var(--paper); text-decoration:none; margin-bottom:30px; }
+    .brand .dot{ width:9px; height:9px; border-radius:2px; background:var(--lead);
+      box-shadow:0 0 0 3px rgba(182,156,255,.15), 8px 0 0 -2px var(--signal), 16px 0 0 -2px var(--verify); }
+    .rail .grp{ font-family:var(--wire); font-size:.64rem; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--faint); margin:16px 0 4px; }
+    .rail .grp:first-of-type{ margin-top:0; }
+    .rail nav a{ display:block; font-family:var(--wire); font-size:.78rem; color:var(--dim);
+      text-decoration:none; padding:5px 0 5px 12px; border-left:2px solid transparent; margin-left:-12px; }
+    .rail nav a:hover{ color:var(--paper); }
+    .rail nav a.on{ color:var(--paper); border-left-color:var(--lead); }
+    .rail .foot{ margin-top:26px; padding-top:18px; border-top:1px solid var(--line);
+      font-family:var(--wire); font-size:.72rem; color:var(--faint); }
+
+    .main{ min-width:0; }
+    .wrap{ max-width:1000px; margin:0 auto; padding:0 40px; }
+    @media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+    .eyebrow{ font-family:var(--wire); font-size:.76rem; letter-spacing:.04em; color:var(--dim); }
+    .eyebrow .tag{ color:var(--lead); }
+    h1,h2,h3{ font-family:var(--disp); font-weight:700; letter-spacing:-.02em; line-height:1.08; }
+    .hero{ padding:70px 0 40px; border-bottom:1px solid var(--line); }
+    .hero .eyebrow{ margin-bottom:22px; display:block; }
+    .hero h1{ font-size:clamp(2rem,4.4vw,3rem); margin:0 0 18px; }
+    .hero h1 .am{ color:var(--lead); }
+    .lede{ color:var(--dim); font-size:1.1rem; max-width:62ch; }
+
+    section.band{ padding:52px 0; border-bottom:1px solid var(--line); }
+    section.band h2{ font-size:1.7rem; margin:0 0 14px; }
+    section.band p{ color:var(--dim); max-width:68ch; }
+    section.band p b{ color:var(--paper); font-weight:600; }
+    .kicker{ font-family:var(--wire); font-size:.74rem; letter-spacing:.12em; text-transform:uppercase;
+      color:var(--faint); margin:0 0 16px; }
+
+    /* the legend */
+    .legend{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:24px; }
+    @media (max-width:860px){ .legend{ grid-template-columns:1fr; } }
+    .lcard{ border:1px solid var(--line); border-radius:11px; background:var(--panel); padding:15px 17px; }
+    .lcard h3{ font-size:.82rem; font-family:var(--wire); font-weight:600; letter-spacing:.11em;
+      text-transform:uppercase; color:var(--faint); margin:0 0 12px; }
+    .lrow{ display:flex; gap:11px; align-items:flex-start; margin:9px 0; font-size:.86rem; color:var(--dim); }
+    .lrow b{ color:var(--paper); font-weight:600; }
+    .sw{ flex:0 0 auto; width:15px; height:15px; border-radius:50%; margin-top:4px;
+      border:1.6px solid var(--c); background:color-mix(in srgb, var(--c) 20%, var(--panel)); }
+    .sw.pill{ width:30px; height:13px; border-radius:7px; margin-top:5px; }
+    .sw.sq{ border-radius:3px; }
+    .sw.dash{ border-style:dashed; background:transparent; }
+    .sw.dim{ opacity:.34; }
+    .sw.ring{ box-shadow:0 0 0 2.5px color-mix(in srgb, var(--c) 55%, transparent); }
+
+    table.cast{ width:100%; border-collapse:collapse; margin-top:20px; font-size:.87rem; }
+    table.cast th{ text-align:left; font-family:var(--wire); font-size:.64rem; letter-spacing:.14em;
+      text-transform:uppercase; color:var(--faint); font-weight:500; padding:0 12px 8px 0;
+      border-bottom:1px solid var(--line); }
+    table.cast td{ padding:8px 12px 8px 0; border-bottom:1px solid rgba(28,46,51,.55); color:var(--dim);
+      vertical-align:top; }
+    table.cast td:first-child{ font-family:var(--wire); color:var(--paper); font-weight:600; width:44px; }
+    table.cast td:nth-child(2){ color:var(--paper); white-space:nowrap; }
+
+    /* the simulations */
+    .sim-sec{ padding:44px 0; border-bottom:1px solid var(--line); scroll-margin-top:12px; }
+    .sim-sec:last-of-type{ border-bottom:0; }
+    .sim-hd{ display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-bottom:14px; }
+    .sim-hd .n{ font-family:var(--wire); font-size:.7rem; color:var(--faint); }
+    .sim-hd a.doc{ font-family:var(--wire); font-size:.72rem; color:var(--dim); text-decoration:none;
+      border:1px solid var(--line); border-radius:6px; padding:3px 9px; margin-left:auto; }
+    .sim-hd a.doc:hover{ color:var(--paper); border-color:var(--dim); }
+    .ph{ border:1px dashed var(--line); border-radius:14px; min-height:300px; display:grid;
+      place-items:center; font-family:var(--wire); font-size:.76rem; color:var(--faint); }
+
+    footer{ padding:34px 0 60px; }
+    footer .wrap{ font-family:var(--wire); font-size:.78rem; color:var(--faint);
+      display:flex; gap:14px; flex-wrap:wrap; }
+    footer a{ color:var(--dim); text-decoration:none; }
+
+    @media (max-width:900px){
+      .layout{ grid-template-columns:1fr; }
+      .rail{ position:static; height:auto; border-right:0; border-bottom:1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="rail">
+    <a class="brand" href="/"><span class="dot"></span>AGENTCOLLAB</a>
+    <nav>
+      <div class="grp">this page</div>
+      <a href="#top">/ overview</a>
+      <a href="#grammar">/ the-grammar</a>
+      <div class="grp">frames</div>
+      <a href="#convening">/ convening</a>
+      <a href="#floor">/ the-floor</a>
+      <a href="#lobby">/ the-lobby</a>
+      <div class="grp">meetings</div>
+      <a href="#briefing">/ briefing</a>
+      <a href="#roll-call">/ roll-call</a>
+      <div class="grp">judgment</div>
+      <a href="#critique-circle">/ critique-circle</a>
+      <a href="#bake-off">/ bake-off</a>
+      <a href="#rolling-synthesis">/ rolling-synthesis</a>
+      <div class="grp">owned artifact</div>
+      <a href="#draft-review-merge">/ draft-review-merge</a>
+      <a href="#owner-contributors">/ owner-contributors</a>
+      <div class="grp">sequential</div>
+      <a href="#relay">/ relay</a>
+      <a href="#layered-passes">/ layered-passes</a>
+      <div class="grp">contract · pulled</div>
+      <a href="#spec-then-build">/ spec-then-build</a>
+      <a href="#work-board">/ work-board</a>
+      <div class="grp">reference</div>
+      <a href="/">/ the-site</a>
+      <a href="https://github.com/jeffrschneider/agentcollab">/ the-repo ↗</a>
+    </nav>
+    <div class="foot">playbooks, not protocols<br>every simulation is the playbook’s<br>own message shapes, moving</div>
+  </aside>
+
+  <main class="main" id="top">
+
+    <div class="wrap hero">
+      <span class="eyebrow"><span class="tag">agentcollab</span> · simulations</span>
+      <h1>Watch the patterns <span class="am">run</span></h1>
+      <p class="lede">Every playbook in the library, animated: who may speak, who holds the pen,
+        what goes on the wire, and the moment the artifact changes. The messages flying between
+        agents are the literal message shapes from the playbooks — <code>DRAFT 2</code>,
+        <code>CRITIQUE · draft 1</code>, <code>MERGED · pricing-1</code>,
+        <code>ITEM a1 CLAIMED</code> — so the picture and the prose cannot drift apart.
+        Each runs on its own; use ◀ ▶ to step through, or click any tick to jump.</p>
+    </div>
+
+    <section class="band" id="grammar">
+      <div class="wrap">
+        <p class="kicker">the grammar</p>
+        <h2>One vocabulary, fourteen simulations</h2>
+        <p>The same colours, the same states, the same cast in every simulation, so you learn
+          it once. Colour answers <b>what kind of thing is this</b>; the ring, dash and dimming
+          answer <b>may it speak right now</b>.</p>
+
+        <div class="legend">
+          <div class="lcard">
+            <h3>Who is who</h3>
+            <div class="lrow"><span class="sw" style="--c:var(--broadcast)"></span>
+              <span><b>Chair</b> — the convener or facilitator. Keeps time, opens and closes,
+                passes the floor. Never produces the work.</span></div>
+            <div class="lrow"><span class="sw" style="--c:var(--signal)"></span>
+              <span><b>The pen</b> — whoever holds authority over the artifact or the verdict:
+                creator, owner, judge, integrator, specifier. Only amber arrows reach the artifact.</span></div>
+            <div class="lrow"><span class="sw" style="--c:var(--verify)"></span>
+              <span><b>Peer</b> — everyone contributing: critics, runners, proposers, sources,
+                contestants, workers, builders.</span></div>
+            <div class="lrow"><span class="sw sq" style="--c:var(--address)"></span>
+              <span><b>Object</b> — things, not agents: the artifact, the board, the spec, the brief.</span></div>
+          </div>
+
+          <div class="lcard">
+            <h3>May it speak</h3>
+            <div class="lrow"><span class="sw" style="--c:var(--verify)"></span>
+              <span><b>Idle</b> — present, allowed to speak, not speaking.</span></div>
+            <div class="lrow"><span class="sw ring" style="--c:var(--verify)"></span>
+              <span><b>Holds the floor</b> — has the turn, or holds the baton or the pen for this pass.</span></div>
+            <div class="lrow"><span class="sw dim" style="--c:var(--verify)"></span>
+              <span><b>Muted</b> — may not speak now. <code>listen-only</code> the whole meeting,
+                or waiting to be addressed.</span></div>
+            <div class="lrow"><span class="sw dash" style="--c:var(--verify)"></span>
+              <span><b>Working privately</b> — silent by design, and the silence is load-bearing:
+                bake-off contestants, the spec-then-build builder.</span></div>
+            <div class="lrow"><span class="sw" style="--c:var(--verify);opacity:.18"></span>
+              <span><b>Absent</b> — invited but not joined, declined, or expelled.</span></div>
+          </div>
+
+          <div class="lcard">
+            <h3>What is on the wire</h3>
+            <div class="lrow"><span class="sw pill" style="--c:var(--broadcast)"></span>
+              <span><b>Broadcast</b> — an announcement to the whole room: RULES, CONVENED,
+                BRIEF, DIRECTION, DONE. A ring expands across the room as it lands.</span></div>
+            <div class="lrow"><span class="sw pill" style="--c:var(--address)"></span>
+              <span><b>Directed</b> — aimed at one agent or one object: a critique, a proposal,
+                a claim, a question.</span></div>
+            <div class="lrow"><span class="sw pill" style="--c:var(--signal)"></span>
+              <span><b>Change to the artifact</b> — the only kind that moves a version.
+                The artifact flares and its <code>@ ref</code> advances.</span></div>
+            <div class="lrow"><span class="sw pill" style="--c:var(--verify)"></span>
+              <span><b>Judgment</b> — PASS, MERGED, VERDICT, ACCEPTED, FINAL, DONE.</span></div>
+          </div>
+
+          <div class="lcard">
+            <h3>Reading a run</h3>
+            <div class="lrow"><span class="sw sq" style="--c:var(--faint)"></span>
+              <span>The <b>room</b> is the frame everything happens inside. Its ref is in the corner.</span></div>
+            <div class="lrow"><span class="sw sq" style="--c:var(--address)"></span>
+              <span>The <b>transcript</b> on the right fills in as it runs — it is the same
+                record the playbook prints as its worked example.</span></div>
+            <div class="lrow"><span class="sw sq" style="--c:var(--dim)"></span>
+              <span>The <b>caption</b> under the stage says what the step means in plain English,
+                and why the pattern insists on it.</span></div>
+            <div class="lrow"><span class="sw sq" style="--c:var(--broadcast)"></span>
+              <span>Most runs open on <code>CONVENED</code> and close on <code>DONE</code> —
+                the record that opens and closes a period of a room.</span></div>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.05rem;margin:36px 0 4px">The cast</h3>
+        <p>Eight job titles, reused across every simulation. A node shows <b>who it is</b>
+          (the job) and <b>what this pattern casts it as</b> (the role chip underneath), because
+          the same tech lead is an owner in one pattern and a critic in the next.</p>
+        <table class="cast">
+          <thead><tr><th></th><th>Job title</th><th>Typically cast as</th></tr></thead>
+          <tbody>
+            <tr><td>PM</td><td>Program Mgr</td><td>convener, facilitator, judge, specifier, poster</td></tr>
+            <tr><td>TL</td><td>Tech Lead</td><td>owner, builder, pass owner, critic, worker</td></tr>
+            <tr><td>CW</td><td>Copywriter</td><td>creator, runner, contestant</td></tr>
+            <tr><td>DS</td><td>Designer</td><td>critic, contestant, proposer, worker</td></tr>
+            <tr><td>AN</td><td>Analyst</td><td>source, proposer, runner, worker</td></tr>
+            <tr><td>ED</td><td>Editor</td><td>integrator, style pass</td></tr>
+            <tr><td>RS</td><td>Researcher</td><td>source, contributor</td></tr>
+            <tr><td>QA</td><td>QA Engineer</td><td>critic, correctness pass</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="wrap" id="sims"></div>
+
+    <footer>
+      <div class="wrap">
+        <span>Agent Collab · playbooks, not protocols</span>
+        <a href="/">the site</a>
+        <a href="https://github.com/jeffrschneider/agentcollab">GitHub ↗</a>
+        <a href="https://agentmesh.ai">AgentMesh ↗</a>
+      </div>
+    </footer>
+
+  </main>
+</div>
+
+<script src="sim.js"></script>
+<script src="scores/convening.js"></script>
+<script src="scores/floor.js"></script>
+<script src="scores/lobby.js"></script>
+<script src="scores/briefing.js"></script>
+<script src="scores/roll-call.js"></script>
+<script src="scores/critique-circle.js"></script>
+<script src="scores/bake-off.js"></script>
+<script src="scores/rolling-synthesis.js"></script>
+<script src="scores/draft-review-merge.js"></script>
+<script src="scores/owner-contributors.js"></script>
+<script src="scores/relay.js"></script>
+<script src="scores/layered-passes.js"></script>
+<script src="scores/spec-then-build.js"></script>
+<script src="scores/work-board.js"></script>
+<script>
+(() => {
+  // Order the page in the same groups the library uses.
+  const ORDER = [
+    ['frames',           ['convening', 'floor', 'lobby']],
+    ['meetings',         ['briefing', 'roll-call']],
+    ['judgment',         ['critique-circle', 'bake-off', 'rolling-synthesis']],
+    ['owned artifact',   ['draft-review-merge', 'owner-contributors']],
+    ['sequential',       ['relay', 'layered-passes']],
+    ['contract · pulled',['spec-then-build', 'work-board']],
+  ];
+
+  const host = document.getElementById('sims');
+  let n = 0;
+
+  ORDER.forEach(([group, ids]) => {
+    ids.forEach((id) => {
+      const S = AgentSim.get(id);
+      if (!S) return;
+      n += 1;
+
+      const sec = document.createElement('section');
+      sec.className = 'sim-sec';
+      sec.id = id;
+
+      const hd = document.createElement('div');
+      hd.className = 'sim-hd';
+      hd.innerHTML = '<span class="n">' + String(n).padStart(2, '0') + ' · ' + group + '</span>';
+      const doc = document.createElement('a');
+      doc.className = 'doc';
+      doc.href = S.doc;
+      doc.textContent = 'read the playbook ↗';
+      hd.appendChild(doc);
+      sec.appendChild(hd);
+
+      const slot = document.createElement('div');
+      slot.className = 'ph';
+      slot.textContent = S.title.toLowerCase();
+      slot.dataset.sim = id;
+      sec.appendChild(slot);
+
+      host.appendChild(sec);
+    });
+  });
+
+  // Build each simulation only as it approaches the viewport.
+  const build = new IntersectionObserver((ents) => {
+    ents.forEach((e) => {
+      if (!e.isIntersecting) return;
+      build.unobserve(e.target);
+      e.target.classList.remove('ph');
+      e.target.textContent = '';
+      AgentSim.mount(e.target, e.target.dataset.sim);
+    });
+  }, { rootMargin: '700px 0px' });
+  document.querySelectorAll('[data-sim]').forEach((el) => build.observe(el));
+
+  // The rail marker follows the section in view.
+  const links = [...document.querySelectorAll('.rail nav a[href^="#"]')];
+  const targets = links
+    .map((a) => document.getElementById(a.getAttribute('href').slice(1)))
+    .filter(Boolean);
+  const spy = new IntersectionObserver((ents) => {
+    const vis = ents.filter((e) => e.isIntersecting)
+      .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+    if (!vis.length) return;
+    const id = vis[0].target.id;
+    links.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === '#' + id));
+  }, { rootMargin: '-15% 0px -70% 0px' });
+  targets.forEach((t) => spy.observe(t));
+
+  // A deep link (/sims/#relay) lands on its simulation.
+  if (location.hash) {
+    const t = document.getElementById(location.hash.slice(1));
+    if (t) setTimeout(() => t.scrollIntoView(), 60);
+  }
+})();
+</script>
+</body>
+</html>
