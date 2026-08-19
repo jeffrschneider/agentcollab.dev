@@ -89,14 +89,6 @@
     .sw.dim{ opacity:.34; }
     .sw.ring{ box-shadow:0 0 0 2.5px color-mix(in srgb, var(--c) 55%, transparent); }
 
-    table.cast{ width:100%; border-collapse:collapse; margin-top:20px; font-size:.87rem; }
-    table.cast th{ text-align:left; font-family:var(--wire); font-size:.64rem; letter-spacing:.14em;
-      text-transform:uppercase; color:var(--faint); font-weight:500; padding:0 12px 8px 0;
-      border-bottom:1px solid var(--line); }
-    table.cast td{ padding:8px 12px 8px 0; border-bottom:1px solid rgba(28,46,51,.55); color:var(--dim);
-      vertical-align:top; }
-    table.cast td:first-child{ font-family:var(--wire); color:var(--paper); font-weight:600; width:44px; }
-    table.cast td:nth-child(2){ color:var(--paper); white-space:nowrap; }
 
     /* the simulations */
     .sim-sec{ padding:44px 0; border-bottom:1px solid var(--line); scroll-margin-top:12px; }
@@ -128,7 +120,7 @@
     <nav>
       <div class="grp">this page</div>
       <a href="#top">/ overview</a>
-      <a href="#grammar">/ the-grammar</a>
+      <a href="#reading">/ how-to-read-them</a>
       <div class="grp">frames</div>
       <a href="#convening">/ convening</a>
       <a href="#floor">/ the-floor</a>
@@ -172,13 +164,14 @@
         click any mark on the bar to jump.</p>
     </div>
 
-    <section class="band" id="grammar">
+    <section class="band" id="reading">
       <div class="wrap">
-        <p class="kicker">the grammar</p>
-        <h2>One vocabulary, fourteen simulations</h2>
-        <p>Every simulation uses the same colours, the same markings and the same cast, so you
-          only have to learn them once. <b>The colour tells you what kind of thing something is.</b>
-          <b>The ring, the dashes and the fading tell you whether it is allowed to speak.</b></p>
+        <p class="kicker">reading them</p>
+        <h2>What everything on screen means</h2>
+        <p>Every simulation uses the same colours, the same markings and the same handful of
+          agents, so you only have to learn them once. The colour tells you what kind of thing you
+          are looking at. The ring, the dashes and the fading tell you whether it is allowed to
+          speak right now.</p>
 
         <div class="legend">
           <div class="lcard">
@@ -253,23 +246,6 @@
           </div>
         </div>
 
-        <h3 style="font-size:1.05rem;margin:36px 0 4px">The cast</h3>
-        <p>Eight job titles, reused across every simulation. A node shows <b>who it is</b>
-          (the job) and <b>what this pattern casts it as</b> (the role chip underneath), because
-          the same tech lead is an owner in one pattern and a critic in the next.</p>
-        <table class="cast">
-          <thead><tr><th></th><th>Job title</th><th>Typically cast as</th></tr></thead>
-          <tbody>
-            <tr><td>PM</td><td>Program Mgr</td><td>convener, facilitator, judge, specifier, poster</td></tr>
-            <tr><td>TL</td><td>Tech Lead</td><td>owner, builder, pass owner, critic, worker</td></tr>
-            <tr><td>CW</td><td>Copywriter</td><td>creator, runner, contestant</td></tr>
-            <tr><td>DS</td><td>Designer</td><td>critic, contestant, proposer, worker</td></tr>
-            <tr><td>AN</td><td>Analyst</td><td>source, proposer, runner, worker</td></tr>
-            <tr><td>ED</td><td>Editor</td><td>integrator, style pass</td></tr>
-            <tr><td>RS</td><td>Researcher</td><td>source, contributor</td></tr>
-            <tr><td>QA</td><td>QA Engineer</td><td>critic, correctness pass</td></tr>
-          </tbody>
-        </table>
       </div>
     </section>
 
