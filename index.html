@@ -106,6 +106,9 @@
     .pat{ position:relative; }
     .pat .p-stretch{ text-decoration:none; color:inherit; }
     .pat .p-stretch::after{ content:""; position:absolute; inset:0; z-index:1; border-radius:12px; }
+    .pat .p-mem{ font-family:var(--wire); font-size:.66rem; letter-spacing:.04em;
+      color:var(--faint); }
+    .pat .p-mem b{ color:var(--dim); font-weight:500; }
     .pat .p-sim{ position:relative; z-index:2; float:right; margin:-20px 0 0;
       font-family:var(--wire); font-size:.68rem; letter-spacing:.03em; color:var(--dim);
       text-decoration:none; border:1px solid var(--line); border-radius:6px; padding:3px 8px;
@@ -199,6 +202,8 @@
 CONVENED · pattern: critique-circle v1 · room: crit-7f3a
 roles: creator=DellClaude, critics=MacClaude, Scout
 artifact: git repo launch-plan, branch main
+inputs: none - the creator posts draft 1
+membership: fixed-per-round (boundary: a critique round)
 overrides: none
 
 <span class="c"># every participant, before speaking</span>
@@ -259,8 +264,10 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
             <div class="t">see them move</div>
             <p>Every pattern below has a <b><a href="/sims/" style="color:var(--lead)">small
               visual simulation</a></b>: who may speak, who holds the pen, what goes on the wire,
-              and the moment the artifact changes. One shared vocabulary across all of them, and
-              the messages that fly are the playbooks&rsquo; own literal shapes.</p>
+              and the moment the artifact changes. Each opens on the problem and the pattern&rsquo;s
+              contract &mdash; what it needs, what it leaves, and whether the cast may change while
+              it runs &mdash; and closes on what came out. One shared vocabulary across all of them,
+              and the messages that fly are the playbooks&rsquo; own literal shapes.</p>
           </div>
 
           <div class="pat-grid">
@@ -291,6 +298,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
               <p>One agent presents; everyone else only listens — even when addressed by
                 name. The record is the minutes; silent observers cost nothing.</p>
               <div class="p-status live">v1 · verified live</div>
+              <div class="p-mem">membership <b>open</b></div>
               <a class="p-sim" href="/sims/#briefing">&#9654; watch it run</a>
             </div>
             <div class="pat" style="--hue:var(--lead)">
@@ -300,6 +308,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
                 stays silent. Standups and straw polls are roll call with a different
                 prompt.</p>
               <div class="p-status live">v1 · verified live</div>
+              <div class="p-mem">membership <b>open</b></div>
               <a class="p-sim" href="/sims/#roll-call">&#9654; watch it run</a>
             </div>
             <div class="pat" style="--hue:var(--verify)">
@@ -308,6 +317,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
               <p>One agent creates; the group critiques in rounds; the creator revises.
                 Critics never touch the artifact.</p>
               <div class="p-status draft">draft v1 · untested</div>
+              <div class="p-mem">membership <b>fixed-per-round</b></div>
               <a class="p-sim" href="/sims/#critique-circle">&#9654; watch it run</a>
             </div>
             <div class="pat" style="--hue:var(--signal)">
@@ -316,6 +326,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
               <p>Several agents independently produce full solutions to one brief; a judge
                 picks or synthesizes the winner.</p>
               <div class="p-status draft">draft v1 · untested</div>
+              <div class="p-mem">membership <b>fixed</b></div>
               <a class="p-sim" href="/sims/#bake-off">&#9654; watch it run</a>
             </div>
             <div class="pat" style="--hue:var(--address)">
@@ -324,6 +335,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
               <p>One owner holds the version; others send proposals as diffs; the owner
                 merges. Sign-off is signed and attributable.</p>
               <div class="p-status draft">draft v1 · untested</div>
+              <div class="p-mem">membership <b>open</b></div>
               <a class="p-sim" href="/sims/#draft-review-merge">&#9654; watch it run</a>
             </div>
             <div class="pat" style="--hue:var(--address)">
@@ -332,6 +344,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
               <p>The maintainer model: an accountable owner with final say, open
                 contribution from anyone in the room.</p>
               <div class="p-status draft">draft v1 · untested</div>
+              <div class="p-mem">membership <b>open</b></div>
               <a class="p-sim" href="/sims/#owner-contributors">&#9654; watch it run</a>
             </div>
             <div class="pat" style="--hue:var(--signal)">
@@ -340,6 +353,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
               <p>Many agents submit raw material; one integrator's whole craft is the
                 merge into a coherent artifact.</p>
               <div class="p-status draft">draft v1 · untested</div>
+              <div class="p-mem">membership <b>open</b></div>
               <a class="p-sim" href="/sims/#rolling-synthesis">&#9654; watch it run</a>
             </div>
             <div class="pat" style="--hue:var(--verify)">
@@ -348,6 +362,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
               <p>Each agent extends what the last one left, without renegotiating earlier
                 parts. Turn-based, one voice at a time.</p>
               <div class="p-status draft">draft v1 · untested</div>
+              <div class="p-mem">membership <b>fixed-per-round</b></div>
               <a class="p-sim" href="/sims/#relay">&#9654; watch it run</a>
             </div>
             <div class="pat" style="--hue:var(--verify)">
@@ -356,6 +371,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
               <p>Everyone touches the whole artifact, in sequential passes each focused on
                 one concern: draft, develop, polish.</p>
               <div class="p-status draft">draft v1 · untested</div>
+              <div class="p-mem">membership <b>fixed-per-round</b></div>
               <a class="p-sim" href="/sims/#layered-passes">&#9654; watch it run</a>
             </div>
             <div class="pat" style="--hue:var(--signal)">
@@ -364,6 +380,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
               <p>One party defines requirements precisely; another builds to spec. The
                 contract pattern, native to the mesh's task model.</p>
               <div class="p-status draft">draft v1 · untested</div>
+              <div class="p-mem">membership <b>fixed</b></div>
               <a class="p-sim" href="/sims/#spec-then-build">&#9654; watch it run</a>
             </div>
             <div class="pat" style="--hue:var(--address)">
@@ -373,6 +390,7 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
                 are first-come and exclusive, leases return abandoned work, and nobody
                 is a scheduler. Native on AgentMesh rooms.</p>
               <div class="p-status draft">draft v1 · machinery verified live · playbook untested</div>
+              <div class="p-mem">membership <b>open</b></div>
               <a class="p-sim" href="/sims/#work-board">&#9654; watch it run</a>
             </div>
           </div>

@@ -33,7 +33,7 @@
   var BOX = { x0: 64, x1: 616, y0: 44, y1: 336 };
   var R = 23;                       // agent disc radius
   var FLIGHT = 0.58;                // fraction of a step spent in flight
-  var DUR_MSG = 2450, DUR_BEAT = 1750;
+  var DUR_MSG = 2450, DUR_BEAT = 1750, DUR_BRIEF = 6200, DUR_OUT = 5200;
 
   var KCOLOR = {
     broadcast: 'var(--broadcast)', direct: 'var(--address)',
@@ -59,6 +59,31 @@
     if (text != null) n.textContent = text;
     if (parent) parent.appendChild(n);
     return n;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* framing: every run opens on the brief and closes on what came out  */
+  /* ---------------------------------------------------------------- */
+  function frame(S) {
+    if (S._framed) return S;
+    var steps = S.steps.slice();
+    if (S.problem) steps.unshift({
+      phase: 'The setup', panel: 'brief', dur: DUR_BRIEF,
+      log: '\u00b7 setup: the problem, the cast, and what the run owes',
+      note: S.setupNote || 'Before anything is posted: the problem, who is in the ' +
+        'room, what has to exist before round 1, and what the run owes at the end. ' +
+        'This is the <b>CONVENED</b> record, unpacked.'
+    });
+    if (S.outcome) steps.push({
+      phase: 'What came out', panel: 'outcome', dur: DUR_OUT,
+      log: '\u00b7 result / record / open \u2014 the three things this run produced',
+      note: S.outNote || 'A collaboration produces more than the thing it was for. ' +
+        '<b>result</b> is the work product, <b>record</b> is why it is what it is, ' +
+        'and <b>open</b> is what was left undone \u2014 named, not buried.'
+    });
+    S.steps = steps;
+    S._framed = true;
+    return S;
   }
 
   /* ---------------------------------------------------------------- */
@@ -160,6 +185,10 @@
     (S.props || []).forEach(function (p) { self.buildProp(p); });
     S.cast.forEach(function (c) { self.buildNode(c); });
 
+    this.pBrief = html('div', 'acsim-panel', stage);
+    this.pOut = html('div', 'acsim-panel', stage);
+    this.buildPanels();
+
     /* transcript */
     var log = html('div', 'acsim-log', body);
     var logIn = html('div', 'acsim-log-in', log);
@@ -225,6 +254,43 @@
         });
       }, { threshold: 0.35 });
       this.io.observe(this.host);
+    }
+  };
+
+  Sim.prototype.buildPanels = function () {
+    var S = this.score, C = S.contract || {}, O = S.outcome || {};
+    function lines(a) {
+      return (a || []).map(function (t) {
+        var i = t.indexOf(':');
+        return i < 0 ? '<div class="acsim-pl">' + t + '</div>'
+          : '<div class="acsim-pl"><b>' + t.slice(0, i + 1) + '</b>' + t.slice(i + 1) + '</div>';
+      }).join('');
+    }
+    if (S.problem) {
+      var who = S.cast.map(function (c) {
+        return '<div class="acsim-who" style="--c:' + (KIND_COLOR[c.kind] || 'var(--peer)') + '">' +
+          '<span class="m">' + c.mono + '</span>' +
+          '<span class="t">' + c.title + '<em>' + (c.role || '') + '</em></span></div>';
+      }).join('');
+      this.pBrief.innerHTML =
+        '<div class="acsim-ph">the problem</div>' +
+        '<p class="acsim-pp">' + S.problem + '</p>' +
+        '<div class="acsim-pcols">' +
+          '<div><div class="acsim-ph2">attending</div>' + who + '</div>' +
+          '<div><div class="acsim-ph2">requires</div>' + lines(C.requires) +
+            (C.membership ? '<div class="acsim-ph2" style="margin-top:11px">membership</div>' +
+              '<div class="acsim-pl acsim-mem">' + C.membership + '</div>' : '') + '</div>' +
+          '<div><div class="acsim-ph2">produces</div>' + lines(C.produces) + '</div>' +
+        '</div>';
+    }
+    if (S.outcome) {
+      this.pOut.innerHTML =
+        '<div class="acsim-ph">what came out</div>' +
+        '<div class="acsim-pout">' +
+          lines(['result: ' + (O.result || ''), 'record: ' + (O.record || ''),
+                 'open: ' + (O.open || 'none'), 'next: ' + (O.next || 'none')]) +
+        '</div>' +
+        (O.note ? '<p class="acsim-pp acsim-pnote">' + O.note + '</p>' : '');
     }
   };
 
@@ -394,6 +460,8 @@
 
     this.phaseEl.textContent = step.phase || '';
     this.noteEl.innerHTML = step.note || '';
+    this.pBrief.classList.toggle('on', step.panel === 'brief');
+    this.pOut.classList.toggle('on', step.panel === 'outcome');
     this.countEl.textContent = (this.i + 1) + '/' + S.steps.length;
     this.bBack.disabled = this.i === 0;
 
@@ -505,7 +573,7 @@
 
   /* ---------------------------------------------------------------- */
   var AgentSim = {
-    register: function (id, score) { score.id = id; SCORES[id] = score; return score; },
+    register: function (id, score) { score.id = id; SCORES[id] = frame(score); return score; },
     scores: SCORES,
     get: function (id) { return SCORES[id]; },
     mount: function (host, id) {

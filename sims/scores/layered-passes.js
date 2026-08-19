@@ -8,6 +8,26 @@ AgentSim.register('layered-passes', {
   hue: 'verify',
   room: 'layers-4a90',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/layered-passes.md',
+  problem: 'A drafted report that is structurally muddled, factually unsourced, and stylistically four different people. Fixing all three at once converges on nothing.',
+  contract: {
+    requires: [
+      'artifact: must already exist in rough form, at a named base version',
+      'inputs: the pass sequence, one nameable concern per pass'
+    ],
+    membership: 'fixed-per-round · boundary: a pass',
+    produces: [
+      'result: @ final version',
+      'record: each pass’s CHANGED line, plus the flag ledger',
+      'open: flags dropped in the sweep, with reasons'
+    ]
+  },
+  outcome: {
+    result: '@ c90d11 — three passes, one concern each',
+    record: 'flag ledger — 1 raised, 1 resolved, 0 swept',
+    open: 'none',
+    next: 'none',
+    note: 'The flag ledger is the only place a reader can see <b>why</b> the style pass left an obvious factual error alone: because the flag existed and the content pass owned it.'
+  },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.03] },
     { id: 'tl', title: 'Tech Lead', mono: 'TL', role: 'pass 1 · structure', kind: 'peer', at: [0.05, 0.86] },

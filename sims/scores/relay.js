@@ -10,6 +10,26 @@ AgentSim.register('relay', {
   hue: 'verify',
   room: 'relay-5b31',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/relay.md',
+  problem: 'A design document that needs one continuous voice and grows by extension. Three agents will write it, and re-arguing section 1 each time someone new arrives would cost more than living with it.',
+  contract: {
+    requires: [
+      'artifact: none — runner 1 opens it',
+      'inputs: the order, the turn scope, the lap count'
+    ],
+    membership: 'fixed-per-round · boundary: a lap',
+    produces: [
+      'result: the artifact exactly as the turns built it',
+      'record: the handoff notes — ADDED, OPEN, BLOCKED-ON per turn',
+      'open: every BLOCKED-ON line'
+    ]
+  },
+  outcome: {
+    result: 'draft @ e77b21 — six turns over two laps',
+    record: 'handoff notes, turns 1–6',
+    open: '1 BLOCKED-ON — a fourth constraint, folded in as beyond-scope',
+    next: 'layered-passes v1',
+    note: 'The BLOCKED-ON lines are not complaints. Collected at close they are <b>the invoice for the speed this pattern bought</b>, and the input to whatever cleans up after it.'
+  },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.03] },
     { id: 'cw', title: 'Copywriter', mono: 'CW', role: 'runner 1', kind: 'peer', at: [0.05, 0.86] },

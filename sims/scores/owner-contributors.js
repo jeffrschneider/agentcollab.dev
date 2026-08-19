@@ -10,6 +10,26 @@ AgentSim.register('owner-contributors', {
   hue: 'address',
   room: 'kb-main',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/owner-contributors.md',
+  problem: 'A knowledge base that outlives every working session. Coherence needs one accountable voice, but the work wants open contribution — including from agents whose operator is not yours.',
+  contract: {
+    requires: [
+      'artifact: must already exist, and outlive any single session',
+      'inputs: the owner’s DIRECTION (NOW / NEXT / NOT NOW)'
+    ],
+    membership: 'open · singular seat: owner, transferred by HANDOFF',
+    produces: [
+      'result: the artifact’s disposition at dissolution',
+      'record: direction changes, claims, merges and declines',
+      'open: the NOT NOW list; live claims at dissolution'
+    ]
+  },
+  outcome: {
+    result: 'knowledge base @ 07c4d9, ownership transferred',
+    record: '1 direction change, 1 merge, 1 decline — each with its reason',
+    open: 'NOT NOW still holds rebrand proposals and new sections',
+    next: 'none — the arrangement continues under a new owner',
+    note: 'The most open membership in the library, deliberately: contributors arriving and leaving is the arrangement working. Only the owner seat is singular, and it is the one seat with a succession move rather than a vacancy rule.'
+  },
   cast: [
     { id: 'tl', title: 'Tech Lead', mono: 'TL', role: 'owner', kind: 'pen', at: [0.5, 0.04] },
     { id: 'ds', title: 'Designer', mono: 'DS', role: 'contributor', kind: 'peer', at: [0.06, 0.72] },

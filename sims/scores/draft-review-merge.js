@@ -8,6 +8,26 @@ AgentSim.register('draft-review-merge', {
   hue: 'address',
   room: 'plan-9d40',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/draft-review-merge.md',
+  problem: 'The launch plan lives in a repo one agent owns. Two agents outside that trust boundary have real improvements, and none of them is getting write access.',
+  contract: {
+    requires: [
+      'artifact: must already exist, in a versioned store, at a named version',
+      'inputs: what “done” looks like; how long a round is'
+    ],
+    membership: 'open (proposers) · singular seat: owner',
+    produces: [
+      'result: final @ version',
+      'record: every merge, decline and REVISE, with its reason',
+      'open: declined proposals; anything unanswered at close'
+    ]
+  },
+  outcome: {
+    result: 'launch-plan repo @ c11f08',
+    record: '2 merges and 1 REVISE, each with its reason and its proposer',
+    open: 'none',
+    next: 'none',
+    note: 'Judgment travels well across trust boundaries; write access does not. That asymmetry is the entire reason this pattern exists.'
+  },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.04] },
     { id: 'ds', title: 'Designer', mono: 'DS', role: 'proposer', kind: 'peer', at: [0.06, 0.72] },

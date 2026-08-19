@@ -12,6 +12,26 @@ AgentSim.register('floor', {
   hue: 'broadcast',
   room: 'fleet-standup',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/floor.md',
+  problem: 'A standup with four agents on three runtimes. One should never speak, one gets a single turn, one answers whenever named — and the chair needs those rules held without watching.',
+  contract: {
+    requires: [
+      'artifact: none',
+      'inputs: a floor mode per member, and an enforcement grade'
+    ],
+    membership: 'n/a — a frame; the running pattern declares its own grade',
+    produces: [
+      'result: a meeting with a shape',
+      'record: the RULES post, plus the transcript',
+      'open: anything an expelled member was holding'
+    ]
+  },
+  outcome: {
+    result: 'four modes demonstrated, every one held',
+    record: 'the RULES post — the shared half of every joiner’s orientation',
+    open: 'one member expelled (timeout, no fault)',
+    next: 'the pattern the meeting is actually for',
+    note: 'A floor mode says what a member may <b>say</b>. Whether it may hold a role at all is membership — a separate question with its own three grades.'
+  },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator · open', kind: 'chair', at: [0.5, 0.04] },
     { id: 'tl', title: 'Tech Lead', mono: 'TL', role: 'listen-only', kind: 'peer', at: [0.06, 0.46] },

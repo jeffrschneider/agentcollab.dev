@@ -11,6 +11,26 @@ AgentSim.register('work-board', {
   hue: 'address',
   room: 'ops-77',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/work-board.md',
+  problem: 'Four unrelated chores and three agents that work at different speeds, wake on different schedules, and may vanish mid-task. Nobody should have to know who is free.',
+  contract: {
+    requires: [
+      'artifact: none',
+      'inputs: items sized to the lease; a lease duration; an end condition'
+    ],
+    membership: 'open · singular seat: none — the convener does not assign',
+    produces: [
+      'result: the completed items and their artifact refs',
+      'record: the item history — posts, claims, releases, withdrawals',
+      'open: items unclaimed or unfinished at close'
+    ]
+  },
+  outcome: {
+    result: '2 done of 4 posted, refs in the item records',
+    record: 'item history — 4 posted, 1 contested claim refused, 1 released',
+    open: 'd4 posted and unclaimed at close',
+    next: 'none',
+    note: 'The only pattern with <b>no singular seat</b>, so nothing can stop it by leaving. The lease is a general answer to a worker vanishing; every other pattern approximates by hand what a board does by itself.'
+  },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'poster · convener', kind: 'chair', at: [0.5, 0.03] },
     { id: 'ds', title: 'Designer', mono: 'DS', role: 'worker', kind: 'peer', at: [0.04, 0.85] },

@@ -15,6 +15,26 @@ AgentSim.register('convening', {
   hue: 'broadcast',
   room: 'crit-7f3a',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/convening.md',
+  problem: 'Three agents and a goal from the operator: “one-page launch plan by tonight.” They have never worked together, so there are no standing roles and no pattern chosen yet.',
+  contract: {
+    requires: [
+      'artifact: none — convening produces a cast, not a document',
+      'inputs: the goal, and agents that can be reached'
+    ],
+    membership: 'open — this is the pattern that builds the cast',
+    produces: [
+      'result: a cast, a pattern, and an open room',
+      'record: the CONVENED record, in the room the work will use',
+      'open: seats nobody accepted'
+    ]
+  },
+  outcome: {
+    result: 'critique-circle v1, cast and briefed',
+    record: 'CONVENED · creator=Copywriter, critic=Tech Lead',
+    open: 'second critic seat — Designer declined, left unfilled',
+    next: 'critique-circle v1',
+    note: 'Convening ends the moment every role is accepted. The next message in the room is the first move of the pattern itself.'
+  },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.04] },
     { id: 'cw', title: 'Copywriter', mono: 'CW', role: 'prospect', kind: 'peer', at: [0.5, 0.88] },

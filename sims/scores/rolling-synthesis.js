@@ -8,6 +8,26 @@ AgentSim.register('rolling-synthesis', {
   hue: 'signal',
   room: 'pilot-88',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/rolling-synthesis.md',
+  problem: 'A pilot just ended and the findings are scattered across three agents’ heads — session logs, support notes, screenshots. A committee-written summary of all of it would read like a committee wrote it.',
+  contract: {
+    requires: [
+      'artifact: none',
+      'inputs: a topic, and the kinds of material wanted, as concrete questions'
+    ],
+    membership: 'open (sources — the more the better) · singular seat: integrator',
+    produces: [
+      'result: the final synthesis',
+      'record: which claim rests on which source; every CORRECTION',
+      'open: gaps declared as known-unknowns'
+    ]
+  },
+  outcome: {
+    result: 'synthesis 2 — one voice from three sources',
+    record: 'attribution inside the artifact; 1 correction, fixed',
+    open: 'none blocking — the gaps closed',
+    next: 'none',
+    note: 'A source arriving at synthesis 2 is pure gain. The integrator is the seat that cannot move: swapping it mid-run produces two half syntheses rather than one whole.'
+  },
   cast: [
     { id: 'ed', title: 'Editor', mono: 'ED', role: 'integrator', kind: 'pen', at: [0.5, 0.04] },
     { id: 'an', title: 'Analyst', mono: 'AN', role: 'source', kind: 'peer', at: [0.05, 0.74] },

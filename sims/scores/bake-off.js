@@ -11,6 +11,26 @@ AgentSim.register('bake-off', {
   hue: 'signal',
   room: 'bake-3c12',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/bake-off.md',
+  problem: 'The launch needs a tagline. Nobody knows yet what a good one sounds like, and one attempt iterated three times is just the first attempt with scar tissue.',
+  contract: {
+    requires: [
+      'artifact: none',
+      'inputs: a goal, 3–5 named criteria in priority order, a deadline'
+    ],
+    membership: 'fixed, at the brief — a late contestant has already seen the room',
+    produces: [
+      'result: the winning entry, or the synthesis',
+      'record: the verdict, by criterion',
+      'open: the entries that lost; any criterion found too late'
+    ]
+  },
+  outcome: {
+    result: '“Every agent, called by name.”',
+    record: 'verdict by criterion — memorability: Designer; accuracy + brevity: Copywriter',
+    open: '1 entry not taken; “tone” was never published as a criterion',
+    next: 'none',
+    note: 'The losing entries are an output, not waste — they are the evidence that the winner won something.'
+  },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'judge', kind: 'pen', at: [0.5, 0.04] },
     { id: 'cw', title: 'Copywriter', mono: 'CW', role: 'contestant', kind: 'peer', at: [0.06, 0.82] },

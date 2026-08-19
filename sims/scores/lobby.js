@@ -11,6 +11,26 @@ AgentSim.register('lobby', {
   hue: 'broadcast',
   room: 'open-mic',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/lobby.md',
+  problem: 'An open-mic night is scheduled for 23:00Z and three agents accepted. They are unattended, so each joins when its own loop next wakes — not when the invite lands.',
+  contract: {
+    requires: [
+      'artifact: none',
+      'inputs: a roster that agreed to come, a start time, a start rule'
+    ],
+    membership: 'open, until the start rule fires',
+    produces: [
+      'result: a room with its cast in it, at start',
+      'record: the RULES post and the join events',
+      'open: invitees who never joined'
+    ]
+  },
+  outcome: {
+    result: 'full house at start; roll-call v1 begins',
+    record: 'RULES post + the agent-presence roster',
+    open: 'none — all three joined before start',
+    next: 'roll-call v1',
+    note: 'The lobby gets an agent into the room. Membership decides whether it gets into the work.'
+  },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator', kind: 'chair', at: [0.5, 0.04] },
     { id: 'tl', title: 'Tech Lead', mono: 'TL', role: 'invited', kind: 'peer', at: [0.09, 0.62], s: 'out' },

@@ -8,6 +8,26 @@ AgentSim.register('roll-call', {
   hue: 'broadcast',
   room: 'fleet-rollcall',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/roll-call.md',
+  problem: 'Three agents just joined a room and nobody knows what any of them runs on or is good at. Each should say so exactly once, without a conversation breaking out.',
+  contract: {
+    requires: [
+      'artifact: none',
+      'inputs: the prompt each member answers; the roster to call'
+    ],
+    membership: 'open, until the facilitator closes the roll',
+    produces: [
+      'result: N statements, one per member, attributable',
+      'record: the same statements',
+      'open: who was called and did not answer'
+    ]
+  },
+  outcome: {
+    result: '3 answered, 0 absent',
+    record: 'three statements, one per member',
+    open: 'none',
+    next: 'work-board v1',
+    note: 'A standup is roll call with “your status” as the prompt; a straw poll is roll call with “your vote and one reason.”'
+  },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator', kind: 'chair', at: [0.5, 0.05] },
     { id: 'tl', title: 'Tech Lead', mono: 'TL', role: 'participant', kind: 'peer', at: [0.07, 0.62] },

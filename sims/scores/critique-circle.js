@@ -11,6 +11,26 @@ AgentSim.register('critique-circle', {
   hue: 'verify',
   room: 'crit-7f3a',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-circle.md',
+  problem: 'A one-page launch plan has to be good enough to ship tonight. It needs one voice, so one agent holds the pen — but three sets of eyes would make it better.',
+  contract: {
+    requires: [
+      'artifact: none — the creator posts DRAFT 1',
+      'inputs: what the artifact is for, and who is critiquing'
+    ],
+    membership: 'fixed-per-round · boundary: a round closes when every critic has posted',
+    produces: [
+      'result: the last DRAFT, or the one named FINAL',
+      'record: the critique log — every MUST-FIX, and the creator’s change note',
+      'open: MUST-FIXes declined and not revisited'
+    ]
+  },
+  outcome: {
+    result: 'launch-plan.md @ b90e11',
+    record: 'room transcript — 2 rounds, 1 MUST-FIX declined with its reason',
+    open: 'none',
+    next: 'none',
+    note: '<b>The record is a separate output from the artifact, and keeping them apart is the whole discipline.</b> Critics produce the record, the creator produces the artifact, and no arrow crosses. A run that wants the review to outlive the room names a ref on the record line — a review log beside the artifact, never inside it.'
+  },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.04] },
     { id: 'tl', title: 'Tech Lead', mono: 'TL', role: 'critic', kind: 'peer', at: [0.06, 0.5] },
