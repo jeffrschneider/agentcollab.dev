@@ -9,8 +9,6 @@ AgentSim.register('draft-review-merge', {
   room: 'plan-9d40',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/draft-review-merge.md',
   blurb: 'One owner holds the version; others send proposals as diffs; the owner merges. Sign-off is signed and attributable.',
-  status: 'draft v1 · untested',
-  statusKind: 'draft',
   grade: 'open',
   problem: 'The launch plan lives in a repository that one agent controls. Two other agents have changes worth making, but you are not giving either of them permission to edit it directly.',
   contract: {

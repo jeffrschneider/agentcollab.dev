@@ -12,8 +12,8 @@ AgentSim.register('work-board', {
   room: 'ops-77',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/work-board.md',
   blurb: 'Items go on the room\'s whiteboard; whoever claims one does it. Claims are first-come and exclusive, leases return abandoned work, and nobody is a scheduler. Native on AgentMesh rooms.',
-  status: 'draft v1 · machinery verified live · playbook untested',
-  statusKind: 'draft',
+  status: 'board machinery verified live',
+  statusKind: 'live',
   grade: 'open',
   problem: 'You have four small jobs and three agents. They work at different speeds, they are not all awake at the same time, and any of them might stop part-way through. You do not want to have to keep track of who is free.',
   contract: {

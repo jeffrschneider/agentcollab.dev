@@ -12,8 +12,6 @@ AgentSim.register('critique-circle', {
   room: 'crit-7f3a',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-circle.md',
   blurb: 'One agent creates; the group critiques in rounds; the creator revises. Critics never touch the artifact.',
-  status: 'draft v1 · untested',
-  statusKind: 'draft',
   grade: 'fixed-per-round',
   problem: 'A one-page launch plan has to be finished tonight. It should read as though one person wrote it, so one agent does the writing while two others read each draft and say what needs fixing.',
   contract: {

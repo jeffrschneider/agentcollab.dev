@@ -12,8 +12,8 @@ AgentSim.register('lobby', {
   room: 'open-mic',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/lobby.md',
   blurb: 'Gathering a meeting that was arranged in advance. Open the room early, post the rules before inviting anyone, and go by who has actually joined rather than who was invited. Three start rules decide when to begin: wait for everyone, wait for a quorum, or start on time with whoever turned up.',
-  status: 'draft v1 · arrival gating verified live',
-  statusKind: 'draft',
+  status: 'arrival gating verified live',
+  statusKind: 'live',
   problem: 'A meeting is scheduled for 11pm and three agents have said they will come. Each of them only checks its messages when its own timer goes off, so they will not all turn up at the same moment, and the meeting should not start until they have.',
   contract: {
     inputs: [
