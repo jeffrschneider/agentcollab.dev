@@ -6,30 +6,30 @@
 
 AgentSim.register('work-board', {
   title: 'Work board',
-  tagline: 'Items go on the room’s whiteboard; whoever claims one does it. Claims are first-come and exclusive; leases return abandoned work.',
+  tagline: 'Jobs go up on a shared list and any agent can take one. Nobody hands work out.',
   shape: 'pulled work · claims + leases',
   hue: 'address',
   room: 'ops-77',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/work-board.md',
-  problem: 'Four unrelated chores, and three agents that work at different speeds, wake on different schedules, and may disappear mid-task. Nobody should have to track who is free.',
+  problem: 'You have four small jobs and three agents. They work at different speeds, they are not all awake at the same time, and any of them might stop part-way through. You do not want to have to keep track of who is free.',
   contract: {
     inputs: [
-      'items small enough to finish inside one lease',
-      'how long a lease lasts',
-      'when the board counts as finished'
+      'jobs small enough to finish before a claim on them expires',
+      'how long an agent can hold a job before it goes back on the list',
+      'a rule for when the list counts as finished'
     ],
-    membership: 'open · no single-holder seat, so nobody can stall it by leaving',
+    membership: 'Open. Agents can arrive or disappear at any point without stalling anything.',
     outputs: [
-      'the finished items, and where each one lives',
-      'the history of every item: posted, claimed, released, withdrawn',
-      'whatever is still on the board at the end'
+      'the finished jobs, and where to find each result',
+      'a history of each job: put up, taken, handed back or cancelled',
+      'anything still sitting on the list at the end'
     ]
   },
   outcome: {
-    result: 'two of four items done, with links to each',
-    record: 'four posted, one claim refused, one released',
-    open: 'item d4, posted and never claimed',
-    note: 'A claim is what stops two agents doing the same work, and it only does that if it comes first.'
+    result: 'two of the four jobs finished, with a link to each result',
+    record: 'four jobs put up, one attempt to take an already-taken job refused, and one job handed back',
+    open: 'one job that was put up and never taken',
+    note: 'Taking a job before you start is what stops two agents doing the same work, and it only helps if you take it first rather than announcing it afterwards.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'poster · convener', kind: 'chair', at: [0.5, 0.03] },
@@ -45,7 +45,7 @@ AgentSim.register('work-board', {
       phase: 'Open', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'BOARD OPEN · lease: 1h',
       log: 'BOARD OPEN · lease: 1h · done when: empty',
-      note: 'Use it when work splits into independent items and <b>nobody should be a scheduler.</b> Assignment requires the assigner to know who is free, who is fast, and who is good at what. A board requires nobody to know anything.'
+      note: 'Use this when the work splits into jobs that do not depend on each other, and nobody should have to hand them out. Handing work out means knowing who is free, who is quick and who is good at what. A shared list means nobody needs to know any of that.'
     },
     {
       phase: 'Posting', say: 'pm', to: 'brd', k: 'direct',
@@ -56,75 +56,75 @@ AgentSim.register('work-board', {
         { item: 'b2', op: 'post', title: 'check runbook links' },
         { item: 'c3', op: 'post', title: 'draft incident timeline' }
       ],
-      note: 'Write each title as <b>an instruction a stranger could act on</b>. An item needing your presence to interpret is not ready to post. Size items for the lease: a one-hour lease means one-hour items.'
+      note: 'Write each job so that an agent with no context could act on it. If understanding it needs you to be there, it is not ready to put up. Keep each one small enough to finish before the claim on it runs out.'
     },
     {
       phase: 'Claim first', say: 'ds', to: 'brd', k: 'direct',
       wire: 'ITEM a1 CLAIMED',
       log: 'ITEM a1 CLAIMED · Designer · until 14:10',
       board: [{ item: 'a1', op: 'claim', by: 'Designer', until: '14:10' }],
-      note: '<b>Claim before you start, never after.</b> Work done on an unclaimed item may be work someone else is also doing — the claim is the only thing that prevents that, and it only prevents it if it comes first.'
+      note: 'Take a job before you start it, never after. Work done on a job you have not taken might be work somebody else is also doing, and taking it is the only thing that prevents that.'
     },
     {
       phase: 'Claim first', say: 'an', to: 'brd', k: 'direct',
       wire: 'ITEM c3 CLAIMED',
       log: 'ITEM c3 CLAIMED · Analyst · until 14:12',
       board: [{ item: 'c3', op: 'claim', by: 'Analyst', until: '14:12' }],
-      note: '<b>One live claim at a time.</b> Claiming ahead of your own capacity is queue hoarding — it turns the lease into everyone else’s waiting time.'
+      note: 'One job at a time. Taking more than you can work on is hoarding, and it just turns into everybody else’s waiting time.'
     },
     {
       phase: 'A contested claim', say: 'tl', to: 'brd', k: 'direct',
       wire: 'CLAIM a1 · REFUSED',
       log: 'ITEM a1 CLAIM REFUSED · held by Designer until 14:10',
-      note: 'Exactly one claimant wins a contested item; <b>everyone else is refused, with the holder’s name.</b> On an AgentMesh room the board is native and the broker enforces this — a rule that prose can only request.'
+      note: 'Only one agent can hold a job. The Tech Lead tries to take one that is already taken and is refused, and told who has it. On a system that enforces this properly, the refusal is automatic rather than a matter of manners.'
     },
     {
       phase: 'A contested claim', say: 'tl', to: 'brd', k: 'direct',
       wire: 'ITEM b2 CLAIMED',
       log: 'ITEM b2 CLAIMED · Tech Lead · until 15:20',
       board: [{ item: 'b2', op: 'claim', by: 'Tech Lead', until: '15:20' }],
-      note: 'Refused, so it takes the next open item instead. <b>A board just leaves the next item for whoever arrives</b> — participants can come and go, or vary wildly in speed, and nothing stalls.'
+      note: 'Refused, so it takes the next free job instead. That is why agents can arrive and disappear here without anything stalling.'
     },
     {
       phase: 'Completion', say: 'ds', to: 'brd', k: 'verdict',
       wire: 'ITEM a1 DONE',
       log: 'ITEM a1 DONE · Designer\n  RESULT: one-pager attached · mesh:rooms:ops-77/drive/9f2',
       board: [{ item: 'a1', op: 'done', by: 'Designer' }],
-      note: '<b>Deliver with the completion, not beside it</b>: the note says what you did, the artifact refs carry the deliverable.'
+      note: 'Hand in the work with the completion rather than separately: a line saying what you did, and links to whatever you produced.'
     },
     {
       phase: 'Abandon honestly', say: 'an', to: 'brd', k: 'direct',
       wire: 'ITEM c3 RELEASED',
       log: 'ITEM c3 RELEASED · Analyst · log excerpt ends before the incident does; timeline cannot be drafted from it',
       board: [{ item: 'c3', op: 'release' }],
-      note: 'If you cannot finish, <b>abandon rather than letting the lease lapse in silence — same outcome, better record.</b> The lease is the whole answer to the crashed, distracted or rebooted worker: their item returns to the board by itself.'
+      note: 'If you cannot finish, hand the job back and say why, rather than letting your claim quietly run out. Same result, better record. Handing back is also what happens automatically if an agent crashes or gets rebooted.'
     },
     {
       phase: 'Review is more work', say: 'pm', to: 'brd', k: 'direct',
       wire: 'ITEM c3 WITHDRAWN',
       log: 'ITEM c3 WITHDRAWN · replacing with a better-scoped item',
       board: [{ item: 'c3', op: 'withdraw' }],
-      note: '<b>Withdraw an item only while it is unclaimed.</b> A live claim is never pulled out from under its worker; if it must die, wait out the lease.'
+      note: 'You can only cancel a job while nobody has taken it. A job somebody is working on is never pulled out from under them; if it has to go, wait for their claim to expire.'
     },
     {
       phase: 'Review is more work', say: 'pm', to: 'brd', k: 'direct',
       wire: 'ITEM d4 POSTED',
       log: 'ITEM d4 POSTED · draft incident timeline, hours 0–2 only',
       board: [{ item: 'd4', op: 'post', title: 'incident timeline, h0–2' }],
-      note: '<b>The board’s answer to review is more work on the board, not argument with the worker.</b> Read a result, accept it, or post a follow-up item naming what is missing.'
+      note: 'When work comes back needing more done to it, that becomes another job on the list rather than an argument with whoever did it.'
     },
     {
       phase: 'Completion', say: 'tl', to: 'brd', k: 'verdict',
       wire: 'ITEM b2 DONE',
       log: 'ITEM b2 DONE · Tech Lead\n  RESULT: 4 dead links listed · mesh:rooms:ops-77/drive/a13',
       board: [{ item: 'b2', op: 'done', by: 'Tech Lead' }],
-      note: 'A claim on an AgentMesh board also mints a <code>task_id</code>: open the real Task under it when the work should carry budget, tracing, or a receipt.'
+      note: 'On a system with proper claims, taking a job also opens a trackable unit of work, which is worth doing when it needs a budget, tracing or a receipt.'
     },
     {
       phase: 'Close', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'DONE · work-board v1',
       log: 'DONE · pattern: work-board v1 · room: ops-77\noutcome: completed\nresult: 3/4 done (c3 withdrawn, d4 open), refs in item records\nnext: none',
-      note: 'Items still open at close are <b>named in the result — a board that closes with work on it should say so, not shred the evidence.</b> And the convener never assigns: a board with assignments is a rota wearing a costume.'
+      note: 'Jobs still sitting on the list at the end get named in the summary. A list that closes with work on it should say so rather than quietly dropping it. And the convener never hands work out: a shared list with assignments on it is just a rota in disguise.'
     }
   ]
 });

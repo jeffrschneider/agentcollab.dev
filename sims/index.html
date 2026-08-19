@@ -161,94 +161,95 @@
     <div class="wrap hero">
       <span class="eyebrow"><span class="tag">agentcollab</span> · simulations</span>
       <h1>Watch the patterns <span class="am">run</span></h1>
-      <p class="lede">Every playbook in the library, animated: who may speak, who holds the pen,
-        what goes on the wire, and the moment the artifact changes. The messages flying between
-        agents are the literal message shapes from the playbooks — <code>DRAFT 2</code>,
-        <code>CRITIQUE · draft 1</code>, <code>MERGED · pricing-1</code>,
-        <code>ITEM a1 CLAIMED</code> — so the picture and the prose cannot drift apart.
-        Every run opens on a card stating the sample problem and the collaboration’s
-        contract — who is attending, what must exist before round 1, what the run owes at
-        the end, and whether the cast may change while it runs — and closes on what actually
-        came out.
-        Each runs on its own; use ◀ ▶ to step through, or click any tick to jump.</p>
+      <p class="lede">Every playbook in the library, animated. Each one shows who is allowed to
+        speak, which agent is allowed to change the work, what gets sent, and when the document
+        actually changes. The messages you see moving between the agents are the real ones from
+        the playbooks, so the picture and the writing stay in step.</p>
+      <p class="lede" style="margin-top:14px">A run starts with a card describing a sample
+        problem: who is in the room, what you need before you begin, what you get at the end, and
+        whether agents are allowed to join or leave part-way through. It finishes with a card
+        showing what actually came out. Use ◀ and ▶ to step through one at a time, or
+        click any mark on the bar to jump.</p>
     </div>
 
     <section class="band" id="grammar">
       <div class="wrap">
         <p class="kicker">the grammar</p>
         <h2>One vocabulary, fourteen simulations</h2>
-        <p>The same colours, the same states, the same cast in every simulation, so you learn
-          it once. Colour answers <b>what kind of thing is this</b>; the ring, dash and dimming
-          answer <b>may it speak right now</b>.</p>
+        <p>Every simulation uses the same colours, the same markings and the same cast, so you
+          only have to learn them once. <b>The colour tells you what kind of thing something is.</b>
+          <b>The ring, the dashes and the fading tell you whether it is allowed to speak.</b></p>
 
         <div class="legend">
           <div class="lcard">
             <h3>Who is who</h3>
             <div class="lrow"><span class="sw" style="--c:var(--broadcast)"></span>
-              <span><b>Chair</b> — the convener or facilitator. Keeps time, opens and closes,
-                passes the floor. Never produces the work.</span></div>
+              <span><b>Chair</b> — the agent running things. It opens the meeting, hands out
+                turns and closes it, and never produces any of the work itself.</span></div>
             <div class="lrow"><span class="sw" style="--c:var(--signal)"></span>
-              <span><b>The pen</b> — whoever holds authority over the artifact or the verdict:
-                creator, owner, judge, integrator, specifier. Only amber arrows reach the artifact.</span></div>
+              <span><b>The pen</b> — the one agent allowed to change the work, or to make the
+                decision. Only amber arrows ever reach the document.</span></div>
             <div class="lrow"><span class="sw" style="--c:var(--verify)"></span>
-              <span><b>Peer</b> — everyone contributing: critics, runners, proposers, sources,
-                contestants, workers, builders.</span></div>
+              <span><b>Peer</b> — everyone else doing the work: reviewing, writing, suggesting
+                changes, or sending in material.</span></div>
             <div class="lrow"><span class="sw sq" style="--c:var(--address)"></span>
-              <span><b>Object</b> — things, not agents: the artifact, the board, the spec, the brief.</span></div>
+              <span><b>Object</b> — a thing rather than an agent: the document being worked on,
+                the shared list of jobs, the agreed requirements.</span></div>
           </div>
 
           <div class="lcard">
             <h3>May it speak</h3>
             <div class="lrow"><span class="sw" style="--c:var(--verify)"></span>
-              <span><b>Idle</b> — present, allowed to speak, not speaking.</span></div>
+              <span><b>Idle</b> — in the room and allowed to speak, but not speaking.</span></div>
             <div class="lrow"><span class="sw ring" style="--c:var(--verify)"></span>
-              <span><b>Holds the floor</b> — has the turn, or holds the baton or the pen for this pass.</span></div>
+              <span><b>Holds the floor</b> — it is this agent’s turn right now.</span></div>
             <div class="lrow"><span class="sw dim" style="--c:var(--verify)"></span>
-              <span><b>Muted</b> — may not speak now. <code>listen-only</code> the whole meeting,
-                or waiting to be addressed.</span></div>
+              <span><b>Muted</b> — not allowed to speak at the moment, either for the whole
+                meeting or until somebody uses its name.</span></div>
             <div class="lrow"><span class="sw dash" style="--c:var(--verify)"></span>
-              <span><b>Working privately</b> — silent by design, and the silence is load-bearing:
-                bake-off contestants, the spec-then-build builder.</span></div>
+              <span><b>Working privately</b> — deliberately saying nothing while it works.
+                Some patterns depend on this, so the agents cannot influence each other.</span></div>
             <div class="lrow"><span class="sw" style="--c:var(--verify);opacity:.18"></span>
-              <span><b>Absent</b> — invited but not joined, declined, or expelled.</span></div>
+              <span><b>Absent</b> — invited but never turned up, turned the job down, or was
+                removed from the meeting.</span></div>
             <div class="lrow"><span class="sw sq" style="--c:var(--broadcast)"></span>
-              <span><b>Membership</b> is the other question: whether an agent may hold a
-                <em>role</em> at all. Every opening card declares the grade —
-                <code>fixed</code>, <code>fixed-per-round</code>, or <code>open</code>.</span></div>
+              <span><b>Membership</b> is a separate question: whether an agent can take on a job
+                here at all. Each opening card says whether agents may join or leave freely, only
+                between rounds, or not at all.</span></div>
           </div>
 
           <div class="lcard">
             <h3>What is on the wire</h3>
             <div class="lrow"><span class="sw pill" style="--c:var(--broadcast)"></span>
-              <span><b>Broadcast</b> — an announcement to the whole room: RULES, CONVENED,
-                BRIEF, DIRECTION, DONE. A ring expands across the room as it lands.</span></div>
+              <span><b>Broadcast</b> — something said to the whole room, such as the rules, the
+                opening agreement, or the closing summary.</span></div>
             <div class="lrow"><span class="sw pill" style="--c:var(--address)"></span>
-              <span><b>Directed</b> — aimed at one agent or one object: a critique, a proposal,
-                a claim, a question.</span></div>
+              <span><b>Directed</b> — aimed at one agent or at one thing: a review, a suggested
+                change, a question, taking a job off the list.</span></div>
             <div class="lrow"><span class="sw pill" style="--c:var(--signal)"></span>
-              <span><b>Change to the artifact</b> — the only kind that moves a version.
-                The artifact flares and its <code>@ ref</code> advances.</span></div>
+              <span><b>A change to the work</b> — the only kind of message that produces a new
+                version. The document flashes and its version number moves on.</span></div>
             <div class="lrow"><span class="sw pill" style="--c:var(--verify)"></span>
-              <span><b>Judgment</b> — PASS, MERGED, VERDICT, ACCEPTED, FINAL, DONE.</span></div>
+              <span><b>A decision</b> — accepting something, turning it down, picking a winner,
+                or declaring the work finished.</span></div>
           </div>
 
           <div class="lcard">
             <h3>Reading a run</h3>
             <div class="lrow"><span class="sw sq" style="--c:var(--faint)"></span>
-              <span>The <b>room</b> is the frame everything happens inside. Its ref is in the corner.</span></div>
+              <span>The <b>room</b> is the box everything happens inside. Its name is in the corner.</span></div>
             <div class="lrow"><span class="sw sq" style="--c:var(--address)"></span>
-              <span>The <b>transcript</b> on the right fills in as it runs — it is the same
-                record the playbook prints as its worked example.</span></div>
+              <span>The <b>transcript</b> on the right fills in as the run goes. It is the same record
+                the playbook prints as its worked example.</span></div>
             <div class="lrow"><span class="sw sq" style="--c:var(--dim)"></span>
-              <span>The <b>caption</b> under the stage says what the step means in plain English,
-                and why the pattern insists on it.</span></div>
+              <span>The <b>caption</b> underneath explains what is happening and why the pattern
+                works that way.</span></div>
             <div class="lrow"><span class="sw sq" style="--c:var(--broadcast)"></span>
-              <span>Most runs open on <code>CONVENED</code> and close on <code>DONE</code> —
-                the record that opens and closes a period of a room.</span></div>
+              <span>Most runs start by writing down what was agreed and end by writing down what
+                happened, so a reader can tell where one piece of work stopped.</span></div>
             <div class="lrow"><span class="sw sq" style="--c:var(--signal)"></span>
-              <span>The <b>first and last steps are cards</b>, not motion: the problem and the
-                contract going in, and <code>result</code> / <code>record</code> /
-                <code>open</code> coming out.</span></div>
+              <span>The <b>first and last steps are cards</b> rather than animation. One sets up
+                the problem, the other shows what came out of it.</span></div>
           </div>
         </div>
 

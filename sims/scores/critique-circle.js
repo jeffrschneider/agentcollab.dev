@@ -6,29 +6,29 @@
 
 AgentSim.register('critique-circle', {
   title: 'Critique circle',
-  tagline: 'One agent creates; the group critiques in rounds; the creator revises. Critics never touch the artifact.',
+  tagline: 'One agent writes, the others say what is wrong with it, and the writer revises. The reviewers never edit the document themselves.',
   shape: 'distributed judgment',
   hue: 'verify',
   room: 'crit-7f3a',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-circle.md',
-  problem: 'A one-page launch plan has to be good enough to ship tonight. It needs a single voice, so one agent writes it and two others say what is wrong with it.',
+  problem: 'A one-page launch plan has to be finished tonight. It should read as though one person wrote it, so one agent does the writing while two others read each draft and say what needs fixing.',
   contract: {
     inputs: [
-      'nothing — the creator writes DRAFT 1',
-      'who is critiquing, agreed before the first draft'
+      'nothing written yet. The writer produces the first draft.',
+      'agreement on who is reviewing, before that draft goes out'
     ],
-    membership: 'fixed-per-round · a new critic joins at the next draft, not mid-round',
+    membership: 'Reviewers can only join between rounds, never in the middle of one.',
     outputs: [
       'the final draft',
-      'the critique log: every MUST-FIX, and what the creator took or refused',
-      'any MUST-FIX that was refused and never revisited'
+      'a record of every problem raised, and whether the writer fixed it or said why not',
+      'anything that was raised and never dealt with'
     ]
   },
   outcome: {
-    result: 'launch-plan.md @ b90e11',
-    record: 'two rounds of critiques, and one MUST-FIX refused with its reason',
-    open: 'none',
-    note: 'The draft and the critique log are two different documents, and that is the point. Critics write the log. The creator writes the draft. Neither one touches the other.'
+    result: 'the launch plan, at version b90e11',
+    record: 'two rounds of review, including one problem the writer declined to fix and explained why',
+    open: 'nothing',
+    note: 'The draft and the review notes are two separate documents. The reviewers write the notes, the writer writes the draft, and neither one edits the other\'s.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.04] },
@@ -44,53 +44,53 @@ AgentSim.register('critique-circle', {
       phase: 'Open', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'CONVENED · critique-circle v1',
       log: 'CONVENED · pattern: critique-circle v1 · room: crit-7f3a\nroles: creator=Copywriter, critics=Tech Lead, Designer\nartifact: git repo launch-plan, branch main',
-      note: 'One artifact that needs a single voice, and judgment that should be distributed. <b>Works at any trust level, because critics only ever comment</b> — the safest pattern for strangers’ agents.'
+      note: 'One document that needs to read as though one person wrote it, with several agents improving it. It works even between agents that do not trust each other, because the reviewers only ever comment.'
     },
     {
       phase: 'Round 1 · the draft', say: 'cw', to: 'art', k: 'pen',
       wire: 'DRAFT 1',
       log: 'DRAFT 1: launch-plan.md @ a41f2c (one page, five sections)',
       set: { cw: 'floor' },
-      note: 'The creator owns the artifact <b>and the pen. Nobody else edits it.</b> Every arrow that reaches the document in this simulation comes from the amber node.'
+      note: 'The Copywriter is the only agent allowed to change the document. Every arrow that reaches it in this simulation comes from the amber agent.'
     },
     {
       phase: 'Round 1 · the critiques', say: 'tl', to: 'cw', k: 'direct',
       wire: 'CRITIQUE · draft 1',
       log: 'CRITIQUE · draft 1 · Tech Lead\nMUST-FIX: No pricing section; the plan can’t be evaluated without one.\nSUGGEST: cut section 2 by half; lead with the demo date\nGOOD: the positioning paragraph. Keep it word for word.',
-      note: 'One message per round, in exactly that shape. <b>One MUST-FIX per round — forcing yourself to rank is the job.</b> The GOOD line exists so the creator knows what not to break.'
+      note: 'One message per round, in a fixed shape: the single most important problem, a few smaller suggestions, and one thing worth keeping. Limiting it to one main problem forces the reviewer to decide what actually matters.'
     },
     {
       phase: 'Round 1 · the critiques', say: 'ds', to: 'cw', k: 'direct',
       wire: 'CRITIQUE · draft 1',
       log: 'CRITIQUE · draft 1 · Designer\nMUST-FIX: Launch date conflicts with the conference in section 4.\nSUGGEST: name an owner per workstream\nGOOD: scope honesty in section 5.',
-      note: '<b>Critique the artifact, not the other critics.</b> Do not reply to critiques, and no rewrites — if you catch yourself drafting replacement text longer than a sentence, cut it back to the instruction that would produce it.'
+      note: 'Reviewers comment on the document, not on each other, and they do not reply to each other’s reviews. They also do not write replacement text: if you find yourself rewriting a paragraph, cut it back to the instruction that would have produced it.'
     },
     {
       phase: 'Round 2 · the revision', say: 'cw', to: 'art', k: 'pen',
       wire: 'DRAFT 2',
       log: 'DRAFT 2: launch-plan.md @ b90e11\nTook: pricing section added; date moved past the conference; owners named.\nDeclined: cutting section 2 (it carries the pricing rationale now).',
       bump: { art: 'b90e11' },
-      note: 'The creator is <b>not obliged to accept any critique</b> — only to answer each MUST-FIX with either the change or one sentence of why not. <b>Do not defend the work in chat: the revision is the reply.</b>'
+      note: 'The writer does not have to accept anything. It only has to answer each main problem, either by fixing it or by saying in one sentence why it did not. The revised draft is the reply; there is no arguing in the room.'
     },
     {
       phase: 'Round 2 · the critiques', say: 'tl', to: 'cw', k: 'verdict',
       wire: 'CRITIQUE · draft 2 · PASS',
       log: 'CRITIQUE · draft 2 · Tech Lead · PASS',
       set: { tl: 'done' },
-      note: '<b>Silence is assent</b>, so a critic with no MUST-FIX posts PASS explicitly — otherwise the round cannot close. Expect convergence, not perfection: MUST-FIXes should get smaller each round.'
+      note: 'A reviewer with nothing left to raise says so explicitly, otherwise the round cannot close. Expect the problems to get smaller each time round rather than disappearing.'
     },
     {
       phase: 'Round 2 · the critiques', say: 'ds', to: 'cw', k: 'verdict',
       wire: 'CRITIQUE · draft 2 · PASS',
       log: 'CRITIQUE · draft 2 · Designer · PASS',
       set: { ds: 'done' },
-      note: 'All critics pass on the current draft — that is one of four end conditions. The others: the creator calls <code>FINAL</code> after round 2+ and no critic objects; the operator says stop; or the round limit (default 5) runs out.'
+      note: 'Both reviewers have passed, which is one of the ways this ends. The others: the writer declares a draft final and nobody objects, a person calls a halt, or the group hits its round limit.'
     },
     {
       phase: 'Close', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'DONE · critique-circle v1',
       log: 'DONE · pattern: critique-circle v1 · room: crit-7f3a\noutcome: completed\nresult: draft 2 final\nnext: none',
-      note: 'The last DRAFT is the deliverable. <b>The transcript is the audit</b>: who flagged what, what was declined, and why.'
+      note: 'The last draft is the thing you wanted. The record of the review is separate, and it shows who raised what, and what the writer turned down and why.'
     }
   ]
 });

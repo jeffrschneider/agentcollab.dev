@@ -5,30 +5,30 @@
 
 AgentSim.register('relay', {
   title: 'Relay',
-  tagline: 'Each agent extends what the last one left, without renegotiating earlier parts. Turn-based, one voice at a time.',
+  tagline: 'Each agent adds to what the last one left, and nobody reopens what has already been written.',
   shape: 'sequential',
   hue: 'verify',
   room: 'relay-5b31',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/relay.md',
-  problem: 'A design document that needs one continuous voice, written by three agents in turn. Re-arguing section 1 every time someone new picks it up would cost more than living with it.',
+  problem: 'A design document needs writing and it should sound like one person wrote it. Three agents will take turns adding to it, and you do not want each new writer reopening decisions the previous one already made.',
   contract: {
     inputs: [
       'the order the agents write in',
-      'how much one turn may add',
-      'how many times round'
+      'how much one turn is allowed to add',
+      'how many times round the group goes'
     ],
-    membership: 'fixed-per-round · a new runner joins at the next lap',
+    membership: 'New writers can only join between laps, not part-way through one.',
     outputs: [
-      'the document, exactly as the turns built it',
-      'each handoff note: what was added, what was left open, what got in the way',
-      'the things a runner could not fix without editing someone else’s turn'
+      'the document, exactly as the turns left it',
+      'a handover note from each turn saying what was added and what was left unfinished',
+      'anything a writer could not fix without changing someone else\'s work'
     ]
   },
   outcome: {
-    result: 'draft @ e77b21 — six turns over two laps',
-    record: 'six handoff notes',
-    open: 'one constraint spotted in turn 2 that could not be fixed without editing turn 1',
-    note: 'Nobody may change what came before. A runner who disagrees says so in the handoff note and builds forward anyway.'
+    result: 'the document at version e77b21, after six turns',
+    record: 'six handover notes',
+    open: 'one problem spotted in the second turn that could not be fixed without rewriting the first',
+    note: 'Nobody is allowed to change what came before them. A writer who disagrees with an earlier decision says so in the handover note and carries on from there anyway.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.03] },
@@ -44,40 +44,40 @@ AgentSim.register('relay', {
       phase: 'Open', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'ORDER · SCOPE · LAPS',
       log: 'ORDER: Copywriter, Designer, Analyst · TURN SCOPE: one section, max 300 words · LAPS: 2',
-      note: 'The artifact needs one continuous voice and it <b>grows by extension.</b> The convener declares the order and the turn scope at open; runners are peers, and nobody owns the whole.'
+      note: 'The document needs to sound like one person wrote it, and it grows by having things added to it. The convener sets the order and says how much one turn may add. The writers are equals; none of them owns the whole thing.'
     },
     {
       phase: 'Lap 1', say: 'cw', to: 'art', k: 'pen',
       wire: 'TURN 1 DONE',
       log: 'TURN 1 DONE · Copywriter\nADDED: framing section, names the three constraints\nOPEN: constraint #3 needs a concrete example\nBLOCKED-ON: nothing',
       set: { cw: 'floor' }, bump: { art: 'a1' },
-      note: 'On receiving the baton, <b>read everything before you. It is settled.</b> Do your turn within the declared scope, then hand off in exactly that shape.'
+      note: 'When your turn comes, read everything written so far and treat it as settled. Add what you were asked to add, then hand over with a note saying what you did and what you left unfinished.'
     },
     {
       phase: 'Lap 1', say: 'ds', to: 'art', k: 'pen',
       wire: 'TURN 2 DONE',
       log: 'TURN 2 DONE · Designer\nADDED: worked example for constraint #3\nOPEN: implications section unstarted\nBLOCKED-ON: the framing fixes "three constraints"; I saw a fourth and had to leave it out. Flagging, not fixing.',
       set: { cw: 'idle', ds: 'floor' }, bump: { art: 'b2' },
-      note: '<b>You may not edit, reorder, or contradict what came before.</b> If something earlier blocks you, build around it and flag it in the handoff. The friction is the pattern working, not failing.'
+      note: 'You cannot edit, reorder or contradict anything written before you. If something earlier is in your way, work around it and say so in your handover note. That friction is the pattern doing its job.'
     },
     {
       phase: 'Lap 1', say: 'an', to: 'art', k: 'pen',
       wire: 'TURN 3 DONE',
       log: 'TURN 3 DONE · Analyst\nADDED: implications; folded the fourth constraint in as a "beyond scope" note so it exists without breaking the frame\nOPEN: conclusion\nBLOCKED-ON: nothing',
       set: { ds: 'idle', an: 'floor' }, bump: { art: 'c3' },
-      note: 'The BLOCKED-ON line is the pressure valve: <b>it lets a runner disagree on the record while still building forward</b>, and hands later runners an honest list of what the speed cost.'
+      note: 'The line about what got in the way is the release valve. It lets a writer disagree on the record while still moving forward, and it leaves later writers an honest list of what the speed cost.'
     },
     {
       phase: 'Silence between turns',
       log: '· no back-seat additions, no comments on others’ turns',
       set: { an: 'idle' },
-      note: 'Between your turns, silence. <b>Your response to a turn you dislike is your next turn</b> — not a comment on someone else’s.'
+      note: 'Between your turns you say nothing. If you dislike what somebody did, your answer is what you write on your next turn, not a comment on theirs.'
     },
     {
       phase: 'The final lap', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'FINAL LAP after turn 3',
       log: 'FINAL LAP after turn 3.',
-      note: 'The convener announces the final lap <b>one full lap ahead</b>, so every runner gets a closing turn. The convener also passes the baton on if a runner stalls past the turn window: <code>SKIPPED · turn n passes to …</code>'
+      note: 'The convener announces the last lap a full lap early, so every writer knows which of their turns is the closing one.'
     },
     {
       phase: 'Lap 2', say: 'cw', to: 'art', k: 'pen',
@@ -96,14 +96,14 @@ AgentSim.register('relay', {
       wire: 'TURN 6 DONE',
       log: 'TURN 6 DONE · Analyst\nADDED: conclusion\nOPEN: none\nBLOCKED-ON: nothing',
       set: { ds: 'done', an: 'floor' }, bump: { art: 'e77b21' },
-      note: '<b>The artifact is what the turns built, exactly. There is no cleanup phase</b> — a thing to know before choosing relay. If it needs one afterward, run layered-passes on the result.'
+      note: 'The document is exactly what the turns produced. There is no tidying-up stage, which is worth knowing before you choose this. If it needs one, run layered passes over the result afterwards.'
     },
     {
       phase: 'Close', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'DONE · relay v1',
       log: 'DONE · pattern: relay v1 · room: relay-5b31\noutcome: completed\nresult: draft @ e77b21\nnext: layered-passes v1',
       set: { an: 'done' },
-      note: '<b>Relay’s whole personality is the forbidden backward edit.</b> Break it once and every earlier turn becomes provisional, which reintroduces exactly the renegotiation cost the pattern exists to avoid.'
+      note: 'The rule against editing earlier work is the whole point. Break it once and every previous turn becomes provisional again, which brings back exactly the re-arguing this was meant to avoid.'
     }
   ]
 });

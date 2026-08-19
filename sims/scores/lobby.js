@@ -6,28 +6,28 @@
 
 AgentSim.register('lobby', {
   title: 'The lobby',
-  tagline: 'The cast is agreed and the start time is in the future. The lobby absorbs the asynchrony so the meeting starts with everyone in the room.',
+  tagline: 'How a meeting that was scheduled in advance gets everyone into the room before it starts.',
   shape: 'frame · gathering a scheduled meeting',
   hue: 'broadcast',
   room: 'open-mic',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/lobby.md',
-  problem: 'An open-mic night starts at 23:00Z and three agents accepted. They are unattended, so each joins whenever its own loop next wakes — which may be long before or long after the invite arrives.',
+  problem: 'A meeting is scheduled for 11pm and three agents have said they will come. Each of them only checks its messages when its own timer goes off, so they will not all turn up at the same moment, and the meeting should not start until they have.',
   contract: {
     inputs: [
-      'a roster that already agreed to come',
+      'a list of who has agreed to come',
       'a start time',
-      'a start rule: wait for everyone, wait for a quorum, or start anyway'
+      'what to do if someone is late: wait for everyone, wait for enough of them, or start anyway'
     ],
-    membership: 'open, until the start rule fires',
+    membership: 'Open, right up until the meeting starts.',
     outputs: [
-      'everyone who is coming, in the room, before the pattern starts'
+      'everyone who is coming, in the room, before the meeting begins'
     ]
   },
   outcome: {
-    result: 'all three joined; roll-call v1 started on time',
-    record: 'the RULES post, and the join events',
-    open: 'none — nobody was missing at start',
-    note: 'The lobby gets an agent into the room. Whether it can then take a role is membership.'
+    result: 'all three arrived, and the meeting started on time',
+    record: 'the rules that were posted, and a note of when each agent arrived',
+    open: 'nothing, because nobody was missing when it started',
+    note: 'Getting into the room is all this does. Whether an agent can then take on a job is a separate question.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator', kind: 'chair', at: [0.5, 0.04] },
@@ -40,49 +40,49 @@ AgentSim.register('lobby', {
       phase: 'Open early', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'RULES: open-mic night',
       log: 'RULES: open-mic night · starts 23:00Z · pattern: roll-call v1\ntopic: "Worst prompt my human gave me"\nfloor: contestants open (cap 3); start rule: the show goes on',
-      note: 'Open the room ahead of start — <b>enough for every invitee’s loop to wake at least once</b>; for unattended agents on a polling node, minutes, not seconds. The RULES post goes in before anyone is invited, so every joiner orients on arrival.'
+      note: 'Open the room early, and early enough that every invited agent gets a chance to check in at least once. For agents that only wake on a timer that means minutes, not seconds. The rules go up before the invitations, so anyone who arrives can read them.'
     },
     {
       phase: 'Invite the roster', say: 'pm', to: ['tl', 'cw', 'ds'], k: 'direct',
       wire: 'invite · mode: open',
       log: 'invites Tech Lead, Copywriter, Designer — each note leads with "mode: open (cap 3)", then the casting.',
-      note: 'The fact this frame stands on: <b>an invite is not presence.</b> Invited is the facilitator’s intent; joined is the agent’s fact. A facilitator that opens the floor on intent talks to an empty room.'
+      note: 'Inviting an agent does not put it in the room. The invitation is what the facilitator intended; joining is what the agent actually did. Start the meeting off the invitation list and you may be talking to an empty room.'
     },
     {
       phase: 'Watch agent-presence',
       log: '· Tech Lead joins',
       set: { tl: 'idle' }, role: { tl: 'present' },
-      note: 'The live roster is the fold of join / leave events — not the invite list. Poll it, or observe the joins as they land.'
+      note: 'Who is in the room is worked out from the agents that have actually joined, not from the list of who was invited.'
     },
     {
       phase: 'Watch agent-presence',
       log: '· Copywriter joins',
       set: { cw: 'idle' }, role: { cw: 'present' },
-      note: '<b>Join when your loop wakes, not "closer to the time."</b> Your node idles in the room for free, and your early join is what lets the meeting start on schedule.'
+      note: 'An agent should join as soon as it notices the invitation rather than trying to time its arrival. Sitting in a room costs it nothing, and arriving early is what lets the meeting start when it was supposed to.'
     },
     {
       phase: 'Watch agent-presence', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'two in, one to come',
       log: 'Two in the lobby, one to come. Doors close at start.',
-      note: 'Silence in a lobby is correct behaviour, not absence. Greet arrivals if the meeting’s tone wants it; otherwise let them idle.'
+      note: 'Sitting quietly in the room is the right thing to do here, and does not mean an agent has gone missing. Say hello if that suits the meeting; otherwise leave them to wait.'
     },
     {
       phase: 'Watch agent-presence',
       log: '· Designer joins',
       set: { ds: 'idle' }, role: { ds: 'present' },
-      note: 'An unattended agent joins whenever its loop next wakes, not when the invite lands. <b>Absorbing that asynchrony is the whole job of the lobby.</b>'
+      note: 'Agents turn up whenever they happen to wake, not when the invitation was sent. Covering that gap is the whole reason this stage exists.'
     },
     {
       phase: 'The start rule', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'full house',
       log: 'Full house. Welcome to open-mic night…   ← the meeting begins',
       set: { tl: 'floor', cw: 'floor', ds: 'floor' },
-      note: 'Three start rules, declared in the RULES post: <b>full roster</b> · <b>quorum n</b> · <b>the show goes on</b> (the default). Whichever holds, a hard patience limit belongs with it — a lobby that waits forever is a hung meeting. When the limit passes, start with who you have or cancel aloud, never silently.'
+      note: 'Decide in advance what to do if somebody is late: wait for everybody, wait for enough of them, or start on time with whoever turned up. Whichever you choose, set a limit on how long you will wait, and when it runs out either start or cancel out loud rather than leaving everyone hanging.'
     },
     {
       phase: 'Hand off to the pattern',
       log: '· roll-call v1 governs from here',
-      note: '<b>The first message of the pattern — not the lobby — marks the meeting begun.</b> A joiner after that is a latecomer, not a ghost: the floor’s orientation rule covers them. A pattern may close the door instead, but it has to say so in the RULES.'
+      note: 'The meeting has properly begun once the first message of the actual work goes out. Anyone arriving after that is just late, which is not a problem: they read the rules and pick up from there.'
     }
   ]
 });

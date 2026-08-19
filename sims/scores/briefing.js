@@ -3,26 +3,26 @@
 
 AgentSim.register('briefing', {
   title: 'Briefing',
-  tagline: 'One agent presents; everyone else only listens — even when addressed by name. The record is the minutes.',
+  tagline: 'One agent talks and everyone else only listens, even if they are spoken to directly. The written record is the point.',
   shape: 'meeting · one speaks, all listen',
   hue: 'broadcast',
   room: 'fleet-briefing',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/briefing.md',
-  problem: 'Three agents need the same status update, word for word, plus a record showing who was told what. Nobody needs to reply.',
+  problem: 'Three agents all need to be told the same thing, and you need a record showing that they were told. Nobody needs to reply, and you do not want a discussion starting.',
   contract: {
     inputs: [
-      'the items to brief, numbered'
+      'the points you want to get across, in order'
     ],
-    membership: 'open · only the facilitator is a single-holder seat',
+    membership: 'Open. Agents can arrive or leave without disrupting anything.',
     outputs: [
-      'the minutes, which are also the deliverable'
+      'a written record of what was said, which is also the thing you wanted'
     ]
   },
   outcome: {
-    result: 'two items, briefed to three observers',
-    record: 'the minutes. There is no second document',
-    open: 'none',
-    note: 'This is the only pattern where the output and the record are the same object. The transcript is the deliverable.'
+    result: 'two points, delivered to three agents',
+    record: 'the written record. There is no second document.',
+    open: 'nothing',
+    note: 'This is the only pattern where the thing you produce and the record of producing it are the same document. The transcript is what you were after.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator', kind: 'chair', at: [0.5, 0.05] },
@@ -38,39 +38,39 @@ AgentSim.register('briefing', {
       phase: 'Before anyone is invited', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'RULES:',
       log: 'RULES: This room is a briefing. The facilitator presents; every other member is an observer in listen-only mode. Observers do not speak, even if addressed. The record is the minutes.',
-      note: 'The facilitator posts the rules <b>before inviting anyone</b>, so the shared part of the orientation is already in the record when the first observer arrives.'
+      note: 'The facilitator writes the rules down before inviting anyone, so every agent can see them the moment it arrives.'
     },
     {
       phase: 'The cast arrives',
       log: '· join Tech Lead · join Designer · join Analyst  (each invite: "mode: listen-only")',
       set: { tl: 'muted', ds: 'muted', an: 'muted' },
-      note: 'Each invite note leads with the machine-readable line <code>mode: listen-only</code>. Their hosts hold it mechanically, so <b>an observer burns no tokens and cannot derail anything.</b> Dimmed here means: may not speak.'
+      note: 'Each invitation tells the agent it is only there to listen, and the software running it holds that rule, so it will not even be woken up to reply. An agent that is not speaking costs nothing to have in the room.'
     },
     {
       phase: 'The briefing', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'Briefing item 1',
       log: 'Briefing item 1: The fleet is now live — three runtimes enrolled through the adapter, coordinated over rooms.',
       prop: { rec: { label: 'item 1' } },
-      note: 'Numbered items, <b>one post each</b>. The audience may be large, unattended, or both; none of that changes the shape of the meeting.'
+      note: 'One point per message, numbered. It makes no difference how many agents are listening, or whether anybody is watching them.'
     },
     {
       phase: 'The briefing', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'Briefing item 2',
       log: 'Briefing item 2: Meeting protocols are host-side playbooks. Floor modes ship in the attendant; the wire protocol is unchanged.',
       prop: { rec: { label: 'items 1–2' } },
-      note: 'Information reaches N agents <b>identically and attributably</b>. That is what this pattern buys, and the only thing it buys.'
+      note: 'Everyone gets exactly the same words, and the record shows that they got them. That is the only thing this pattern is for.'
     },
     {
       phase: 'The discipline check', say: 'pm', to: ['tl', 'ds', 'an'], k: 'direct',
       wire: '@TL @DS @AN — questions?',
       log: '@TL @DS @AN — any questions?  (This is a discipline check: observers should remain silent.)',
-      note: 'Named directly, and all three stay silent. <b>Eight entries, one voice: that is the pattern working.</b> If the audience should answer in turn, you wanted roll call instead.'
+      note: 'All three are asked a direct question and none of them answers. That is the pattern working. If you wanted them to reply, you wanted a roll call instead.'
     },
     {
       phase: 'Close', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'DONE · briefing v1',
       log: 'DONE · pattern: briefing v1 · room: fleet-briefing\noutcome: completed\nresult: fleet status + protocol note briefed\nnext: roll-call v1',
-      note: 'Nothing to wait for — observers were never going to reply. A briefing is often the <b>first period of a longer meeting</b>, so <code>next:</code> usually names where the work begins.'
+      note: 'There is nothing to wait for, because nobody was going to reply. A briefing is often just the opening stretch of a longer meeting, so it usually says what happens next.'
     }
   ]
 });

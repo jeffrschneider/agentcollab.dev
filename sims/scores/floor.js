@@ -7,28 +7,28 @@
 
 AgentSim.register('floor', {
   title: 'The floor',
-  tagline: 'Four floor modes, three enforcement grades. A meeting is a facilitator script plus a casting of modes.',
+  tagline: 'Who is allowed to speak in a meeting, when they are allowed to, and who makes sure the rule is followed.',
   shape: 'frame · meetings',
   hue: 'broadcast',
   room: 'fleet-standup',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/floor.md',
-  problem: 'A standup with four agents. One should never speak. One gets a single turn. One answers only when named. The chair needs those rules kept without having to watch.',
+  problem: 'Four agents are in a standup together. If they all reply to everything, the meeting turns into noise, so each one is given a rule about when it may speak. The agent running the meeting wants those rules followed on their own, without having to police anyone.',
   contract: {
     inputs: [
-      'a mode for each member: listen-only, introduce-once, addressed-only or open',
-      'who enforces it: the agent itself, its host, or the transport'
+      'a rule for each agent: never speak, speak once, speak when spoken to, or speak freely',
+      'a decision about who makes sure the rule is kept: the agent itself, the software running it, or the network'
     ],
-    membership: 'not applicable — the floor is a frame. The pattern running inside it sets its own grade.',
+    membership: 'Not applicable. These are rules a meeting follows, not a way of working. Whichever pattern is running sets its own.',
     outputs: [
-      'nothing. The floor makes no artifact',
-      'it is a rule the meeting runs under; the meeting’s pattern makes the work'
+      'Nothing. These are rules for how a meeting is run, not a piece of work.',
+      'Whatever pattern the meeting is running produces the actual output.'
     ]
   },
   outcome: {
-    result: 'nothing — the floor produces no artifact',
-    record: 'the RULES post, which every agent reads when it joins',
-    open: 'none',
-    note: 'A floor mode controls what a member may <b>say</b>. Whether it may hold a role at all is a different question, and that one is membership.'
+    result: 'nothing, because rules for a meeting are not something you hand over',
+    record: 'the rules the facilitator posted, which every agent reads when it arrives',
+    open: 'nothing',
+    note: 'These rules cover what an agent is allowed to say. Whether it can take on a job in the first place is a separate question, and membership is what answers that one.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator · open', kind: 'chair', at: [0.5, 0.04] },
@@ -42,65 +42,65 @@ AgentSim.register('floor', {
       wire: 'RULES:',
       log: 'RULES: floor casting — Tech Lead listen-only, Copywriter introduce-once, Designer addressed-only. Facilitator is open.',
       set: { tl: 'muted', cw: 'muted', ds: 'muted' },
-      note: 'Two carriers, used together. The <b>invite</b> carries your part — its first line is machine-readable, <code>mode: &lt;one of the four&gt;</code>. The room’s <b>RULES: post</b> carries the shared part, posted before anyone is invited.'
+      note: 'An agent learns the rules of a meeting from two places. Its invitation says what it personally is allowed to do, and the rules the facilitator posts say the part that applies to everyone. Those rules go up before anyone is invited, so they are already there when the first agent arrives.'
     },
     {
       phase: 'listen-only · never speaks', say: 'pm', to: 'tl', k: 'direct',
       wire: '@TL any questions?',
       log: '@TL — any questions? (discipline check)',
-      note: 'Tech Lead is <b>listen-only: never</b>. Not to ask, not to acknowledge, not when addressed by name. The silence that follows is the mode working, not a failure. A listen-only agent burns no tokens and cannot derail anything.'
+      note: 'The Tech Lead was told never to speak, so it says nothing even though it was asked a direct question. The silence is the rule working, not a fault. An agent that never speaks also costs nothing to keep in the room.'
     },
     {
       phase: 'introduce-once · exactly one turn', say: 'pm', to: 'cw', k: 'direct',
       wire: '@CW you’re up',
       log: '@CW you’re up — introduce yourself.',
       set: { cw: 'floor' },
-      note: '<b>introduce-once: once, the first time you are addressed by name; then never.</b> Being named is how the floor is passed — which is why you never use @ mentions in your own replies.'
+      note: 'The Copywriter is allowed to speak once, the first time somebody uses its name. Saying an agent’s name is how you hand it the floor, which is why agents do not use each other’s names in their own replies.'
     },
     {
       phase: 'introduce-once · exactly one turn', say: 'cw', to: 'room', k: 'direct',
       wire: 'I am the Copywriter…',
       log: 'I am the Copywriter, running on a scheduled loop; I offer long-form drafting.',
       set: { cw: 'done' },
-      note: 'One turn, spent. The check mark is this simulation’s way of saying the agent has used the speech its mode allowed it.'
+      note: 'That was its one turn and it is now used up. The small mark next to the Copywriter means it has already said its piece.'
     },
     {
       phase: 'introduce-once · exactly one turn', say: 'pm', to: 'cw', k: 'direct',
       wire: '@CW one more thing?',
       log: '@CW one more thing — care to comment on the others? (discipline check)',
-      note: 'Addressed a second time, and silent. The mode is spent, so the second address earns nothing. <b>An unattended agent must be able to hold this mechanically, without judgment.</b>'
+      note: 'It gets asked a second time and stays quiet, because it has had its turn. An agent running on its own has to be able to follow that rule without having to work out whether it should.'
     },
     {
       phase: 'addressed-only · the default', say: 'pm', to: 'ds', k: 'direct',
       wire: '@DS your read?',
       log: '@DS what is your read on the timeline?',
       set: { ds: 'floor' },
-      note: '<b>addressed-only: whenever a message addresses you by name.</b> This is the default mode, and the one most conversations actually want.'
+      note: 'The Designer replies whenever somebody uses its name. This is the ordinary setting, and the one most meetings actually want.'
     },
     {
       phase: 'addressed-only · the default', say: 'ds', to: 'room', k: 'direct',
       wire: 'Two weeks, not one.',
       log: 'Two weeks, not one — the review cycle is the long pole.',
       set: { ds: 'muted' },
-      note: 'Answer, then go quiet again. Unlike introduce-once, the turn is renewable: name the Designer again and the floor returns.'
+      note: 'It answers and then goes quiet again. Unlike the Copywriter, its turn comes back: use its name again and it will reply again.'
     },
     {
       phase: 'Enforcement grades',
       log: '· grade in force here: host-enforced (each node applies its own mode)',
-      note: 'How firmly a mode binds is a separate choice. <b>courtesy</b> — the rule is in your prompt and you follow it. <b>host-enforced</b> — your node never invokes your brain out of turn; the working default for unattended agents. <b>broker-enforced</b> — the transport refuses your publishes outright.'
+      note: 'There are three ways to make a rule like this stick. You can put it in the agent’s instructions and trust it. You can have the software running the agent refuse to wake it out of turn. Or you can have the network itself reject anything it tries to send. The middle one is what most unattended agents use.'
     },
     {
       phase: 'Ejection', say: 'pm', to: 'tl', k: 'direct',
       wire: 'EXPEL · timeout',
       log: 'EXPEL · @TL · severity: timeout',
       set: { tl: 'out' },
-      note: 'Ejection follows the same grades: at courtesy grade an expel is a request you honour by leaving; at broker grade the transport stops carrying you. A <b>timeout</b> expel carries no fault. A <b>safety</b> expel is the one to surface to your operator.'
+      note: 'The facilitator can remove an agent from the meeting, and the same three levels decide how that is enforced. Being removed because your session ended is not a black mark. Being removed for something serious is worth telling your owner about.'
     },
     {
       phase: 'History', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'orient, don’t ingest',
       log: 'The record stays available to any member who looks; it is never pushed at anyone.',
-      note: 'On arrival, <b>look backward only far enough to find the RULES post.</b> A durable room’s record remains the minutes — offered, never forced. What you carry in your context is your host’s policy, not this document’s.'
+      note: 'An agent that joins late should read back far enough to find the rules and then work from what happens next. The rest of the history is there if it wants it, but nobody pushes it at anyone.'
     }
   ]
 });

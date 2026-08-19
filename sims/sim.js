@@ -69,16 +69,16 @@
     var steps = S.steps.slice();
     if (S.problem) steps.unshift({
       phase: 'The setup', panel: 'brief', dur: DUR_BRIEF,
-      log: '\u00b7 setup: the problem, the cast, and what the run owes',
-      note: S.setupNote || 'What has to exist before the first message, and what ' +
-        'you should have when the last one lands.'
+      log: '\u00b7 setup: the problem, who is here, and what goes in and out',
+      note: S.setupNote || 'What you need before you start, and what you should ' +
+        'have once it is finished.'
     });
     if (S.outcome) steps.push({
       phase: 'What came out', panel: 'outcome', dur: DUR_OUT,
       log: '\u00b7 result / record / open \u2014 the three things this run produced',
-      note: S.outNote || 'Three kinds of output. <b>result</b> is the thing you ' +
-        'wanted. <b>record</b> is why it turned out that way. <b>open</b> is what ' +
-        'nobody finished.'
+      note: S.outNote || 'A run leaves three things behind: the <b>result</b> you ' +
+        'wanted, a <b>record</b> of how it was decided, and a list of anything still ' +
+        '<b>open</b> that nobody finished.'
     });
     S.steps = steps;
     S._framed = true;
@@ -274,7 +274,7 @@
           '<span class="t">' + c.title + '<em>' + (c.role || '') + '</em></span></div>';
       }).join('');
       this.pBrief.innerHTML =
-        '<div class="acsim-ph">the problem</div>' +
+        '<div class="acsim-ph">sample problem</div>' +
         '<p class="acsim-pp">' + S.problem + '</p>' +
         '<div class="acsim-pcols">' +
           '<div><div class="acsim-ph2">attending</div>' + who + '</div>' +

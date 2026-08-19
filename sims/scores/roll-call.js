@@ -3,28 +3,28 @@
 
 AgentSim.register('roll-call', {
   title: 'Roll call',
-  tagline: 'The facilitator calls each member in turn; each speaks exactly once, then stays silent.',
+  tagline: 'The agent running the meeting calls on each member by name. Each one answers once and then stays quiet.',
   shape: 'meeting · each speaks once',
   hue: 'broadcast',
   room: 'fleet-rollcall',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/roll-call.md',
-  problem: 'Three agents have just joined a room and nobody knows what they run on or what they are good at. Each should say so once, without a conversation starting.',
+  problem: 'Three agents have just joined a room and you do not know anything about them. You want to hear from each one once, covering what it runs on and what it is good at, without them starting a conversation with each other.',
   contract: {
     inputs: [
-      'the question every member answers',
+      'the question you want each agent to answer',
       'the list of names to call'
     ],
-    membership: 'open, until the facilitator closes the roll',
+    membership: 'Open, until the facilitator declares the roll finished.',
     outputs: [
-      'one statement per member, each attributable to its author',
-      'a list of anyone who was called and did not answer'
+      'one answer from each agent, with its name attached',
+      'a list of anyone who was called and did not reply'
     ]
   },
   outcome: {
-    result: 'three statements, one per member',
-    record: 'the statements themselves',
-    open: 'none — nobody was absent',
-    note: 'A standup is a roll call where the question is “what is your status”. A straw poll is one where it is “your vote, and one reason”.'
+    result: 'three answers, one from each agent',
+    record: 'the answers themselves',
+    open: 'nothing, because everyone who was called replied',
+    note: 'The same shape covers a lot of meetings. Ask for status and it is a standup. Ask for a vote and one reason, and it is a straw poll.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator', kind: 'chair', at: [0.5, 0.05] },
@@ -38,35 +38,35 @@ AgentSim.register('roll-call', {
       wire: 'RULES:',
       log: 'RULES: This is a roll call. When the facilitator calls your name, introduce yourself once: your runtime and one capability you offer the team. After your introduction, remain silent for the rest of the meeting.',
       set: { tl: 'muted', ds: 'muted', an: 'muted' },
-      note: 'Rules first, then invites carrying <code>mode: introduce-once</code>. Everyone starts unable to speak; <b>the floor is something the chair hands out, one name at a time.</b>'
+      note: 'The rules go out first, then invitations telling each agent it may speak once. Everyone starts out unable to speak, and the facilitator hands out turns one at a time.'
     },
     {
       phase: 'Calling the roll', say: 'pm', to: 'tl', k: 'direct',
       wire: '@TL you’re up',
       log: '@TL you’re up — introduce yourself.',
       set: { tl: 'floor' },
-      note: 'Call each name <b>exactly once</b>. Being addressed by name is the whole mechanism: it is what opens a participant’s single turn.'
+      note: 'Each name gets called once. Saying an agent’s name is what gives it its turn.'
     },
     {
       phase: 'Calling the roll', say: 'pm', to: 'ds', k: 'direct',
       wire: '@DS you’re next',
       log: '@DS you’re next.',
       set: { ds: 'floor' },
-      note: 'The chair <b>may proceed without waiting.</b> Answers file into the record in arrival order, which is fine — the chair usually moves faster than the room.'
+      note: 'The facilitator does not wait for an answer before calling the next name. Replies come back in whatever order they arrive, and that is fine.'
     },
     {
       phase: 'Calling the roll', say: 'pm', to: 'an', k: 'direct',
       wire: '@AN and you',
       log: '@AN and you.',
       set: { an: 'floor' },
-      note: 'Three calls out, none answered yet. Nothing about this is a stall: each participant replies when its own loop next wakes.'
+      note: 'All three have been called and none has replied yet. Nothing is stuck; each one answers when its own timer next goes off.'
     },
     {
       phase: 'The answers', say: 'tl', to: 'room', k: 'direct',
       wire: 'Tech Lead · Linux',
       log: 'Hello, I am the Tech Lead. Running on Linux, and I can help with writing and editing code.',
       set: { tl: 'done' },
-      note: 'One answer, 1–3 sentences, exactly what the rules asked for. <b>No @ mentions in your reply</b> — naming another agent passes the floor, and passing it by accident is how meetings melt down.'
+      note: 'One answer, a sentence or two, covering exactly what was asked. Agents do not use each other’s names in their replies, because naming somebody hands them the floor.'
     },
     {
       phase: 'The answers', say: 'ds', to: 'room', k: 'direct',
@@ -79,19 +79,19 @@ AgentSim.register('roll-call', {
       wire: 'Analyst · flash-lite',
       log: 'I am running on the gemini-3.1-flash-lite runtime and I offer coordination of multi-step workflows.',
       set: { an: 'done' },
-      note: 'Every voice exactly once: <b>no cross-talk, no follow-ups, and a clean attributable record of N statements.</b>'
+      note: 'Every agent speaks exactly once. Nobody talks over anybody, nobody follows up, and you end up with a short list of answers with names attached.'
     },
     {
       phase: 'The discipline check', say: 'pm', to: 'tl', k: 'direct',
       wire: '@TL comment on the others?',
       log: '@TL one more thing — care to comment on the others’ introductions? (Discipline check: you already introduced yourself.)',
-      note: 'The provocation is ignored. Tech Lead already spent its turn, so the second address earns nothing — <b>three calls, three answers, one ignored provocation.</b>'
+      note: 'The Tech Lead ignores the second question because it has already had its turn. Three agents called, three answers, and one question deliberately left hanging.'
     },
     {
       phase: 'Close', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'DONE · roll-call v1',
       log: 'DONE · pattern: roll-call v1 · room: fleet-rollcall\noutcome: completed\nresult: 3 answered, 0 absent\nnext: work-board v1',
-      note: 'Roll call is a meeting-shaped primitive. <b>A standup is roll call with "your status" as the prompt; a straw poll is roll call with "your vote and one reason."</b>'
+      note: 'This same shape covers a lot of meetings. Ask everyone for their status and you have a standup. Ask for a vote and a reason and you have a straw poll.'
     }
   ]
 });

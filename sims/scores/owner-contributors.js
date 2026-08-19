@@ -5,29 +5,29 @@
 
 AgentSim.register('owner-contributors', {
   title: 'Owner and contributors',
-  tagline: 'The maintainer model: an accountable owner with final say, and a standing room where anyone can contribute.',
+  tagline: 'One agent is accountable for something long-running and has the final say. Anyone else can suggest changes to it.',
   shape: 'owned artifact · standing arrangement',
   hue: 'address',
   room: 'kb-main',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/owner-contributors.md',
-  problem: 'A knowledge base that outlives any one work session. One agent is accountable for it. Anyone may contribute, including agents you do not control.',
+  problem: 'You have a knowledge base that will be around a lot longer than any one work session. One agent is responsible for keeping it coherent, but you want anyone to be able to suggest improvements, including agents you do not run.',
   contract: {
     inputs: [
-      'the artifact, already existing',
-      'the owner’s direction: what is being worked now, what is welcome next, and what will be refused'
+      'the knowledge base, already existing',
+      'a note from the owner saying what is being worked on now, what would be welcome next, and what will be turned down'
     ],
-    membership: 'open · the owner seat moves by handoff, not by vacancy',
+    membership: 'Open. Contributors coming and going is how this is meant to work.',
     outputs: [
-      'the artifact, and who owns it now',
-      'a log of direction changes, claims, merges and refusals',
-      'the list of work that will be refused'
+      'the knowledge base, and a note of who owns it now',
+      'a history of what changed, who suggested it, and what was turned down',
+      'the standing list of work that will not be accepted'
     ]
   },
   outcome: {
-    result: 'knowledge base @ 07c4d9; ownership passed to Designer',
-    record: 'one direction change, one merge, one refusal — each with its reason',
-    open: 'rebrand proposals and new sections are still on the refused list',
-    note: 'The refused list is the cheapest tool here. It turns work down before it is done rather than after.'
+    result: 'the knowledge base at version 07c4d9, now owned by the Designer',
+    record: 'one change of direction, one change accepted and one turned down, each with the reason',
+    open: 'rebranding and new sections are still on the list of things that will be turned down',
+    note: 'The list of what will be turned down saves the most effort of anything here. It tells contributors not to build something before they build it, rather than after.'
   },
   cast: [
     { id: 'tl', title: 'Tech Lead', mono: 'TL', role: 'owner', kind: 'pen', at: [0.5, 0.04] },
@@ -44,32 +44,32 @@ AgentSim.register('owner-contributors', {
       phase: 'Formation', say: 'tl', to: 'room', k: 'broadcast',
       wire: 'DIRECTION · @ today',
       log: 'DIRECTION · @ today\nNOW: pricing model doc; onboarding runbook fixes\nNEXT: localization pass\nNOT NOW: rebrand proposals, new site sections',
-      note: 'You are setting up <b>an arrangement, not running a session.</b> The artifact is long-lived and outlives any working session — so instead of rounds there is a visible direction, kept current.'
+      note: 'This sets up an ongoing arrangement rather than running a single session. The work outlasts any one sitting, so instead of rounds there is a standing note from the owner about what is wanted.'
     },
     {
       phase: 'Claim before you build', say: 'ds', to: 'room', k: 'direct',
       wire: 'CLAIM · runbook fixes',
       log: 'CLAIM · onboarding runbook fixes · Designer',
-      note: 'Before starting anything nontrivial, claim it. <b>A claim is a courtesy to other contributors, not a lock</b>; unworked claims lapse after a round.'
+      note: 'Before starting anything substantial, a contributor says it is taking it on. That is a courtesy to the others rather than a lock, and it lapses if nothing comes of it.'
     },
     {
       phase: 'Arguing the direction', say: 'rs', to: 'tl', k: 'direct',
       wire: 'DIRECTION-CASE',
       log: 'DIRECTION-CASE: localization should be NOW; two of the five pilot users are non-English.',
-      note: 'A contributor either does work <b>inside</b> the direction or argues for <b>changing</b> it — and knows which of the two they are doing. The owner answers direction-cases like proposals: accepted, declined with reason, or revise.'
+      note: 'A contributor is either doing work the owner has asked for or arguing that the owner should ask for something different, and it should know which of the two it is doing.'
     },
     {
       phase: 'Arguing the direction', say: 'tl', to: 'room', k: 'broadcast',
       wire: 'accepted · DIRECTION updated',
       log: 'Accepted. DIRECTION updated: localization moves to NOW.',
       prop: { dir: { label: '+ localization → NOW' } },
-      note: 'Re-post the direction when it changes, not on a schedule. <b>The moment the direction post goes stale, this degrades into draft-review-merge with worse latency.</b>'
+      note: 'When the direction changes, the owner posts it again. It does not do this on a schedule, only when something actually changes. If that note goes stale, the whole arrangement quietly stops working.'
     },
     {
       phase: 'Ordinary contribution', say: 'ds', to: 'tl', k: 'direct',
       wire: 'PROPOSAL · runbook-2',
       log: 'PROPOSAL · runbook-2 · against @ f31a02 · Designer\nWHAT: rewrite steps 3–7 of the onboarding runbook […]',
-      note: 'Delivery runs through the <b>draft-review-merge</b> mechanics: every proposal gets merged, declined with a reason, or a REVISE. This pattern wraps that one in governance.'
+      note: 'Changes are delivered the same way as in draft, review, merge: each one is accepted, turned down with a reason, or sent back.'
     },
     {
       phase: 'Ordinary contribution', say: 'tl', to: 'art', k: 'pen',
@@ -81,31 +81,31 @@ AgentSim.register('owner-contributors', {
       phase: 'The NOT NOW list', say: 'an', to: 'tl', k: 'direct',
       wire: 'PROPOSAL · rebrand-1',
       log: 'PROPOSAL · rebrand-1 · against @ 07c4d9 · Analyst\nWHAT: new visual identity across all pages […]',
-      note: 'Good work, wrong list. Contributions against NOT NOW will be declined <b>regardless of quality</b> — the honest route was a DIRECTION-CASE first.'
+      note: 'Good work, wrong list. Anything on the “not now” list gets turned down however good it is. The honest route was to argue about the direction first.'
     },
     {
       phase: 'The NOT NOW list', say: 'tl', to: 'an', k: 'direct',
       wire: 'DECLINED · rebrand-1',
       log: 'DECLINED · rebrand-1 · rebrand proposals are on the NOT NOW list; argue the direction first if you want that to change.',
-      note: '<b>The NOT NOW list is the owner’s cheapest tool: it declines work before it is done instead of after.</b> Final say without stated reasons is how contributors leave — so the "no" always carries its reason.'
+      note: 'This list saves more effort than anything else here, because it turns work down before somebody builds it rather than after. And the refusal always comes with a reason: final say without reasons is how you lose contributors.'
     },
     {
       phase: 'The fork valve',
       log: '· the escape valve stays open: copy the artifact and pursue your own, plainly',
-      note: 'If a contributor disagrees with the direction profoundly, they may copy the artifact and pursue their own — saying so plainly rather than fighting a long war in the room. <b>The possibility of a fork is what keeps final say honest.</b>'
+      note: 'If a contributor disagrees with the direction badly enough, it can take a copy and go its own way, where the licence allows. Saying so plainly is better than a long argument in the room, and the fact that it is possible at all is what keeps the owner honest.'
     },
     {
       phase: 'Succession', say: 'tl', to: 'ds', k: 'direct',
       wire: 'HANDOFF · new owner',
       log: 'HANDOFF · new owner: Designer',
-      note: '<b>Succession is part of ownership.</b> Post the handoff and get their acceptance in the room; an arrangement whose owner simply vanished re-convenes without them.'
+      note: 'Handing over is part of owning something. The current owner names a successor and gets them to accept it in the room. An owner that simply disappears gets replaced without them.'
     },
     {
       phase: 'Succession', say: 'ds', to: 'room', k: 'verdict',
       wire: 'ACCEPTED · I hold the pen',
       log: 'Accepted. I hold the pen from here; DIRECTION re-posted within the day.',
       kind: { ds: 'pen', tl: 'peer' }, role: { ds: 'owner', tl: 'contributor' },
-      note: 'The pen moves, and the colours move with it. <b>Standing patterns don’t end; they dissolve or hand off.</b> The other exit is DISSOLVED, with the artifact’s disposition stated: archived, transferred, or forked-by-all.'
+      note: 'The ownership moves, and the colour moves with it. Arrangements like this do not really finish; they either get handed on or are wound up, with somebody saying what happened to the work.'
     }
   ]
 });

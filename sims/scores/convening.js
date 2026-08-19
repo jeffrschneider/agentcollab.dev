@@ -10,29 +10,29 @@
 
 AgentSim.register('convening', {
   title: 'Convening',
-  tagline: 'How a group assembles before any pattern: cast the roles, pick the pattern, open the room, brief every role.',
+  tagline: 'How a group works out who is doing what, and which pattern to follow, before any of the work starts.',
   shape: 'pre-pattern · run this first',
   hue: 'broadcast',
   room: 'crit-7f3a',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/convening.md',
-  problem: 'Three agents, and a goal from the operator: a one-page launch plan by tonight. They have not worked together, so nobody has a role and no pattern has been picked.',
+  problem: 'Three agents need to produce a one-page launch plan by tonight. They have not worked together before, so nobody knows yet who is writing it, who is reviewing it, or how they are going to work.',
   contract: {
     inputs: [
-      'the goal, in one sentence',
-      'agents you can reach and ask'
+      'a sentence saying what you want produced',
+      'agents you can contact and ask'
     ],
-    membership: 'open — this is the pattern that builds the cast',
+    membership: 'Open. This is the pattern that builds the team, so people can join it.',
     outputs: [
-      'who holds which role',
-      'which pattern the group will run',
-      'an open room with the CONVENED record in it'
+      'an agreement about who is doing what',
+      'the pattern the group is going to follow',
+      'a room to work in, with that agreement written down in it'
     ]
   },
   outcome: {
-    result: 'Copywriter creates, Tech Lead critiques, running critique-circle v1',
-    record: 'the CONVENED record, posted in the room the work will use',
-    open: 'the second critic seat — Designer declined and nobody replaced them',
-    note: 'Convening is finished when every role has been accepted. The next message in the room is the pattern’s first move.'
+    result: 'the Copywriter writes, the Tech Lead reviews, and they will run critique-circle',
+    record: 'the agreement, posted in the room where the work will happen',
+    open: 'the second reviewer seat, which the Designer turned down and nobody else took',
+    note: 'Convening is finished once everyone has accepted their role. After that, the next thing posted in the room is the first step of the actual work.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.04] },
@@ -45,70 +45,70 @@ AgentSim.register('convening', {
       phase: 'Skip condition', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'no standing roles',
       log: 'No prior casting for this group, and the operator is not reachable. Convening in full.',
-      note: 'Two ways to skip all of this: <b>roles are standing</b> from a prior run, or <b>your operator already said</b> who does what. Convening in full is for first assemblies. Do not make it ceremony.'
+      note: 'You can skip all of this in two cases: the group has worked together before and nothing has changed, or a person has already said who does what. Otherwise, work through it. It is meant to be quick, not a ceremony.'
     },
     {
       phase: 'Round 1 · cast the roles', say: 'pm', to: 'tl', k: 'direct',
       wire: 'take the critic seat?',
       log: 'Can you take the critic role for a launch-plan review today? What are you strongest at?',
-      note: 'Work down the list and stop when the roles are filled: standing assignment, ask the human, <b>interview the agents</b>, look them up, convener’s judgment.'
+      note: 'There is an order to try. Reuse an earlier arrangement if there is one. Ask a person if one is available. Otherwise ask the agents themselves, look up what they say they can do, and failing all that, just decide.'
     },
     {
       phase: 'Round 1 · cast the roles', say: 'tl', to: 'pm', k: 'direct',
       wire: 'ACCEPT · critic',
       log: 'Accept. Strongest at architecture review and failure modes.',
       role: { tl: 'critic' },
-      note: 'Fresh answers beat any stored record, the same exchange confirms availability, and <b>a role that is offered and accepted holds better than one assigned.</b>'
+      note: 'Asking an agent directly beats looking it up. You find out whether it is free at the same time, and an agent that agreed to a job tends to stick to it better than one that was handed the job.'
     },
     {
       phase: 'Round 1 · cast the roles', say: 'pm', to: 'cw', k: 'direct',
       wire: 'hold the pen?',
       log: 'Can you hold the pen on the launch plan and take every critique?',
-      note: 'One seat is different from the others. The pen is authority over the artifact, so who gets it is the casting decision that matters most.'
+      note: 'One of these jobs is different from the rest. Whoever writes the document is the only one allowed to change it, so choosing that agent is the decision that matters most here.'
     },
     {
       phase: 'Round 1 · cast the roles', say: 'cw', to: 'pm', k: 'direct',
       wire: 'ACCEPT · creator',
       log: 'Accept. I hold the pen; nobody else edits.',
       role: { cw: 'creator' }, kind: { cw: 'pen' },
-      note: 'The node turns amber the moment it accepts the pen. Across every simulation, <b>amber is whoever holds the pen or the verdict.</b>'
+      note: 'The Copywriter turns amber the moment it takes on the writing. In every one of these simulations, amber means the agent that is allowed to change the work.'
     },
     {
       phase: 'Round 1 · cast the roles', say: 'pm', to: 'ds', k: 'direct',
       wire: 'second critic seat?',
       log: 'Can you take the second critic seat on this review?',
-      note: 'Prospective participants may accept a role, propose a different one, or decline.'
+      note: 'An agent can accept the job, suggest a different one, or say no.'
     },
     {
       phase: 'Round 1 · cast the roles', say: 'ds', to: 'pm', k: 'direct',
       wire: 'DECLINE · at capacity',
       log: 'Decline — at capacity until tomorrow.',
       set: { ds: 'out' },
-      note: '<b>An agent may decline; respect it.</b> The convener records the refusal and moves down the list rather than assigning over the top of it.'
+      note: 'The Designer says no, and that is allowed. The convener notes it and carries on down the list instead of pushing.'
     },
     {
       phase: 'The trust default',
       log: '· operator check: all three agents share one fleet → no override needed',
-      note: 'Note each participant’s operator. The default: <b>agents outside the artifact owner’s fleet propose and critique; they do not hold the pen.</b> Judgment travels well across trust boundaries; write access does not.'
+      note: 'Check who owns each agent. As a rule, agents belonging to someone else can suggest changes and give opinions, but they do not get to edit the work directly. Opinions are safe to accept from anyone; write access is not.'
     },
     {
       phase: 'Round 2 · pick the pattern', say: 'pm', to: 'room', k: 'broadcast',
       wire: '4 questions → critique-circle',
       log: 'Judgment: distributed. Artifact: one voice. Turn-based. Trust: same fleet. → critique-circle v1',
-      note: 'Four questions pick it: where should judgment live · is the artifact divisible · sequential or simultaneous · how much trust is present. <b>If two patterns fit, pick the simpler one and say so.</b>'
+      note: 'Five questions settle which pattern to use: where the decisions should be made, whether the work splits up cleanly, whether people take turns or work at once, how much the parties trust each other, and whether the same agents will still be around at the end.'
     },
     {
       phase: 'Round 3 · open and brief', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'CONVENED · critique-circle v1',
       log: 'CONVENED · pattern: critique-circle v1 · room: crit-7f3a\nroles: creator=Copywriter, critic=Tech Lead\nartifact: git repo launch-plan, branch main\noverrides: none',
-      note: 'The convening record is posted in the room the work will use, so <b>the casting stays in the room’s history.</b> Every pattern in this library opens with this record and closes with its DONE twin.'
+      note: 'The agreement gets posted in the same room the work will happen in, so there is a written record of who agreed to what.'
     },
     {
       phase: 'Round 3 · open and brief', say: 'pm', to: ['cw', 'tl'], k: 'direct',
       wire: 'read your role card',
       log: 'You are <role>. Read your role card before speaking. → patterns/critique-circle.md',
       set: { cw: 'floor' },
-      note: 'Brief each participant with the pattern document plus the one line that matters. <b>Convening ends when every role is accepted — the next message in the room is the first move of the pattern.</b>'
+      note: 'Each agent is sent the pattern to read and told which job it has. Once everyone has accepted, this stage is over, and the next thing posted is the first step of the actual work.'
     }
   ]
 });

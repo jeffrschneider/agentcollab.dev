@@ -6,30 +6,30 @@
 
 AgentSim.register('bake-off', {
   title: 'Bake-off',
-  tagline: 'Several agents independently produce full solutions to one brief; a judge picks one or synthesizes the winner.',
+  tagline: 'Several agents each write a complete answer to the same brief, without seeing each other\'s work. One agent then picks a winner.',
   shape: 'centralized judgment',
   hue: 'signal',
   room: 'bake-3c12',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/bake-off.md',
-  problem: 'The launch needs a tagline. Nobody knows yet what a good one sounds like, so three agents each write one without seeing the others.',
+  problem: 'You need a tagline for the launch and you do not yet know what a good one would look like. Three agents each write one on their own, without seeing what the others came up with, and then somebody chooses.',
   contract: {
     inputs: [
-      'what a winning entry has to do',
-      'three to five criteria, ranked, published before anyone starts',
+      'a description of what a good answer has to do',
+      'three to five things you will judge on, in order of importance, published before anyone starts',
       'a deadline'
     ],
-    membership: 'fixed — a contestant who joins late has already seen the room',
+    membership: 'Closed once the brief goes out. Anyone who turns up later has already seen the other entries.',
     outputs: [
-      'the winning entry, or one built from several',
-      'the verdict, scored criterion by criterion',
+      'the winning entry, or one assembled from several of them',
+      'the decision, explained against each of the things you said you would judge on',
       'the entries that did not win'
     ]
   },
   outcome: {
-    result: '“Every agent, called by name.”',
-    record: 'the verdict: memorability to Designer, accuracy and brevity to Copywriter',
-    open: 'one entry not used; “tone” mattered but was never published as a criterion',
-    note: 'The criteria go up before anyone writes, so the verdict can be checked against them afterwards.'
+    result: 'the line “Every agent, called by name.”',
+    record: 'the decision: the Designer won on memorability, the Copywriter on accuracy and on being short',
+    open: 'one entry that was not used, and one thing that mattered to the judge but was never published as a criterion',
+    note: 'The things you are judging on go out before anyone starts writing, so afterwards you can check the decision against them.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'judge', kind: 'pen', at: [0.5, 0.04] },
@@ -45,41 +45,41 @@ AgentSim.register('bake-off', {
       phase: 'Open', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'CONVENED · bake-off v1',
       log: 'CONVENED · pattern: bake-off v1 · room: bake-3c12\nroles: judge=Program Mgr, contestants=Copywriter, Designer, Tech Lead',
-      note: 'Use it when the solution space is wide and you genuinely don’t know which approach wins. <b>Independent attempts are worth more than one attempt iterated, because diversity of approach is the value being bought.</b>'
+      note: 'Use this when you do not know what a good answer looks like yet. Several separate attempts are worth more than one attempt revised three times, because the differences between them are the point.'
     },
     {
       phase: 'The brief', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'BRIEF · launch tagline',
       log: 'BRIEF · tagline for the launch\nGOAL: One line a developer repeats to a colleague.\nCRITERIA: memorability, accuracy, brevity\nDELIVERABLE: up to 3 candidate lines per contestant\nDEADLINE: 30 minutes',
       prop: { brief: { label: 'tagline · 3 criteria' } },
-      note: 'The judge owns the brief and the verdict, and <b>does not compete.</b> Criteria are named in priority order, up front — a verdict that cannot be traced to published criteria is a coin flip wearing a robe.'
+      note: 'The agent judging owns the brief and the decision, and does not enter itself. It lists what it will judge on, in order of importance, before anybody starts.'
     },
     {
       phase: 'Clarifications', say: 'cw', to: 'pm', k: 'direct',
       wire: 'Q: is "handle" assumed?',
       log: 'Clarify: is "handle" assumed vocabulary for this audience?',
-      note: 'Clarifying questions are allowed, and they <b>go in the room</b> — so every contestant sees every answer.'
+      note: 'Contestants can ask questions, and the questions and answers go in the room so that everybody sees the same information.'
     },
     {
       phase: 'Clarifications', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'A: yes · questions close',
       log: 'A: yes. Questions close in 5 minutes.',
       prop: { brief: { frozen: true } },
-      note: '<b>The brief is frozen once posted.</b> If the judge must change it: say BRIEF WITHDRAWN, post a new one, and restart the clock for everyone.'
+      note: 'Once the brief is out it does not change. If the judge has to change something, it withdraws the brief, posts a new one, and restarts the clock for everyone.'
     },
     {
       phase: 'Silence while they work',
       log: '· contestants work privately — no drafts, no progress, no approach posted',
       set: { cw: 'working', ds: 'working', tl: 'working' },
       dur: 2600,
-      note: 'The dashed nodes are the pattern. <b>Work privately: do not post drafts, progress, or approach to the room before the deadline</b> — the value of a bake-off is that entries do not contaminate each other.'
+      note: 'This is the part that matters. The contestants work without posting drafts, progress or even their approach, because the whole value of the pattern is that the entries did not influence each other.'
     },
     {
       phase: 'Submissions', say: 'cw', to: 'pm', k: 'direct',
       wire: 'SUBMISSION · Copywriter',
       log: 'SUBMISSION · Copywriter: "A name for every agent." (+2 alternates)',
       set: { cw: 'done' },
-      note: '<b>Submit once, by the deadline.</b> Late entries are out; partial entries are allowed but must say so.'
+      note: 'Each agent submits once, by the deadline. Late entries do not count. Unfinished entries are allowed, but have to say that they are unfinished.'
     },
     {
       phase: 'Submissions', say: 'ds', to: 'pm', k: 'direct',
@@ -92,25 +92,25 @@ AgentSim.register('bake-off', {
       wire: 'SUBMISSION · Tech Lead',
       log: 'SUBMISSION · Tech Lead: "Addressable agents, finally." (+1 alternate)',
       set: { tl: 'done' },
-      note: 'The judge <b>does not comment on any entry until all are in</b> or the deadline passes. Early praise leaks the criteria’s weighting to whoever is still writing.'
+      note: 'The judge says nothing about any entry until they are all in or the deadline has passed. Praising one early tells whoever is still writing what the judge is looking for.'
     },
     {
       phase: 'The verdict', say: 'pm', to: 'room', k: 'verdict',
       wire: 'VERDICT · SYNTHESIS',
       log: 'VERDICT · SYNTHESIS\nBY CRITERION: memorability: Designer; accuracy: Copywriter; brevity: Copywriter\nTAKING: Designer’s verb "call" inside Copywriter’s frame.',
-      note: 'Score against <b>the criteria you published</b>, not preferences you discovered along the way. Discover a criterion you forgot to publish? Name it as a footnote and weight it lightly — that error is the judge’s, not theirs.'
+      note: 'The decision is made against the criteria that were published, not against preferences the judge discovered along the way. If the judge realises it forgot one, it should say so and not lean on it heavily; that mistake is the judge’s, not the contestants’.'
     },
     {
       phase: 'The merge', say: 'pm', to: 'room', k: 'verdict',
       wire: 'SYNTHESIZED · final',
       log: 'SYNTHESIZED · final: "Every agent, called by name."',
-      note: 'A verdict may pick a winner or synthesize one. After it lands, a contestant may ask for its per-criterion reading — <b>but does not get to relitigate it.</b>'
+      note: 'The judge can pick one entry or build something from several. Afterwards a contestant can ask how its own entry scored, but it does not get to reopen the decision.'
     },
     {
       phase: 'Close', say: 'pm', to: 'room', k: 'broadcast',
       wire: 'DONE · bake-off v1',
       log: 'DONE · pattern: bake-off v1 · room: bake-3c12\noutcome: completed\nresult: synthesis of Copywriter + Designer\nnext: none',
-      note: 'If the group should improve one artifact rather than compare rivals, you wanted <b>critique-circle</b>. If the parts are separable and nobody needs to compete, divide the work instead.'
+      note: 'If what you actually want is to improve one document rather than compare several, use critique-circle. If the work splits up cleanly and nobody needs to compete, just divide it up.'
     }
   ]
 });
