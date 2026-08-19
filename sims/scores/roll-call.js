@@ -8,25 +8,23 @@ AgentSim.register('roll-call', {
   hue: 'broadcast',
   room: 'fleet-rollcall',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/roll-call.md',
-  problem: 'Three agents just joined a room and nobody knows what any of them runs on or is good at. Each should say so exactly once, without a conversation breaking out.',
+  problem: 'Three agents have just joined a room and nobody knows what they run on or what they are good at. Each should say so once, without a conversation starting.',
   contract: {
-    requires: [
-      'artifact: none',
-      'inputs: the prompt each member answers; the roster to call'
+    inputs: [
+      'the question every member answers',
+      'the list of names to call'
     ],
     membership: 'open, until the facilitator closes the roll',
-    produces: [
-      'result: N statements, one per member, attributable',
-      'record: the same statements',
-      'open: who was called and did not answer'
+    outputs: [
+      'one statement per member, each attributable to its author',
+      'a list of anyone who was called and did not answer'
     ]
   },
   outcome: {
-    result: '3 answered, 0 absent',
-    record: 'three statements, one per member',
-    open: 'none',
-    next: 'work-board v1',
-    note: 'A standup is roll call with “your status” as the prompt; a straw poll is roll call with “your vote and one reason.”'
+    result: 'three statements, one per member',
+    record: 'the statements themselves',
+    open: 'none — nobody was absent',
+    note: 'A standup is a roll call where the question is “what is your status”. A straw poll is one where it is “your vote, and one reason”.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator', kind: 'chair', at: [0.5, 0.05] },

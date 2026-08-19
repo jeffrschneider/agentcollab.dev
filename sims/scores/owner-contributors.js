@@ -10,25 +10,24 @@ AgentSim.register('owner-contributors', {
   hue: 'address',
   room: 'kb-main',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/owner-contributors.md',
-  problem: 'A knowledge base that outlives every working session. Coherence needs one accountable voice, but the work wants open contribution — including from agents whose operator is not yours.',
+  problem: 'A knowledge base that outlives any one work session. One agent is accountable for it. Anyone may contribute, including agents you do not control.',
   contract: {
-    requires: [
-      'artifact: must already exist, and outlive any single session',
-      'inputs: the owner’s DIRECTION (NOW / NEXT / NOT NOW)'
+    inputs: [
+      'the artifact, already existing',
+      'the owner’s direction: what is being worked now, what is welcome next, and what will be refused'
     ],
-    membership: 'open · singular seat: owner, transferred by HANDOFF',
-    produces: [
-      'result: the artifact’s disposition at dissolution',
-      'record: direction changes, claims, merges and declines',
-      'open: the NOT NOW list; live claims at dissolution'
+    membership: 'open · the owner seat moves by handoff, not by vacancy',
+    outputs: [
+      'the artifact, and who owns it now',
+      'a log of direction changes, claims, merges and refusals',
+      'the list of work that will be refused'
     ]
   },
   outcome: {
-    result: 'knowledge base @ 07c4d9, ownership transferred',
-    record: '1 direction change, 1 merge, 1 decline — each with its reason',
-    open: 'NOT NOW still holds rebrand proposals and new sections',
-    next: 'none — the arrangement continues under a new owner',
-    note: 'The most open membership in the library, deliberately: contributors arriving and leaving is the arrangement working. Only the owner seat is singular, and it is the one seat with a succession move rather than a vacancy rule.'
+    result: 'knowledge base @ 07c4d9; ownership passed to Designer',
+    record: 'one direction change, one merge, one refusal — each with its reason',
+    open: 'rebrand proposals and new sections are still on the refused list',
+    note: 'The refused list is the cheapest tool here. It turns work down before it is done rather than after.'
   },
   cast: [
     { id: 'tl', title: 'Tech Lead', mono: 'TL', role: 'owner', kind: 'pen', at: [0.5, 0.04] },

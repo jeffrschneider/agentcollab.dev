@@ -105,8 +105,12 @@
   letter-spacing:.11em; text-transform:uppercase; }
 .acn-ring{ fill:none; stroke:var(--c); stroke-width:1.4; opacity:0;
   transition:opacity .3s ease; }
-.acn-badge{ font-family:var(--wire); font-size:8.5px; text-anchor:middle; opacity:0;
-  dominant-baseline:central; transition:opacity .35s ease; }
+/* Drawn state marks. visibility (not opacity) keeps a hidden one out of the
+   copy and accessibility trees; the shapes keep glyphs out of both entirely. */
+.acn-badge{ opacity:0; visibility:hidden; transition:opacity .35s ease; }
+.acn-badge line, .acn-badge path{ stroke:currentColor; fill:none;
+  stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.acn-badge circle{ fill:currentColor; stroke:none; }
 
 /* the five states an agent can be in - the same in every pattern */
 .acn[data-s="floor"] .acn-ring{ opacity:.85; }
@@ -115,12 +119,12 @@
 .acn[data-s="speaking"] .acn-disc{ fill:color-mix(in srgb, var(--c) 24%, var(--panel)); }
 .acn[data-s="muted"]{ opacity:.36; }
 .acn[data-s="muted"] .acn-disc{ stroke-dasharray:2 3; }
-.acn[data-s="muted"] .acn-badge.mute{ opacity:1; fill:var(--dim); }
+.acn[data-s="muted"] .acn-badge.mute{ opacity:1; visibility:visible; color:var(--dim); }
 .acn[data-s="working"] .acn-disc{ stroke-dasharray:5 4; animation:acn-spin 3.4s linear infinite; }
-.acn[data-s="working"] .acn-badge.work{ opacity:1; fill:var(--c); }
+.acn[data-s="working"] .acn-badge.work{ opacity:1; visibility:visible; color:var(--c); }
 .acn[data-s="done"] .acn-disc{ fill:color-mix(in srgb, var(--verify) 16%, var(--panel));
   stroke:var(--verify); }
-.acn[data-s="done"] .acn-badge.done{ opacity:1; fill:var(--verify); }
+.acn[data-s="done"] .acn-badge.done{ opacity:1; visibility:visible; color:var(--verify); }
 .acn[data-s="out"]{ opacity:.18; }
 @keyframes acn-spin{ to{ stroke-dashoffset:-54; } }
 

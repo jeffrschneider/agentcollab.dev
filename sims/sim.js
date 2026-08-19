@@ -70,16 +70,15 @@
     if (S.problem) steps.unshift({
       phase: 'The setup', panel: 'brief', dur: DUR_BRIEF,
       log: '\u00b7 setup: the problem, the cast, and what the run owes',
-      note: S.setupNote || 'Before anything is posted: the problem, who is in the ' +
-        'room, what has to exist before round 1, and what the run owes at the end. ' +
-        'This is the <b>CONVENED</b> record, unpacked.'
+      note: S.setupNote || 'What has to exist before the first message, and what ' +
+        'you should have when the last one lands.'
     });
     if (S.outcome) steps.push({
       phase: 'What came out', panel: 'outcome', dur: DUR_OUT,
       log: '\u00b7 result / record / open \u2014 the three things this run produced',
-      note: S.outNote || 'A collaboration produces more than the thing it was for. ' +
-        '<b>result</b> is the work product, <b>record</b> is why it is what it is, ' +
-        'and <b>open</b> is what was left undone \u2014 named, not buried.'
+      note: S.outNote || 'Three kinds of output. <b>result</b> is the thing you ' +
+        'wanted. <b>record</b> is why it turned out that way. <b>open</b> is what ' +
+        'nobody finished.'
     });
     S.steps = steps;
     S._framed = true;
@@ -199,7 +198,9 @@
       l.style.setProperty('--k', KCOLOR[st.k] || 'var(--dim)');
       var who = st.say ? (self.castOf(st.say) || {}).mono : '·';
       html('span', 'acsim-log-w', l, who || '·');
-      html('span', 'acsim-log-t', l, st.log || st.wire || '');
+      var txt = st.log || st.wire || '';
+      if (!st.say) txt = txt.replace(/^·\s*/, '');   // the who column already shows it
+      html('span', 'acsim-log-t', l, txt);
       return l;
     });
 
@@ -277,10 +278,10 @@
         '<p class="acsim-pp">' + S.problem + '</p>' +
         '<div class="acsim-pcols">' +
           '<div><div class="acsim-ph2">attending</div>' + who + '</div>' +
-          '<div><div class="acsim-ph2">requires</div>' + lines(C.requires) +
+          '<div><div class="acsim-ph2">inputs</div>' + lines(C.inputs) +
             (C.membership ? '<div class="acsim-ph2" style="margin-top:11px">membership</div>' +
               '<div class="acsim-pl acsim-mem">' + C.membership + '</div>' : '') + '</div>' +
-          '<div><div class="acsim-ph2">produces</div>' + lines(C.produces) + '</div>' +
+          '<div><div class="acsim-ph2">outputs</div>' + lines(C.outputs) + '</div>' +
         '</div>';
     }
     if (S.outcome) {
@@ -288,7 +289,7 @@
         '<div class="acsim-ph">what came out</div>' +
         '<div class="acsim-pout">' +
           lines(['result: ' + (O.result || ''), 'record: ' + (O.record || ''),
-                 'open: ' + (O.open || 'none'), 'next: ' + (O.next || 'none')]) +
+                 'open: ' + (O.open || 'none')]) +
         '</div>' +
         (O.note ? '<p class="acsim-pp acsim-pnote">' + O.note + '</p>' : '');
     }
@@ -310,11 +311,16 @@
     svg('text', { class: 'acn-name', x: p.x, y: p.y + R + 15 }, g).textContent = c.title;
     var role = svg('text', { class: 'acn-role', x: p.x, y: p.y + R + 27 }, g);
     role.textContent = c.role || '';
-    var badge = function (cls, ch) {
-      var t = svg('text', { class: 'acn-badge ' + cls, x: p.x + R - 3, y: p.y - R + 2 }, g);
-      t.textContent = ch; return t;
+    // State marks are drawn, not typed: a glyph here gets picked up by
+    // copy-paste and by screen readers, where it reads as loose punctuation.
+    var bx = p.x + R - 4, by = p.y - R + 3;
+    var mark = function (cls) {
+      return svg('g', { class: 'acn-badge ' + cls, 'aria-hidden': 'true' }, g);
     };
-    badge('mute', '—'); badge('work', '⋯'); badge('done', '✓');
+    svg('line', { x1: bx - 4, y1: by, x2: bx + 4, y2: by }, mark('mute'));
+    var wk = mark('work');
+    [-4, 0, 4].forEach(function (dx) { svg('circle', { cx: bx + dx, cy: by, r: 1.3 }, wk); });
+    svg('path', { d: 'M' + (bx - 4) + ' ' + by + 'l3 3l5.5 -6.5' }, mark('done'));
     this.nodes[c.id] = { g: g, role: role, p: p };
   };
 

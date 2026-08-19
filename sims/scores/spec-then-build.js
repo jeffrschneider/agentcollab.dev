@@ -11,25 +11,25 @@ AgentSim.register('spec-then-build', {
   hue: 'signal',
   room: 'spec-2b71',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/spec-then-build.md',
-  problem: 'Paid work across a trust boundary. One party knows exactly what it needs, the other will build it unsupervised, and afterwards both need an objective answer to “is this what was asked for?”',
+  problem: 'Paid work between two parties who do not share an operator. One knows what it needs, the other will build it unsupervised, and afterwards both have to agree on whether it was delivered.',
   contract: {
-    requires: [
-      'artifact: none',
-      'inputs: requirements that can be stated checkably, and an acceptance line for each'
+    inputs: [
+      'requirements that can each be checked',
+      'how each one will be checked, written before the work starts',
+      'a deadline'
     ],
-    membership: 'fixed · both seats singular: specifier and builder',
-    produces: [
-      'result: the accepted delivery',
-      'record: the frozen spec, the self-check, the acceptance run',
-      'open: NOTED AMBIGUITY entries; anything ruled SPEC v2 material'
+    membership: 'fixed — two named parties. Losing either one ends the contract',
+    outputs: [
+      'the delivery, accepted or not',
+      'the frozen spec and the acceptance results',
+      'anything found missing, for the next contract'
     ]
   },
   outcome: {
     result: 'pricing.md @ 8c31aa, accepted',
-    record: 'SPEC v1 frozen + self-check 3/3 + the acceptance run',
-    open: 'annual pricing — the specifier’s own miss, now SPEC v2',
-    next: 'spec-then-build v1 (round 2)',
-    note: 'A defect must trace to the frozen spec. The wish that did not trace became <b>a new contract</b> instead of pressure on a delivery that had already passed.'
+    record: 'the frozen spec, the builder’s self-check, and the acceptance run',
+    open: 'annual pricing was never specified — it becomes SPEC v2',
+    note: 'A fault only counts if it traces to the frozen spec. Anything else is a new contract, not a complaint.'
   },
   cast: [
     { id: 'ds', title: 'Designer', mono: 'DS', role: 'convener', kind: 'chair', at: [0.5, 0.03] },

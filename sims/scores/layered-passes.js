@@ -8,25 +8,24 @@ AgentSim.register('layered-passes', {
   hue: 'verify',
   room: 'layers-4a90',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/layered-passes.md',
-  problem: 'A drafted report that is structurally muddled, factually unsourced, and stylistically four different people. Fixing all three at once converges on nothing.',
+  problem: 'A drafted report is structurally muddled, its numbers are unsourced, and it reads like four different people wrote it. Fixing all three at once fixes none of them.',
   contract: {
-    requires: [
-      'artifact: must already exist in rough form, at a named base version',
-      'inputs: the pass sequence, one nameable concern per pass'
+    inputs: [
+      'the draft, at a named version',
+      'the passes in order, one concern each'
     ],
-    membership: 'fixed-per-round · boundary: a pass',
-    produces: [
-      'result: @ final version',
-      'record: each pass’s CHANGED line, plus the flag ledger',
-      'open: flags dropped in the sweep, with reasons'
+    membership: 'fixed-per-round · a new pass owner can take any pass that has not begun',
+    outputs: [
+      'the artifact at its final version',
+      'what each pass changed',
+      'flags: problems one pass spotted and left for the pass that owns them'
     ]
   },
   outcome: {
     result: '@ c90d11 — three passes, one concern each',
-    record: 'flag ledger — 1 raised, 1 resolved, 0 swept',
+    record: 'one flag raised in pass 1, resolved in pass 2',
     open: 'none',
-    next: 'none',
-    note: 'The flag ledger is the only place a reader can see <b>why</b> the style pass left an obvious factual error alone: because the flag existed and the content pass owned it.'
+    note: 'A pass fixes only its own concern. Anything else it notices becomes a flag for the pass that owns it.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.03] },

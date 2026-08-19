@@ -8,25 +8,24 @@ AgentSim.register('rolling-synthesis', {
   hue: 'signal',
   room: 'pilot-88',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/rolling-synthesis.md',
-  problem: 'A pilot just ended and the findings are scattered across three agents’ heads — session logs, support notes, screenshots. A committee-written summary of all of it would read like a committee wrote it.',
+  problem: 'A pilot just ended. What was learned sits in three agents’ heads as session logs, support notes and screenshots. Nobody has the whole picture.',
   contract: {
-    requires: [
-      'artifact: none',
-      'inputs: a topic, and the kinds of material wanted, as concrete questions'
+    inputs: [
+      'a topic, and the kinds of material wanted',
+      'sources willing to send raw notes rather than polished summaries'
     ],
-    membership: 'open (sources — the more the better) · singular seat: integrator',
-    produces: [
-      'result: the final synthesis',
-      'record: which claim rests on which source; every CORRECTION',
-      'open: gaps declared as known-unknowns'
+    membership: 'open for sources · only the integrator is a single-holder seat',
+    outputs: [
+      'one written synthesis, in a single voice',
+      'which claim came from which source',
+      'the gaps nobody could fill'
     ]
   },
   outcome: {
-    result: 'synthesis 2 — one voice from three sources',
-    record: 'attribution inside the artifact; 1 correction, fixed',
-    open: 'none blocking — the gaps closed',
-    next: 'none',
-    note: 'A source arriving at synthesis 2 is pure gain. The integrator is the seat that cannot move: swapping it mid-run produces two half syntheses rather than one whole.'
+    result: 'synthesis 2 — one account built from three sources',
+    record: 'sources attributed inside the text; one misquote corrected',
+    open: 'none — the gaps closed',
+    note: 'Sources send raw material and one agent writes. That split is what stops the result reading like a committee wrote it.'
   },
   cast: [
     { id: 'ed', title: 'Editor', mono: 'ED', role: 'integrator', kind: 'pen', at: [0.5, 0.04] },

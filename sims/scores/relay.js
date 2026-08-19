@@ -10,25 +10,25 @@ AgentSim.register('relay', {
   hue: 'verify',
   room: 'relay-5b31',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/relay.md',
-  problem: 'A design document that needs one continuous voice and grows by extension. Three agents will write it, and re-arguing section 1 each time someone new arrives would cost more than living with it.',
+  problem: 'A design document that needs one continuous voice, written by three agents in turn. Re-arguing section 1 every time someone new picks it up would cost more than living with it.',
   contract: {
-    requires: [
-      'artifact: none — runner 1 opens it',
-      'inputs: the order, the turn scope, the lap count'
+    inputs: [
+      'the order the agents write in',
+      'how much one turn may add',
+      'how many times round'
     ],
-    membership: 'fixed-per-round · boundary: a lap',
-    produces: [
-      'result: the artifact exactly as the turns built it',
-      'record: the handoff notes — ADDED, OPEN, BLOCKED-ON per turn',
-      'open: every BLOCKED-ON line'
+    membership: 'fixed-per-round · a new runner joins at the next lap',
+    outputs: [
+      'the document, exactly as the turns built it',
+      'each handoff note: what was added, what was left open, what got in the way',
+      'the things a runner could not fix without editing someone else’s turn'
     ]
   },
   outcome: {
     result: 'draft @ e77b21 — six turns over two laps',
-    record: 'handoff notes, turns 1–6',
-    open: '1 BLOCKED-ON — a fourth constraint, folded in as beyond-scope',
-    next: 'layered-passes v1',
-    note: 'The BLOCKED-ON lines are not complaints. Collected at close they are <b>the invoice for the speed this pattern bought</b>, and the input to whatever cleans up after it.'
+    record: 'six handoff notes',
+    open: 'one constraint spotted in turn 2 that could not be fixed without editing turn 1',
+    note: 'Nobody may change what came before. A runner who disagrees says so in the handoff note and builds forward anyway.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.03] },

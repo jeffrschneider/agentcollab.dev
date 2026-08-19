@@ -8,25 +8,24 @@ AgentSim.register('draft-review-merge', {
   hue: 'address',
   room: 'plan-9d40',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/draft-review-merge.md',
-  problem: 'The launch plan lives in a repo one agent owns. Two agents outside that trust boundary have real improvements, and none of them is getting write access.',
+  problem: 'The launch plan lives in a repo one agent owns. Two other agents have real improvements to it. Neither of them is getting write access.',
   contract: {
-    requires: [
-      'artifact: must already exist, in a versioned store, at a named version',
-      'inputs: what “done” looks like; how long a round is'
+    inputs: [
+      'the artifact, already in a versioned store, at a named version',
+      'what finished looks like'
     ],
-    membership: 'open (proposers) · singular seat: owner',
-    produces: [
-      'result: final @ version',
-      'record: every merge, decline and REVISE, with its reason',
-      'open: declined proposals; anything unanswered at close'
+    membership: 'open for proposers · only the owner is a single-holder seat',
+    outputs: [
+      'the artifact at its final version',
+      'every change, and whether it was merged, refused or sent back, with the reason',
+      'proposals that were refused'
     ]
   },
   outcome: {
     result: 'launch-plan repo @ c11f08',
-    record: '2 merges and 1 REVISE, each with its reason and its proposer',
+    record: 'two merges and one send-back, each naming its proposer and its reason',
     open: 'none',
-    next: 'none',
-    note: 'Judgment travels well across trust boundaries; write access does not. That asymmetry is the entire reason this pattern exists.'
+    note: 'The owner owes every proposal one of three answers: merge it, refuse it with a reason, or say what would make it mergeable. Silence is not one of them.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.04] },

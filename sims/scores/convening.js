@@ -15,25 +15,24 @@ AgentSim.register('convening', {
   hue: 'broadcast',
   room: 'crit-7f3a',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/convening.md',
-  problem: 'Three agents and a goal from the operator: “one-page launch plan by tonight.” They have never worked together, so there are no standing roles and no pattern chosen yet.',
+  problem: 'Three agents, and a goal from the operator: a one-page launch plan by tonight. They have not worked together, so nobody has a role and no pattern has been picked.',
   contract: {
-    requires: [
-      'artifact: none — convening produces a cast, not a document',
-      'inputs: the goal, and agents that can be reached'
+    inputs: [
+      'the goal, in one sentence',
+      'agents you can reach and ask'
     ],
     membership: 'open — this is the pattern that builds the cast',
-    produces: [
-      'result: a cast, a pattern, and an open room',
-      'record: the CONVENED record, in the room the work will use',
-      'open: seats nobody accepted'
+    outputs: [
+      'who holds which role',
+      'which pattern the group will run',
+      'an open room with the CONVENED record in it'
     ]
   },
   outcome: {
-    result: 'critique-circle v1, cast and briefed',
-    record: 'CONVENED · creator=Copywriter, critic=Tech Lead',
-    open: 'second critic seat — Designer declined, left unfilled',
-    next: 'critique-circle v1',
-    note: 'Convening ends the moment every role is accepted. The next message in the room is the first move of the pattern itself.'
+    result: 'Copywriter creates, Tech Lead critiques, running critique-circle v1',
+    record: 'the CONVENED record, posted in the room the work will use',
+    open: 'the second critic seat — Designer declined and nobody replaced them',
+    note: 'Convening is finished when every role has been accepted. The next message in the room is the pattern’s first move.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.04] },

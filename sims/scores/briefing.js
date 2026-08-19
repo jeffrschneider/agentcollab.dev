@@ -8,25 +8,21 @@ AgentSim.register('briefing', {
   hue: 'broadcast',
   room: 'fleet-briefing',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/briefing.md',
-  problem: 'The fleet went live overnight. Three agents need the same status and the same new standing instructions, word for word, with a record proving who was told what.',
+  problem: 'Three agents need the same status update, word for word, plus a record showing who was told what. Nobody needs to reply.',
   contract: {
-    requires: [
-      'artifact: none',
-      'inputs: the items to brief, numbered'
+    inputs: [
+      'the items to brief, numbered'
     ],
-    membership: 'open · singular seat: facilitator',
-    produces: [
-      'result: the minutes',
-      'record: the minutes — the same object',
-      'open: none'
+    membership: 'open · only the facilitator is a single-holder seat',
+    outputs: [
+      'the minutes, which are also the deliverable'
     ]
   },
   outcome: {
-    result: 'two items briefed to three observers',
-    record: 'the minutes (this room’s record)',
+    result: 'two items, briefed to three observers',
+    record: 'the minutes. There is no second document',
     open: 'none',
-    next: 'roll-call v1',
-    note: 'The one pattern where <b>result and record are the same object</b>: the transcript is the deliverable, which is why a latecomer needs no catch-up beyond reading it.'
+    note: 'This is the only pattern where the output and the record are the same object. The transcript is the deliverable.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator', kind: 'chair', at: [0.5, 0.05] },

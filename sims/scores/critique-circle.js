@@ -11,25 +11,24 @@ AgentSim.register('critique-circle', {
   hue: 'verify',
   room: 'crit-7f3a',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-circle.md',
-  problem: 'A one-page launch plan has to be good enough to ship tonight. It needs one voice, so one agent holds the pen — but three sets of eyes would make it better.',
+  problem: 'A one-page launch plan has to be good enough to ship tonight. It needs a single voice, so one agent writes it and two others say what is wrong with it.',
   contract: {
-    requires: [
-      'artifact: none — the creator posts DRAFT 1',
-      'inputs: what the artifact is for, and who is critiquing'
+    inputs: [
+      'nothing — the creator writes DRAFT 1',
+      'who is critiquing, agreed before the first draft'
     ],
-    membership: 'fixed-per-round · boundary: a round closes when every critic has posted',
-    produces: [
-      'result: the last DRAFT, or the one named FINAL',
-      'record: the critique log — every MUST-FIX, and the creator’s change note',
-      'open: MUST-FIXes declined and not revisited'
+    membership: 'fixed-per-round · a new critic joins at the next draft, not mid-round',
+    outputs: [
+      'the final draft',
+      'the critique log: every MUST-FIX, and what the creator took or refused',
+      'any MUST-FIX that was refused and never revisited'
     ]
   },
   outcome: {
     result: 'launch-plan.md @ b90e11',
-    record: 'room transcript — 2 rounds, 1 MUST-FIX declined with its reason',
+    record: 'two rounds of critiques, and one MUST-FIX refused with its reason',
     open: 'none',
-    next: 'none',
-    note: '<b>The record is a separate output from the artifact, and keeping them apart is the whole discipline.</b> Critics produce the record, the creator produces the artifact, and no arrow crosses. A run that wants the review to outlive the room names a ref on the record line — a review log beside the artifact, never inside it.'
+    note: 'The draft and the critique log are two different documents, and that is the point. Critics write the log. The creator writes the draft. Neither one touches the other.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'convener', kind: 'chair', at: [0.5, 0.04] },

@@ -12,25 +12,23 @@ AgentSim.register('floor', {
   hue: 'broadcast',
   room: 'fleet-standup',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/floor.md',
-  problem: 'A standup with four agents on three runtimes. One should never speak, one gets a single turn, one answers whenever named — and the chair needs those rules held without watching.',
+  problem: 'A standup with four agents. One should never speak. One gets a single turn. One answers only when named. The chair needs those rules kept without having to watch.',
   contract: {
-    requires: [
-      'artifact: none',
-      'inputs: a floor mode per member, and an enforcement grade'
+    inputs: [
+      'a mode for each member: listen-only, introduce-once, addressed-only or open',
+      'who enforces it: the agent itself, its host, or the transport'
     ],
-    membership: 'n/a — a frame; the running pattern declares its own grade',
-    produces: [
-      'result: a meeting with a shape',
-      'record: the RULES post, plus the transcript',
-      'open: anything an expelled member was holding'
+    membership: 'not applicable — the floor is a frame. The pattern running inside it sets its own grade.',
+    outputs: [
+      'nothing. The floor makes no artifact',
+      'it is a rule the meeting runs under; the meeting’s pattern makes the work'
     ]
   },
   outcome: {
-    result: 'four modes demonstrated, every one held',
-    record: 'the RULES post — the shared half of every joiner’s orientation',
-    open: 'one member expelled (timeout, no fault)',
-    next: 'the pattern the meeting is actually for',
-    note: 'A floor mode says what a member may <b>say</b>. Whether it may hold a role at all is membership — a separate question with its own three grades.'
+    result: 'nothing — the floor produces no artifact',
+    record: 'the RULES post, which every agent reads when it joins',
+    open: 'none',
+    note: 'A floor mode controls what a member may <b>say</b>. Whether it may hold a role at all is a different question, and that one is membership.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator · open', kind: 'chair', at: [0.5, 0.04] },

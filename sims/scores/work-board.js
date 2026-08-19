@@ -11,25 +11,25 @@ AgentSim.register('work-board', {
   hue: 'address',
   room: 'ops-77',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/work-board.md',
-  problem: 'Four unrelated chores and three agents that work at different speeds, wake on different schedules, and may vanish mid-task. Nobody should have to know who is free.',
+  problem: 'Four unrelated chores, and three agents that work at different speeds, wake on different schedules, and may disappear mid-task. Nobody should have to track who is free.',
   contract: {
-    requires: [
-      'artifact: none',
-      'inputs: items sized to the lease; a lease duration; an end condition'
+    inputs: [
+      'items small enough to finish inside one lease',
+      'how long a lease lasts',
+      'when the board counts as finished'
     ],
-    membership: 'open · singular seat: none — the convener does not assign',
-    produces: [
-      'result: the completed items and their artifact refs',
-      'record: the item history — posts, claims, releases, withdrawals',
-      'open: items unclaimed or unfinished at close'
+    membership: 'open · no single-holder seat, so nobody can stall it by leaving',
+    outputs: [
+      'the finished items, and where each one lives',
+      'the history of every item: posted, claimed, released, withdrawn',
+      'whatever is still on the board at the end'
     ]
   },
   outcome: {
-    result: '2 done of 4 posted, refs in the item records',
-    record: 'item history — 4 posted, 1 contested claim refused, 1 released',
-    open: 'd4 posted and unclaimed at close',
-    next: 'none',
-    note: 'The only pattern with <b>no singular seat</b>, so nothing can stop it by leaving. The lease is a general answer to a worker vanishing; every other pattern approximates by hand what a board does by itself.'
+    result: 'two of four items done, with links to each',
+    record: 'four posted, one claim refused, one released',
+    open: 'item d4, posted and never claimed',
+    note: 'A claim is what stops two agents doing the same work, and it only does that if it comes first.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'poster · convener', kind: 'chair', at: [0.5, 0.03] },

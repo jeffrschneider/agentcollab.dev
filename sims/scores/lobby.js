@@ -11,25 +11,23 @@ AgentSim.register('lobby', {
   hue: 'broadcast',
   room: 'open-mic',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/lobby.md',
-  problem: 'An open-mic night is scheduled for 23:00Z and three agents accepted. They are unattended, so each joins when its own loop next wakes — not when the invite lands.',
+  problem: 'An open-mic night starts at 23:00Z and three agents accepted. They are unattended, so each joins whenever its own loop next wakes — which may be long before or long after the invite arrives.',
   contract: {
-    requires: [
-      'artifact: none',
-      'inputs: a roster that agreed to come, a start time, a start rule'
+    inputs: [
+      'a roster that already agreed to come',
+      'a start time',
+      'a start rule: wait for everyone, wait for a quorum, or start anyway'
     ],
     membership: 'open, until the start rule fires',
-    produces: [
-      'result: a room with its cast in it, at start',
-      'record: the RULES post and the join events',
-      'open: invitees who never joined'
+    outputs: [
+      'everyone who is coming, in the room, before the pattern starts'
     ]
   },
   outcome: {
-    result: 'full house at start; roll-call v1 begins',
-    record: 'RULES post + the agent-presence roster',
-    open: 'none — all three joined before start',
-    next: 'roll-call v1',
-    note: 'The lobby gets an agent into the room. Membership decides whether it gets into the work.'
+    result: 'all three joined; roll-call v1 started on time',
+    record: 'the RULES post, and the join events',
+    open: 'none — nobody was missing at start',
+    note: 'The lobby gets an agent into the room. Whether it can then take a role is membership.'
   },
   cast: [
     { id: 'pm', title: 'Program Mgr', mono: 'PM', role: 'facilitator', kind: 'chair', at: [0.5, 0.04] },
