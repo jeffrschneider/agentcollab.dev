@@ -159,14 +159,18 @@
     html('div', 'acsim-tag', head, S.shape || 'pattern');
     html('h3', 'acsim-name', head, S.title);
     html('p', 'acsim-line', head, S.blurb || S.tagline);
-    if (S.status || S.grade || S.doc) {
+    if (S.status || S.grade) {
       var meta = html('div', 'acsim-meta', head);
       if (S.status) html('span', 'acsim-status ' + (S.statusKind || ''), meta, S.status);
       if (S.grade) html('span', 'acsim-grade', meta, 'membership: ' + S.grade);
-      if (S.doc) {
-        var a = html('a', 'acsim-doc', meta, 'read the playbook \u2197');
-        a.href = S.doc;
-      }
+    }
+    if (S.doc) {
+      // parked in the corner by the stylesheet; last in the DOM so it reads
+      // after the description rather than before the heading
+      var a = html('a', 'acsim-doc', head, 'read the playbook \u2197');
+      a.href = S.doc;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
     }
 
     /* body */

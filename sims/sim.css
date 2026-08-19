@@ -28,7 +28,8 @@
 .acsim *{ box-sizing:border-box; }
 
 /* -- header ---------------------------------------------------------- */
-.acsim-head{ padding:16px 20px 14px; border-bottom:1px solid var(--line);
+.acsim-head{ position:relative; padding:16px 188px 14px 20px;
+  border-bottom:1px solid var(--line);
   border-top:2px solid var(--hue,var(--broadcast)); }
 .acsim-tag{ font-family:var(--wire); font-size:.66rem; letter-spacing:.09em;
   text-transform:uppercase; color:var(--hue,var(--broadcast)); }
@@ -41,10 +42,18 @@
 .acsim-status.live{ color:var(--hue,var(--broadcast)); font-weight:600; }
 .acsim-status.planned{ color:var(--faint); }
 .acsim-grade{ color:var(--faint); }
-.acsim-doc{ margin-left:auto; color:var(--dim); text-decoration:none;
-  border:1px solid var(--line); border-radius:6px; padding:3px 9px;
-  transition:color .16s, border-color .16s; }
-.acsim-doc:hover{ color:var(--hue,var(--broadcast)); border-color:var(--hue,var(--broadcast)); }
+/* Top-right of the card, filled with the pattern's own colour so it reads
+   as the one thing to click. Dark text on the fill for contrast. */
+.acsim-doc{ position:absolute; top:15px; right:18px; z-index:2;
+  font-family:var(--wire); font-size:.7rem; font-weight:600; letter-spacing:.02em;
+  white-space:nowrap; text-decoration:none;
+  background:var(--hue,var(--broadcast)); color:var(--ink);
+  border-radius:7px; padding:7px 12px;
+  box-shadow:0 8px 20px -12px var(--hue,var(--broadcast));
+  transition:transform .16s ease, box-shadow .2s ease, filter .16s ease; }
+.acsim-doc:hover{ transform:translateY(-1px); filter:brightness(1.1);
+  box-shadow:0 12px 26px -12px var(--hue,var(--broadcast)); }
+.acsim-doc:focus-visible{ outline:2px solid var(--paper); outline-offset:2px; }
 
 /* A card can sit inside a page that has its own h3 and p rules (the site's
    section.band styles beat a bare class), so win those explicitly. */
@@ -56,6 +65,9 @@
 /* -- body: stage + transcript ---------------------------------------- */
 .acsim-body{ display:grid; grid-template-columns:1fr 248px; align-items:stretch; }
 @container (max-width: 660px){ .acsim-body{ grid-template-columns:1fr; } }
+@container (max-width: 560px){
+  .acsim-head{ padding:16px 20px 14px; }
+  .acsim-doc{ position:static; display:inline-block; margin-top:12px; } }
 
 .acsim-stage{ position:relative; min-width:0; }
 .acsim-stage svg{ display:block; width:100%; height:auto;
