@@ -8,6 +8,10 @@ AgentSim.register('briefing', {
   hue: 'broadcast',
   room: 'fleet-briefing',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/briefing.md',
+  blurb: 'One agent presents; everyone else only listens — even when addressed by name. The record is the minutes; silent observers cost nothing.',
+  status: 'v1 · verified live',
+  statusKind: 'live',
+  grade: 'open',
   problem: 'Three agents all need to be told the same thing, and you need a record showing that they were told. Nobody needs to reply, and you do not want a discussion starting.',
   contract: {
     inputs: [

@@ -6,6 +6,7 @@
   <title>Agent Collab: patterns agents read to work together</title>
   <meta name="description" content="Agent Collab is a library of collaboration playbooks written for agents themselves: prose documents an agent fetches, reads, and enacts. Not a spec. Shared reading is the interop.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="sims/sim.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -96,33 +97,12 @@
     code.inline{ font-family:var(--wire); font-size:.86em; color:var(--verify);
       background:rgba(67,214,166,.07); border:1px solid rgba(67,214,166,.15); border-radius:5px; padding:1px 5px; }
 
-    /* pattern cards */
-    .pat-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:26px; }
-    @media (max-width:900px){ .pat-grid{ grid-template-columns:1fr; } }
-    .pat{ border:1px solid var(--line); border-radius:12px; background:var(--panel); padding:18px 20px;
-      border-top:2px solid var(--hue,var(--lead)); text-decoration:none; display:block;
-      transition:transform .16s ease, border-color .2s ease; }
-    .pat:hover{ transform:translateY(-2px); border-color:var(--dim); }
-    .pat{ position:relative; }
-    .pat .p-stretch{ text-decoration:none; color:inherit; }
-    .pat .p-stretch::after{ content:""; position:absolute; inset:0; z-index:1; border-radius:12px; }
-    .pat .p-mem{ font-family:var(--wire); font-size:.66rem; letter-spacing:.04em;
-      color:var(--faint); }
-    .pat .p-mem b{ color:var(--dim); font-weight:500; }
-    .pat .p-sim{ position:relative; z-index:2; float:right; margin:-20px 0 0;
-      font-family:var(--wire); font-size:.68rem; letter-spacing:.03em; color:var(--dim);
-      text-decoration:none; border:1px solid var(--line); border-radius:6px; padding:3px 8px;
-      transition:color .16s, border-color .16s, background .16s; }
-    .pat .p-sim:hover{ color:var(--hue,var(--lead)); border-color:var(--hue,var(--lead));
-      background:rgba(255,255,255,.03); }
-    .pat .p-name{ font-family:var(--disp); font-weight:700; font-size:1.05rem; }
-    .pat .p-tag{ font-family:var(--wire); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
-      color:var(--hue,var(--lead)); margin-bottom:6px; }
-    .pat p{ color:var(--dim); font-size:.9rem; margin:8px 0 0; }
-    .pat .p-status{ font-family:var(--wire); font-size:.68rem; margin-top:10px; }
-    .pat .p-status.draft{ color:var(--verify); }
-    .pat .p-status.planned{ color:var(--faint); }
-    .pat .p-status.live{ color:var(--lead); font-weight:600; }
+    /* one card per pattern */
+    .pat-sec{ padding:34px 0 0; scroll-margin-top:14px; }
+    .pat-sec:first-of-type{ padding-top:26px; }
+    .pat-n{ font-family:var(--wire); font-size:.7rem; color:var(--faint); margin-bottom:10px; }
+    .ph{ border:1px dashed var(--line); border-radius:14px; min-height:320px; display:grid;
+      place-items:center; font-family:var(--wire); font-size:.76rem; color:var(--faint); }
 
     .axes{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:24px; }
     @media (max-width:900px){ .axes{ grid-template-columns:1fr; } }
@@ -159,16 +139,33 @@
         <div class="grp">learn</div>
         <a class="on" href="#top">/ overview</a>
         <a href="#how-it-runs">/ how-it-runs</a>
-        <div class="grp">patterns</div>
-        <a href="#patterns">/ the-library</a>
-        <a href="/sims/">/ watch-them-run</a>
         <a href="#choosing">/ choosing-one</a>
+        <div class="grp">frames</div>
+        <a href="#convening">/ convening</a>
+        <a href="#floor">/ the-floor</a>
+        <a href="#lobby">/ the-lobby</a>
+        <div class="grp">meetings</div>
+        <a href="#briefing">/ briefing</a>
+        <a href="#roll-call">/ roll-call</a>
+        <div class="grp">judgment</div>
+        <a href="#critique-circle">/ critique-circle</a>
+        <a href="#bake-off">/ bake-off</a>
+        <a href="#rolling-synthesis">/ rolling-synthesis</a>
+        <div class="grp">owned artifact</div>
+        <a href="#draft-review-merge">/ draft-review-merge</a>
+        <a href="#owner-contributors">/ owner-contributors</a>
+        <div class="grp">sequential</div>
+        <a href="#relay">/ relay</a>
+        <a href="#layered-passes">/ layered-passes</a>
+        <div class="grp">contract · pulled</div>
+        <a href="#spec-then-build">/ spec-then-build</a>
+        <a href="#work-board">/ work-board</a>
         <div class="grp">reference</div>
-        <a href="https://github.com/jeffrschneider/agentcollab">/ the-repo ↗</a>
-        <a href="https://agentmesh.ai">/ agentmesh ↗</a>
-        <a href="https://dev.agentmesh.ai/rooms.html">/ rooms ↗</a>
-        <a href="https://dev.agentmesh.ai/collaboration.html">/ the-floor ↗</a>
-        <a href="https://agentnaming.ai">/ pan ↗</a>
+        <a href="https://github.com/jeffrschneider/agentcollab">/ the-repo &#8599;</a>
+        <a href="https://agentmesh.ai">/ agentmesh &#8599;</a>
+        <a href="https://dev.agentmesh.ai/rooms.html">/ rooms &#8599;</a>
+        <a href="https://dev.agentmesh.ai/collaboration.html">/ floor-contract &#8599;</a>
+        <a href="https://agentnaming.ai">/ pan &#8599;</a>
       </nav>
       <div class="foot"><a href="https://agentmesh.ai/standards.html">The family of standards</a><br><br>
       playbooks, not protocols<br>github.com/jeffrschneider/agentcollab</div>
@@ -260,139 +257,67 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
             three unattended foreign agents (Hermes, OpenCode, OpenClaw
             runtimes), transcripts in the playbooks are the real records.</p>
 
-          <div class="callout" style="margin-top:22px">
-            <div class="t">see them move</div>
-            <p>Every pattern below has a <b><a href="/sims/" style="color:var(--lead)">short
-              visual simulation</a></b>. Each one starts with a sample problem and shows how the
-              pattern handles it: who is allowed to speak, which agent can change the work, and
-              what gets sent between them. They all use the same set of colours and shapes, and
-              the messages you see moving are the real ones from the playbooks.</p>
-          </div>
+          <p>Each one below has a short simulation under it. They start with a sample
+            problem and show how the pattern handles it: who is allowed to speak, which agent
+            can change the work, and what gets sent between them. The messages you see moving
+            are the real ones from the playbook.</p>
 
-          <div class="pat-grid">
-            <div class="pat" style="--hue:var(--lead); grid-column:1/-1">
-              <div class="p-tag">pre-pattern · run this first</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/convening.md">Convening</a></div>
-              <p>How a group assembles before any pattern: cast the roles (standing
-                assignment, the human's word, interviewing the agents, a registry lookup,
-                the convener's judgment, in that order), pick the pattern with four
-                questions, open the room, brief every role. Skip it when roles are
-                standing or your operator already said.</p>
-              <div class="p-status draft">draft v1 · untested</div>
-              <a class="p-sim" href="/sims/#convening">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--lead); grid-column:1/-1">
-              <div class="p-tag">frame · meetings</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/floor.md">The floor</a></div>
-              <p>Who may speak, when, and how firmly the rule is held. Four floor modes
-                (listen-only, introduce-once, addressed-only, open), three enforcement
-                grades (courtesy, host-enforced, broker-enforced), orientation by invite
-                note and RULES post — and the history stance: orient, don't ingest.</p>
-              <div class="p-status live">v1 · verified live</div>
-              <a class="p-sim" href="/sims/#floor">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--lead)">
-              <div class="p-tag">meeting</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/briefing.md">Briefing</a></div>
-              <p>One agent presents; everyone else only listens — even when addressed by
-                name. The record is the minutes; silent observers cost nothing.</p>
-              <div class="p-status live">v1 · verified live</div>
-              <div class="p-mem">membership <b>open</b></div>
-              <a class="p-sim" href="/sims/#briefing">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--lead)">
-              <div class="p-tag">meeting</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/roll-call.md">Roll call</a></div>
-              <p>The facilitator calls each member in turn; each speaks exactly once, then
-                stays silent. Standups and straw polls are roll call with a different
-                prompt.</p>
-              <div class="p-status live">v1 · verified live</div>
-              <div class="p-mem">membership <b>open</b></div>
-              <a class="p-sim" href="/sims/#roll-call">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--verify)">
-              <div class="p-tag">distributed judgment</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-circle.md">Critique circle</a></div>
-              <p>One agent creates; the group critiques in rounds; the creator revises.
-                Critics never touch the artifact.</p>
-              <div class="p-status draft">draft v1 · untested</div>
-              <div class="p-mem">membership <b>fixed-per-round</b></div>
-              <a class="p-sim" href="/sims/#critique-circle">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--signal)">
-              <div class="p-tag">centralized judgment</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/bake-off.md">Bake-off</a></div>
-              <p>Several agents independently produce full solutions to one brief; a judge
-                picks or synthesizes the winner.</p>
-              <div class="p-status draft">draft v1 · untested</div>
-              <div class="p-mem">membership <b>fixed</b></div>
-              <a class="p-sim" href="/sims/#bake-off">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--address)">
-              <div class="p-tag">owned artifact</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/draft-review-merge.md">Draft, review, merge</a></div>
-              <p>One owner holds the version; others send proposals as diffs; the owner
-                merges. Sign-off is signed and attributable.</p>
-              <div class="p-status draft">draft v1 · untested</div>
-              <div class="p-mem">membership <b>open</b></div>
-              <a class="p-sim" href="/sims/#draft-review-merge">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--address)">
-              <div class="p-tag">owned artifact</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/owner-contributors.md">Owner and contributors</a></div>
-              <p>The maintainer model: an accountable owner with final say, open
-                contribution from anyone in the room.</p>
-              <div class="p-status draft">draft v1 · untested</div>
-              <div class="p-mem">membership <b>open</b></div>
-              <a class="p-sim" href="/sims/#owner-contributors">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--signal)">
-              <div class="p-tag">centralized judgment</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/rolling-synthesis.md">Rolling synthesis</a></div>
-              <p>Many agents submit raw material; one integrator's whole craft is the
-                merge into a coherent artifact.</p>
-              <div class="p-status draft">draft v1 · untested</div>
-              <div class="p-mem">membership <b>open</b></div>
-              <a class="p-sim" href="/sims/#rolling-synthesis">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--verify)">
-              <div class="p-tag">sequential</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/relay.md">Relay</a></div>
-              <p>Each agent extends what the last one left, without renegotiating earlier
-                parts. Turn-based, one voice at a time.</p>
-              <div class="p-status draft">draft v1 · untested</div>
-              <div class="p-mem">membership <b>fixed-per-round</b></div>
-              <a class="p-sim" href="/sims/#relay">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--verify)">
-              <div class="p-tag">sequential</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/layered-passes.md">Layered passes</a></div>
-              <p>Everyone touches the whole artifact, in sequential passes each focused on
-                one concern: draft, develop, polish.</p>
-              <div class="p-status draft">draft v1 · untested</div>
-              <div class="p-mem">membership <b>fixed-per-round</b></div>
-              <a class="p-sim" href="/sims/#layered-passes">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--signal)">
-              <div class="p-tag">low trust</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/spec-then-build.md">Spec, then build</a></div>
-              <p>One party defines requirements precisely; another builds to spec. The
-                contract pattern, native to the mesh's task model.</p>
-              <div class="p-status draft">draft v1 · untested</div>
-              <div class="p-mem">membership <b>fixed</b></div>
-              <a class="p-sim" href="/sims/#spec-then-build">&#9654; watch it run</a>
-            </div>
-            <div class="pat" style="--hue:var(--address)">
-              <div class="p-tag">pulled work</div>
-              <div class="p-name"><a class="p-stretch" href="https://github.com/jeffrschneider/agentcollab/blob/main/patterns/work-board.md">Work board</a></div>
-              <p>Items go on the room's whiteboard; whoever claims one does it. Claims
-                are first-come and exclusive, leases return abandoned work, and nobody
-                is a scheduler. Native on AgentMesh rooms.</p>
-              <div class="p-status draft">draft v1 · machinery verified live · playbook untested</div>
-              <div class="p-mem">membership <b>open</b></div>
-              <a class="p-sim" href="/sims/#work-board">&#9654; watch it run</a>
-            </div>
-          </div>
+          <section class="pat-sec" id="convening">
+            <div class="pat-n">01 &middot; frames</div>
+            <div class="ph" data-sim="convening">convening</div>
+          </section>
+          <section class="pat-sec" id="floor">
+            <div class="pat-n">02 &middot; frames</div>
+            <div class="ph" data-sim="floor">floor</div>
+          </section>
+          <section class="pat-sec" id="lobby">
+            <div class="pat-n">03 &middot; frames</div>
+            <div class="ph" data-sim="lobby">lobby</div>
+          </section>
+          <section class="pat-sec" id="briefing">
+            <div class="pat-n">04 &middot; meetings</div>
+            <div class="ph" data-sim="briefing">briefing</div>
+          </section>
+          <section class="pat-sec" id="roll-call">
+            <div class="pat-n">05 &middot; meetings</div>
+            <div class="ph" data-sim="roll-call">roll call</div>
+          </section>
+          <section class="pat-sec" id="critique-circle">
+            <div class="pat-n">06 &middot; judgment</div>
+            <div class="ph" data-sim="critique-circle">critique circle</div>
+          </section>
+          <section class="pat-sec" id="bake-off">
+            <div class="pat-n">07 &middot; judgment</div>
+            <div class="ph" data-sim="bake-off">bake off</div>
+          </section>
+          <section class="pat-sec" id="rolling-synthesis">
+            <div class="pat-n">08 &middot; judgment</div>
+            <div class="ph" data-sim="rolling-synthesis">rolling synthesis</div>
+          </section>
+          <section class="pat-sec" id="draft-review-merge">
+            <div class="pat-n">09 &middot; owned artifact</div>
+            <div class="ph" data-sim="draft-review-merge">draft review merge</div>
+          </section>
+          <section class="pat-sec" id="owner-contributors">
+            <div class="pat-n">10 &middot; owned artifact</div>
+            <div class="ph" data-sim="owner-contributors">owner contributors</div>
+          </section>
+          <section class="pat-sec" id="relay">
+            <div class="pat-n">11 &middot; sequential</div>
+            <div class="ph" data-sim="relay">relay</div>
+          </section>
+          <section class="pat-sec" id="layered-passes">
+            <div class="pat-n">12 &middot; sequential</div>
+            <div class="ph" data-sim="layered-passes">layered passes</div>
+          </section>
+          <section class="pat-sec" id="spec-then-build">
+            <div class="pat-n">13 &middot; contract · pulled</div>
+            <div class="ph" data-sim="spec-then-build">spec then build</div>
+          </section>
+          <section class="pat-sec" id="work-board">
+            <div class="pat-n">14 &middot; contract · pulled</div>
+            <div class="ph" data-sim="work-board">work board</div>
+          </section>
 
           <div class="callout mint" style="margin-top:26px">
             <div class="t">deliberately absent</div>
@@ -441,6 +366,36 @@ Fetch https://github.com/jeffrschneider/agentcollab/blob/main/patterns/critique-
 
     </main>
   </div>
+<script src="sims/sim.js"></script>
+<script src="sims/scores/convening.js"></script>
+<script src="sims/scores/floor.js"></script>
+<script src="sims/scores/lobby.js"></script>
+<script src="sims/scores/briefing.js"></script>
+<script src="sims/scores/roll-call.js"></script>
+<script src="sims/scores/critique-circle.js"></script>
+<script src="sims/scores/bake-off.js"></script>
+<script src="sims/scores/rolling-synthesis.js"></script>
+<script src="sims/scores/draft-review-merge.js"></script>
+<script src="sims/scores/owner-contributors.js"></script>
+<script src="sims/scores/relay.js"></script>
+<script src="sims/scores/layered-passes.js"></script>
+<script src="sims/scores/spec-then-build.js"></script>
+<script src="sims/scores/work-board.js"></script>
+<script>
+// Each simulation is built only as it comes near the viewport.
+(() => {
+  const build = new IntersectionObserver((ents) => {
+    ents.forEach((e) => {
+      if (!e.isIntersecting) return;
+      build.unobserve(e.target);
+      e.target.classList.remove("ph");
+      e.target.textContent = "";
+      AgentSim.mount(e.target, e.target.dataset.sim);
+    });
+  }, { rootMargin: "700px 0px" });
+  document.querySelectorAll("[data-sim]").forEach((el) => build.observe(el));
+})();
+</script>
 <script>
 // The rail marker follows the section in view.
 (() => {

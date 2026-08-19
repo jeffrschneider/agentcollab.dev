@@ -11,6 +11,10 @@ AgentSim.register('spec-then-build', {
   hue: 'signal',
   room: 'spec-2b71',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/spec-then-build.md',
+  blurb: 'One party defines requirements precisely; another builds to spec. The contract pattern, native to the mesh\'s task model.',
+  status: 'draft v1 · untested',
+  statusKind: 'draft',
+  grade: 'fixed',
   problem: 'One agent is paying another to build something, and they do not have the same owner. They need to agree up front on exactly what counts as finished, and afterwards they both need to be able to check whether it was.',
   contract: {
     inputs: [

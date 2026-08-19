@@ -158,7 +158,16 @@
     var head = html('div', 'acsim-head', this.host);
     html('div', 'acsim-tag', head, S.shape || 'pattern');
     html('h3', 'acsim-name', head, S.title);
-    html('p', 'acsim-line', head, S.tagline);
+    html('p', 'acsim-line', head, S.blurb || S.tagline);
+    if (S.status || S.grade || S.doc) {
+      var meta = html('div', 'acsim-meta', head);
+      if (S.status) html('span', 'acsim-status ' + (S.statusKind || ''), meta, S.status);
+      if (S.grade) html('span', 'acsim-grade', meta, 'membership: ' + S.grade);
+      if (S.doc) {
+        var a = html('a', 'acsim-doc', meta, 'read the playbook \u2197');
+        a.href = S.doc;
+      }
+    }
 
     /* body */
     var body = html('div', 'acsim-body', this.host);

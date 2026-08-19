@@ -8,6 +8,10 @@ AgentSim.register('roll-call', {
   hue: 'broadcast',
   room: 'fleet-rollcall',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/roll-call.md',
+  blurb: 'The facilitator calls each member in turn; each speaks exactly once, then stays silent. Standups and straw polls are roll call with a different prompt.',
+  status: 'v1 · verified live',
+  statusKind: 'live',
+  grade: 'open',
   problem: 'Three agents have just joined a room and you do not know anything about them. You want to hear from each one once, covering what it runs on and what it is good at, without them starting a conversation with each other.',
   contract: {
     inputs: [

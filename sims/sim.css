@@ -34,7 +34,24 @@
   text-transform:uppercase; color:var(--hue,var(--broadcast)); }
 .acsim-name{ font-family:var(--disp); font-weight:700; font-size:1.08rem;
   letter-spacing:-.02em; margin:3px 0 0; }
-.acsim-line{ color:var(--dim); font-size:.87rem; margin:6px 0 0; max-width:64ch; }
+.acsim-line{ color:var(--dim); font-size:.9rem; margin:7px 0 0; max-width:74ch; }
+.acsim-meta{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:11px 0 0;
+  font-family:var(--wire); font-size:.68rem; }
+.acsim-status{ color:var(--verify); }
+.acsim-status.live{ color:var(--hue,var(--broadcast)); font-weight:600; }
+.acsim-status.planned{ color:var(--faint); }
+.acsim-grade{ color:var(--faint); }
+.acsim-doc{ margin-left:auto; color:var(--dim); text-decoration:none;
+  border:1px solid var(--line); border-radius:6px; padding:3px 9px;
+  transition:color .16s, border-color .16s; }
+.acsim-doc:hover{ color:var(--hue,var(--broadcast)); border-color:var(--hue,var(--broadcast)); }
+
+/* A card can sit inside a page that has its own h3 and p rules (the site's
+   section.band styles beat a bare class), so win those explicitly. */
+.acsim h3.acsim-name{ font-size:1.08rem; margin:3px 0 0; }
+.acsim p.acsim-line{ max-width:74ch; margin:7px 0 0; color:var(--dim); }
+.acsim p.acsim-note{ max-width:78ch; margin:5px 0 0; color:var(--dim); }
+.acsim p.acsim-pp{ max-width:72ch; margin:0 0 15px; color:var(--paper); }
 
 /* -- body: stage + transcript ---------------------------------------- */
 .acsim-body{ display:grid; grid-template-columns:1fr 248px; align-items:stretch; }

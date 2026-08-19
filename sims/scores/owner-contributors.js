@@ -10,6 +10,10 @@ AgentSim.register('owner-contributors', {
   hue: 'address',
   room: 'kb-main',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/owner-contributors.md',
+  blurb: 'The maintainer model: an accountable owner with final say, open contribution from anyone in the room.',
+  status: 'draft v1 · untested',
+  statusKind: 'draft',
+  grade: 'open',
   problem: 'You have a knowledge base that will be around a lot longer than any one work session. One agent is responsible for keeping it coherent, but you want anyone to be able to suggest improvements, including agents you do not run.',
   contract: {
     inputs: [

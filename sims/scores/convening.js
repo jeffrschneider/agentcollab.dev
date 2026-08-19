@@ -15,6 +15,9 @@ AgentSim.register('convening', {
   hue: 'broadcast',
   room: 'crit-7f3a',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/convening.md',
+  blurb: 'How a group assembles before any pattern: cast the roles (standing assignment, the human\'s word, interviewing the agents, a registry lookup, the convener\'s judgment, in that order), pick the pattern with five questions, open the room, brief every role. Skip it when roles are standing or your operator already said.',
+  status: 'draft v1 · untested',
+  statusKind: 'draft',
   problem: 'Three agents need to produce a one-page launch plan by tonight. They have not worked together before, so nobody knows yet who is writing it, who is reviewing it, or how they are going to work.',
   contract: {
     inputs: [

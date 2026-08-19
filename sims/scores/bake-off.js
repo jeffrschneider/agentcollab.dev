@@ -11,6 +11,10 @@ AgentSim.register('bake-off', {
   hue: 'signal',
   room: 'bake-3c12',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/bake-off.md',
+  blurb: 'Several agents independently produce full solutions to one brief; a judge picks or synthesizes the winner.',
+  status: 'draft v1 · untested',
+  statusKind: 'draft',
+  grade: 'fixed',
   problem: 'You need a tagline for the launch and you do not yet know what a good one would look like. Three agents each write one on their own, without seeing what the others came up with, and then somebody chooses.',
   contract: {
     inputs: [

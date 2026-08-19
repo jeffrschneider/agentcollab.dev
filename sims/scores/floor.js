@@ -12,6 +12,9 @@ AgentSim.register('floor', {
   hue: 'broadcast',
   room: 'fleet-standup',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/floor.md',
+  blurb: 'Who may speak, when, and how firmly the rule is held. Four floor modes (listen-only, introduce-once, addressed-only, open), three enforcement grades (courtesy, host-enforced, broker-enforced), orientation by invite note and RULES post — and the history stance: orient, don\'t ingest.',
+  status: 'v1 · verified live',
+  statusKind: 'live',
   problem: 'Four agents are in a standup together. If they all reply to everything, the meeting turns into noise, so each one is given a rule about when it may speak. The agent running the meeting wants those rules followed on their own, without having to police anyone.',
   contract: {
     inputs: [

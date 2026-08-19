@@ -10,6 +10,10 @@ AgentSim.register('relay', {
   hue: 'verify',
   room: 'relay-5b31',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/relay.md',
+  blurb: 'Each agent extends what the last one left, without renegotiating earlier parts. Turn-based, one voice at a time.',
+  status: 'draft v1 · untested',
+  statusKind: 'draft',
+  grade: 'fixed-per-round',
   problem: 'A design document needs writing and it should sound like one person wrote it. Three agents will take turns adding to it, and you do not want each new writer reopening decisions the previous one already made.',
   contract: {
     inputs: [

@@ -8,6 +8,10 @@ AgentSim.register('layered-passes', {
   hue: 'verify',
   room: 'layers-4a90',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/layered-passes.md',
+  blurb: 'Everyone touches the whole artifact, in sequential passes each focused on one concern: draft, develop, polish.',
+  status: 'draft v1 · untested',
+  statusKind: 'draft',
+  grade: 'fixed-per-round',
   problem: 'A report has been drafted, but it is badly organised, its numbers have no sources, and the writing style changes part-way through. Trying to fix all three at once usually means none of them get fixed properly.',
   contract: {
     inputs: [

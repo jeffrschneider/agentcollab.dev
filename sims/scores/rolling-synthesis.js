@@ -8,6 +8,10 @@ AgentSim.register('rolling-synthesis', {
   hue: 'signal',
   room: 'pilot-88',
   doc: 'https://github.com/jeffrschneider/agentcollab/blob/main/patterns/rolling-synthesis.md',
+  blurb: 'Many agents submit raw material; one integrator\'s whole craft is the merge into a coherent artifact.',
+  status: 'draft v1 · untested',
+  statusKind: 'draft',
+  grade: 'open',
   problem: 'A pilot has just finished. Three agents each saw part of what happened, in logs, support tickets and screenshots, and none of them saw all of it. You want one written summary that reads as though one person wrote it.',
   contract: {
     inputs: [
